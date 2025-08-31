@@ -33,8 +33,8 @@ var relearn_searchindex = [
   },
   {
     "breadcrumb": "",
-    "content": "Contents Azure DataBricks SQL Azure Data Factory aksjdf lksajflkasjd fl;ajsd fl;ajs dfl;kajsd fs;kjlsjflkalfja sdlf aldj;sdljkafdadfjasdlsdjfljsfadlkfsd fas;d jf;laks df;jd;las;ljaldsl;afl aslf;sdf ;ldkslksla fls dflsdf;la;sjdf ;ldskjsdj;asdk ;sd;lsjf;js flajsfl;asdf;jas;fadsf;lsjf;sd jf;lsf;lasjf; asdkf a;sdkf ;aldsj f;alsdjk f;ldsk;ljfl;akslkj flasdfl; adl;",
-    "description": "Contents Azure DataBricks SQL Azure Data Factory aksjdf lksajflkasjd fl;ajsd fl;ajs dfl;kajsd fs;kjlsjflkalfja sdlf aldj;sdljkafdadfjasdlsdjfljsfadlkfsd fas;d jf;laks df;jd;las;ljaldsl;afl aslf;sdf ;ldkslksla fls dflsdf;la;sjdf ;ldskjsdj;asdk ;sd;lsjf;js flajsfl;asdf;jas;fadsf;lsjf;sd jf;lsf;lasjf; asdkf a;sdkf ;aldsj f;alsdjk f;ldsk;ljfl;akslkj flasdfl; adl;",
+    "content": "Contents Azure DataBricks SQL Azure Data Factory",
+    "description": "Contents Azure DataBricks SQL Azure Data Factory",
     "tags": [],
     "title": "Data Engineering Notes",
     "uri": "/"
