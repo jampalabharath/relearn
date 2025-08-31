@@ -1,0 +1,37 @@
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;  /* space between logo and text */
+  font-size: 1.2rem;    /* adjust as needed */
+  line-height: 1;       /* fixes vertical alignment */
+  display: flex;
+  align-items: center;  /* ensures vertical centering */
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="{{ partial "permalink.gotmpl" (dict "to" .Site.Home) }}">
+  <img src="{{"images/logo.png" | relURL}}" alt="brand logo">
+  <span class="logo-title">{{ .Site.Params.linkTitle | default .Site.Title }}</span>
+</a>

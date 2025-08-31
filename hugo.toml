@@ -1,0 +1,25 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'Data Engineering Notes'
+theme = 'hugo-theme-relearn'
+[params]
+  disableLanguageSwitchingButton = true
+  themeVariant = ['auto','zen-light', 'zen-dark']
+  showVisitedLinks = true
+  landingPageName = '<i class="fa-fw fas fa-home"></i> Home'
+  collapsibleMenu = true
+  hideAuthorName = true
+  hideAuthorEmail = true
+  hideAuthorDate = true
+  linkTitle = 'Relearn'
+  disableLandingPageButton = true
+  breadcrumbSeparator = '/'
+  disableRootBreadcrumb = true
+  disableTermBreadcrumbs = true
+  disableExplicitIndexURLs = true
+  disableDefaultRelref = true
+  chapterTitle = false
+[markup]
+  [markup.highlight]
+    noClasses = false
+

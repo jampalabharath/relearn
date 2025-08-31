@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Course Content 1. Introduction What is SQL? Types of Databases (Relational vs Non-Relational) SQL vs NoSQL SQL Standards (ANSI SQL, T-SQL, PL/SQL, MySQL SQL, PostgreSQL SQL) 2. SQL Basics Database, Schema, Table Data Types (Numeric, String, Date/Time, Boolean, JSON, XML) CREATE, DROP, ALTER INSERT, UPDATE, DELETE SELECT Statement WHERE Clause ORDER BY LIMIT / TOP / FETCH 3. Filtering &amp; Operators Comparison Operators Logical Operators (AND, OR, NOT) BETWEEN, IN, LIKE IS NULL / IS NOT NULL Pattern Matching (Wildcards, Regex) 4. Functions String Functions (CONCAT, SUBSTRING, TRIM, UPPER, LOWER, LENGTH) Numeric Functions (ROUND, CEIL, FLOOR, ABS, MOD) Date/Time Functions (NOW, DATEADD, DATEDIFF, FORMAT) Conversion Functions (CAST, CONVERT) Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) 5. Joins INNER JOIN LEFT JOIN RIGHT JOIN FULL OUTER JOIN CROSS JOIN SELF JOIN USING vs ON 6. Subqueries &amp; Nested Queries Scalar Subqueries Table Subqueries Correlated Subqueries EXISTS / NOT EXISTS IN / ANY / ALL 7. Set Operations UNION vs UNION ALL INTERSECT EXCEPT / MINUS 8. Grouping &amp; Aggregation GROUP BY HAVING GROUPING SETS ROLLUP CUBE 9. Constraints &amp; Keys Primary Key Foreign Key Unique Key Check Constraint Default Constraint Not Null 10. Indexing &amp; Performance Clustered vs Non-Clustered Index Composite Index Covering Index Index Maintenance Query Execution Plans SQL Performance Tuning 11. Transactions BEGIN, COMMIT, ROLLBACK Savepoints ACID Properties Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable, Snapshot) Deadlocks &amp; Locking 12. Views &amp; Materialized Views Creating Views Updatable Views Indexed Views Materialized Views Refresh Strategies 13. Stored Procedures &amp; Functions User-Defined Functions (Scalar, Table-Valued) Stored Procedures Parameters (IN, OUT, INOUT) Error Handling in Procedures Recursive Procedures Dynamic SQL 14. Triggers AFTER Trigger INSTEAD OF Trigger Row-level vs Statement-level Triggers Use Cases 15. Advanced SQL Window Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE) LAG &amp; LEAD FIRST_VALUE &amp; LAST_VALUE Common Table Expressions (CTEs) Recursive CTEs Pivoting and Unpivoting JSON &amp; XML in SQL Hierarchical Queries Full-Text Search 16. Security Users &amp; Roles GRANT, REVOKE, DENY Row-Level Security Column-Level Security Data Masking Encryption at Rest &amp; In-Transit 17. Advanced Database Concepts Normalization &amp; Denormalization Star &amp; Snowflake Schema Partitioning (Horizontal, Vertical) Sharding Federation Replication High Availability &amp; Failover 18. SQL with Big Data SQL on Hadoop / Hive Spark SQL SQL in Cloud Platforms (AWS Athena, BigQuery, Azure Synapse) 19. SQL in Practice Data Warehousing with SQL ETL using SQL Reporting Queries Performance Benchmarking Debugging Complex Queries 20. Capstone Project Design &amp; Implement Normalized Database Build ETL Pipeline using SQL Create Analytical Queries &amp; Reports Optimize Large-Scale SQL Workloads">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="SQL :: Data Engineering Notes">
+    <meta name="twitter:description" content="Course Content 1. Introduction What is SQL? Types of Databases (Relational vs Non-Relational) SQL vs NoSQL SQL Standards (ANSI SQL, T-SQL, PL/SQL, MySQL SQL, PostgreSQL SQL) 2. SQL Basics Database, Schema, Table Data Types (Numeric, String, Date/Time, Boolean, JSON, XML) CREATE, DROP, ALTER INSERT, UPDATE, DELETE SELECT Statement WHERE Clause ORDER BY LIMIT / TOP / FETCH 3. Filtering &amp; Operators Comparison Operators Logical Operators (AND, OR, NOT) BETWEEN, IN, LIKE IS NULL / IS NOT NULL Pattern Matching (Wildcards, Regex) 4. Functions String Functions (CONCAT, SUBSTRING, TRIM, UPPER, LOWER, LENGTH) Numeric Functions (ROUND, CEIL, FLOOR, ABS, MOD) Date/Time Functions (NOW, DATEADD, DATEDIFF, FORMAT) Conversion Functions (CAST, CONVERT) Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) 5. Joins INNER JOIN LEFT JOIN RIGHT JOIN FULL OUTER JOIN CROSS JOIN SELF JOIN USING vs ON 6. Subqueries &amp; Nested Queries Scalar Subqueries Table Subqueries Correlated Subqueries EXISTS / NOT EXISTS IN / ANY / ALL 7. Set Operations UNION vs UNION ALL INTERSECT EXCEPT / MINUS 8. Grouping &amp; Aggregation GROUP BY HAVING GROUPING SETS ROLLUP CUBE 9. Constraints &amp; Keys Primary Key Foreign Key Unique Key Check Constraint Default Constraint Not Null 10. Indexing &amp; Performance Clustered vs Non-Clustered Index Composite Index Covering Index Index Maintenance Query Execution Plans SQL Performance Tuning 11. Transactions BEGIN, COMMIT, ROLLBACK Savepoints ACID Properties Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable, Snapshot) Deadlocks &amp; Locking 12. Views &amp; Materialized Views Creating Views Updatable Views Indexed Views Materialized Views Refresh Strategies 13. Stored Procedures &amp; Functions User-Defined Functions (Scalar, Table-Valued) Stored Procedures Parameters (IN, OUT, INOUT) Error Handling in Procedures Recursive Procedures Dynamic SQL 14. Triggers AFTER Trigger INSTEAD OF Trigger Row-level vs Statement-level Triggers Use Cases 15. Advanced SQL Window Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE) LAG &amp; LEAD FIRST_VALUE &amp; LAST_VALUE Common Table Expressions (CTEs) Recursive CTEs Pivoting and Unpivoting JSON &amp; XML in SQL Hierarchical Queries Full-Text Search 16. Security Users &amp; Roles GRANT, REVOKE, DENY Row-Level Security Column-Level Security Data Masking Encryption at Rest &amp; In-Transit 17. Advanced Database Concepts Normalization &amp; Denormalization Star &amp; Snowflake Schema Partitioning (Horizontal, Vertical) Sharding Federation Replication High Availability &amp; Failover 18. SQL with Big Data SQL on Hadoop / Hive Spark SQL SQL in Cloud Platforms (AWS Athena, BigQuery, Azure Synapse) 19. SQL in Practice Data Warehousing with SQL ETL using SQL Reporting Queries Performance Benchmarking Debugging Complex Queries 20. Capstone Project Design &amp; Implement Normalized Database Build ETL Pipeline using SQL Create Analytical Queries &amp; Reports Optimize Large-Scale SQL Workloads">
+    <meta property="og:url" content="http://localhost:1313/sql/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="SQL :: Data Engineering Notes">
+    <meta property="og:description" content="Course Content 1. Introduction What is SQL? Types of Databases (Relational vs Non-Relational) SQL vs NoSQL SQL Standards (ANSI SQL, T-SQL, PL/SQL, MySQL SQL, PostgreSQL SQL) 2. SQL Basics Database, Schema, Table Data Types (Numeric, String, Date/Time, Boolean, JSON, XML) CREATE, DROP, ALTER INSERT, UPDATE, DELETE SELECT Statement WHERE Clause ORDER BY LIMIT / TOP / FETCH 3. Filtering &amp; Operators Comparison Operators Logical Operators (AND, OR, NOT) BETWEEN, IN, LIKE IS NULL / IS NOT NULL Pattern Matching (Wildcards, Regex) 4. Functions String Functions (CONCAT, SUBSTRING, TRIM, UPPER, LOWER, LENGTH) Numeric Functions (ROUND, CEIL, FLOOR, ABS, MOD) Date/Time Functions (NOW, DATEADD, DATEDIFF, FORMAT) Conversion Functions (CAST, CONVERT) Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) 5. Joins INNER JOIN LEFT JOIN RIGHT JOIN FULL OUTER JOIN CROSS JOIN SELF JOIN USING vs ON 6. Subqueries &amp; Nested Queries Scalar Subqueries Table Subqueries Correlated Subqueries EXISTS / NOT EXISTS IN / ANY / ALL 7. Set Operations UNION vs UNION ALL INTERSECT EXCEPT / MINUS 8. Grouping &amp; Aggregation GROUP BY HAVING GROUPING SETS ROLLUP CUBE 9. Constraints &amp; Keys Primary Key Foreign Key Unique Key Check Constraint Default Constraint Not Null 10. Indexing &amp; Performance Clustered vs Non-Clustered Index Composite Index Covering Index Index Maintenance Query Execution Plans SQL Performance Tuning 11. Transactions BEGIN, COMMIT, ROLLBACK Savepoints ACID Properties Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable, Snapshot) Deadlocks &amp; Locking 12. Views &amp; Materialized Views Creating Views Updatable Views Indexed Views Materialized Views Refresh Strategies 13. Stored Procedures &amp; Functions User-Defined Functions (Scalar, Table-Valued) Stored Procedures Parameters (IN, OUT, INOUT) Error Handling in Procedures Recursive Procedures Dynamic SQL 14. Triggers AFTER Trigger INSTEAD OF Trigger Row-level vs Statement-level Triggers Use Cases 15. Advanced SQL Window Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE) LAG &amp; LEAD FIRST_VALUE &amp; LAST_VALUE Common Table Expressions (CTEs) Recursive CTEs Pivoting and Unpivoting JSON &amp; XML in SQL Hierarchical Queries Full-Text Search 16. Security Users &amp; Roles GRANT, REVOKE, DENY Row-Level Security Column-Level Security Data Masking Encryption at Rest &amp; In-Transit 17. Advanced Database Concepts Normalization &amp; Denormalization Star &amp; Snowflake Schema Partitioning (Horizontal, Vertical) Sharding Federation Replication High Availability &amp; Failover 18. SQL with Big Data SQL on Hadoop / Hive Spark SQL SQL in Cloud Platforms (AWS Athena, BigQuery, Azure Synapse) 19. SQL in Practice Data Warehousing with SQL ETL using SQL Reporting Queries Performance Benchmarking Debugging Complex Queries 20. Capstone Project Design &amp; Implement Normalized Database Build ETL Pipeline using SQL Create Analytical Queries &amp; Reports Optimize Large-Scale SQL Workloads">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="website">
+    <meta itemprop="name" content="SQL :: Data Engineering Notes">
+    <meta itemprop="description" content="Course Content 1. Introduction What is SQL? Types of Databases (Relational vs Non-Relational) SQL vs NoSQL SQL Standards (ANSI SQL, T-SQL, PL/SQL, MySQL SQL, PostgreSQL SQL) 2. SQL Basics Database, Schema, Table Data Types (Numeric, String, Date/Time, Boolean, JSON, XML) CREATE, DROP, ALTER INSERT, UPDATE, DELETE SELECT Statement WHERE Clause ORDER BY LIMIT / TOP / FETCH 3. Filtering &amp; Operators Comparison Operators Logical Operators (AND, OR, NOT) BETWEEN, IN, LIKE IS NULL / IS NOT NULL Pattern Matching (Wildcards, Regex) 4. Functions String Functions (CONCAT, SUBSTRING, TRIM, UPPER, LOWER, LENGTH) Numeric Functions (ROUND, CEIL, FLOOR, ABS, MOD) Date/Time Functions (NOW, DATEADD, DATEDIFF, FORMAT) Conversion Functions (CAST, CONVERT) Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) 5. Joins INNER JOIN LEFT JOIN RIGHT JOIN FULL OUTER JOIN CROSS JOIN SELF JOIN USING vs ON 6. Subqueries &amp; Nested Queries Scalar Subqueries Table Subqueries Correlated Subqueries EXISTS / NOT EXISTS IN / ANY / ALL 7. Set Operations UNION vs UNION ALL INTERSECT EXCEPT / MINUS 8. Grouping &amp; Aggregation GROUP BY HAVING GROUPING SETS ROLLUP CUBE 9. Constraints &amp; Keys Primary Key Foreign Key Unique Key Check Constraint Default Constraint Not Null 10. Indexing &amp; Performance Clustered vs Non-Clustered Index Composite Index Covering Index Index Maintenance Query Execution Plans SQL Performance Tuning 11. Transactions BEGIN, COMMIT, ROLLBACK Savepoints ACID Properties Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable, Snapshot) Deadlocks &amp; Locking 12. Views &amp; Materialized Views Creating Views Updatable Views Indexed Views Materialized Views Refresh Strategies 13. Stored Procedures &amp; Functions User-Defined Functions (Scalar, Table-Valued) Stored Procedures Parameters (IN, OUT, INOUT) Error Handling in Procedures Recursive Procedures Dynamic SQL 14. Triggers AFTER Trigger INSTEAD OF Trigger Row-level vs Statement-level Triggers Use Cases 15. Advanced SQL Window Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE) LAG &amp; LEAD FIRST_VALUE &amp; LAST_VALUE Common Table Expressions (CTEs) Recursive CTEs Pivoting and Unpivoting JSON &amp; XML in SQL Hierarchical Queries Full-Text Search 16. Security Users &amp; Roles GRANT, REVOKE, DENY Row-Level Security Column-Level Security Data Masking Encryption at Rest &amp; In-Transit 17. Advanced Database Concepts Normalization &amp; Denormalization Star &amp; Snowflake Schema Partitioning (Horizontal, Vertical) Sharding Federation Replication High Availability &amp; Failover 18. SQL with Big Data SQL on Hadoop / Hive Spark SQL SQL in Cloud Platforms (AWS Athena, BigQuery, Azure Synapse) 19. SQL in Practice Data Warehousing with SQL ETL using SQL Reporting Queries Performance Benchmarking Debugging Complex Queries 20. Capstone Project Design &amp; Implement Normalized Database Build ETL Pipeline using SQL Create Analytical Queries &amp; Reports Optimize Large-Scale SQL Workloads">
+    <meta itemprop="wordCount" content="417">
+    <title>SQL :: Data Engineering Notes</title>
+    <link href="/sql/index.xml" rel="alternate" type="application/rss+xml" title="SQL :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1756648367" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1756648367" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1756648367" defer></script>
+    <script src="/js/search-lunr.js?1756648367" defer></script>
+    <script src="/js/search.js?1756648367" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1756648367";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1756648367" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1756648367" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1756648367" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1756648367" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1756648367" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1756648367" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1756648367" rel="stylesheet">
+    <link href="/css/theme.css?1756648367" rel="stylesheet">
+    <link href="/css/format-html.css?1756648367" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/sql\/';
+      window.relearn.relBasePath='..';
+      window.relearn.relBaseUri='..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/sql/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#course-content">Course Content</a></li>
+    <li><a href="#1-introduction">1. Introduction</a></li>
+    <li><a href="#2-sql-basics">2. SQL Basics</a></li>
+    <li><a href="#3-filtering--operators">3. Filtering &amp; Operators</a></li>
+    <li><a href="#4-functions">4. Functions</a></li>
+    <li><a href="#5-joins">5. Joins</a></li>
+    <li><a href="#6-subqueries--nested-queries">6. Subqueries &amp; Nested Queries</a></li>
+    <li><a href="#7-set-operations">7. Set Operations</a></li>
+    <li><a href="#8-grouping--aggregation">8. Grouping &amp; Aggregation</a></li>
+    <li><a href="#9-constraints--keys">9. Constraints &amp; Keys</a></li>
+    <li><a href="#10-indexing--performance">10. Indexing &amp; Performance</a></li>
+    <li><a href="#11-transactions">11. Transactions</a></li>
+    <li><a href="#12-views--materialized-views">12. Views &amp; Materialized Views</a></li>
+    <li><a href="#13-stored-procedures--functions">13. Stored Procedures &amp; Functions</a></li>
+    <li><a href="#14-triggers">14. Triggers</a></li>
+    <li><a href="#15-advanced-sql">15. Advanced SQL</a></li>
+    <li><a href="#16-security">16. Security</a></li>
+    <li><a href="#17-advanced-database-concepts">17. Advanced Database Concepts</a></li>
+    <li><a href="#18-sql-with-big-data">18. SQL with Big Data</a></li>
+    <li><a href="#19-sql-in-practice">19. SQL in Practice</a></li>
+    <li><a href="#20-capstone-project">20. Capstone Project</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">SQL</span><meta itemprop="position" content="2"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/" title="Data Engineering Notes (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/" title="Azure Data Factory (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable chapter" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="chapter narrow">
+  <header class="headline">
+  </header>
+<div class="article-subheading">Chapter 1</div>
+
+<h1 id="sql">SQL</h1>
+
+<h2 id="course-content">Course Content</h2>
+<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+<li>What is SQL?</li>
+<li>Types of Databases (Relational vs Non-Relational)</li>
+<li>SQL vs NoSQL</li>
+<li>SQL Standards (ANSI SQL, T-SQL, PL/SQL, MySQL SQL, PostgreSQL SQL)</li>
+</ul>
+<h2 id="2-sql-basics">2. SQL Basics</h2>
+<ul>
+<li>Database, Schema, Table</li>
+<li>Data Types (Numeric, String, Date/Time, Boolean, JSON, XML)</li>
+<li>CREATE, DROP, ALTER</li>
+<li>INSERT, UPDATE, DELETE</li>
+<li>SELECT Statement</li>
+<li>WHERE Clause</li>
+<li>ORDER BY</li>
+<li>LIMIT / TOP / FETCH</li>
+</ul>
+<h2 id="3-filtering--operators">3. Filtering &amp; Operators</h2>
+<ul>
+<li>Comparison Operators</li>
+<li>Logical Operators (AND, OR, NOT)</li>
+<li>BETWEEN, IN, LIKE</li>
+<li>IS NULL / IS NOT NULL</li>
+<li>Pattern Matching (Wildcards, Regex)</li>
+</ul>
+<h2 id="4-functions">4. Functions</h2>
+<ul>
+<li>String Functions (CONCAT, SUBSTRING, TRIM, UPPER, LOWER, LENGTH)</li>
+<li>Numeric Functions (ROUND, CEIL, FLOOR, ABS, MOD)</li>
+<li>Date/Time Functions (NOW, DATEADD, DATEDIFF, FORMAT)</li>
+<li>Conversion Functions (CAST, CONVERT)</li>
+<li>Aggregate Functions (COUNT, SUM, AVG, MIN, MAX)</li>
+</ul>
+<h2 id="5-joins">5. Joins</h2>
+<ul>
+<li>INNER JOIN</li>
+<li>LEFT JOIN</li>
+<li>RIGHT JOIN</li>
+<li>FULL OUTER JOIN</li>
+<li>CROSS JOIN</li>
+<li>SELF JOIN</li>
+<li>USING vs ON</li>
+</ul>
+<h2 id="6-subqueries--nested-queries">6. Subqueries &amp; Nested Queries</h2>
+<ul>
+<li>Scalar Subqueries</li>
+<li>Table Subqueries</li>
+<li>Correlated Subqueries</li>
+<li>EXISTS / NOT EXISTS</li>
+<li>IN / ANY / ALL</li>
+</ul>
+<h2 id="7-set-operations">7. Set Operations</h2>
+<ul>
+<li>UNION vs UNION ALL</li>
+<li>INTERSECT</li>
+<li>EXCEPT / MINUS</li>
+</ul>
+<h2 id="8-grouping--aggregation">8. Grouping &amp; Aggregation</h2>
+<ul>
+<li>GROUP BY</li>
+<li>HAVING</li>
+<li>GROUPING SETS</li>
+<li>ROLLUP</li>
+<li>CUBE</li>
+</ul>
+<h2 id="9-constraints--keys">9. Constraints &amp; Keys</h2>
+<ul>
+<li>Primary Key</li>
+<li>Foreign Key</li>
+<li>Unique Key</li>
+<li>Check Constraint</li>
+<li>Default Constraint</li>
+<li>Not Null</li>
+</ul>
+<h2 id="10-indexing--performance">10. Indexing &amp; Performance</h2>
+<ul>
+<li>Clustered vs Non-Clustered Index</li>
+<li>Composite Index</li>
+<li>Covering Index</li>
+<li>Index Maintenance</li>
+<li>Query Execution Plans</li>
+<li>SQL Performance Tuning</li>
+</ul>
+<h2 id="11-transactions">11. Transactions</h2>
+<ul>
+<li>BEGIN, COMMIT, ROLLBACK</li>
+<li>Savepoints</li>
+<li>ACID Properties</li>
+<li>Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable, Snapshot)</li>
+<li>Deadlocks &amp; Locking</li>
+</ul>
+<h2 id="12-views--materialized-views">12. Views &amp; Materialized Views</h2>
+<ul>
+<li>Creating Views</li>
+<li>Updatable Views</li>
+<li>Indexed Views</li>
+<li>Materialized Views</li>
+<li>Refresh Strategies</li>
+</ul>
+<h2 id="13-stored-procedures--functions">13. Stored Procedures &amp; Functions</h2>
+<ul>
+<li>User-Defined Functions (Scalar, Table-Valued)</li>
+<li>Stored Procedures</li>
+<li>Parameters (IN, OUT, INOUT)</li>
+<li>Error Handling in Procedures</li>
+<li>Recursive Procedures</li>
+<li>Dynamic SQL</li>
+</ul>
+<h2 id="14-triggers">14. Triggers</h2>
+<ul>
+<li>AFTER Trigger</li>
+<li>INSTEAD OF Trigger</li>
+<li>Row-level vs Statement-level Triggers</li>
+<li>Use Cases</li>
+</ul>
+<h2 id="15-advanced-sql">15. Advanced SQL</h2>
+<ul>
+<li>Window Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE)</li>
+<li>LAG &amp; LEAD</li>
+<li>FIRST_VALUE &amp; LAST_VALUE</li>
+<li>Common Table Expressions (CTEs)</li>
+<li>Recursive CTEs</li>
+<li>Pivoting and Unpivoting</li>
+<li>JSON &amp; XML in SQL</li>
+<li>Hierarchical Queries</li>
+<li>Full-Text Search</li>
+</ul>
+<h2 id="16-security">16. Security</h2>
+<ul>
+<li>Users &amp; Roles</li>
+<li>GRANT, REVOKE, DENY</li>
+<li>Row-Level Security</li>
+<li>Column-Level Security</li>
+<li>Data Masking</li>
+<li>Encryption at Rest &amp; In-Transit</li>
+</ul>
+<h2 id="17-advanced-database-concepts">17. Advanced Database Concepts</h2>
+<ul>
+<li>Normalization &amp; Denormalization</li>
+<li>Star &amp; Snowflake Schema</li>
+<li>Partitioning (Horizontal, Vertical)</li>
+<li>Sharding</li>
+<li>Federation</li>
+<li>Replication</li>
+<li>High Availability &amp; Failover</li>
+</ul>
+<h2 id="18-sql-with-big-data">18. SQL with Big Data</h2>
+<ul>
+<li>SQL on Hadoop / Hive</li>
+<li>Spark SQL</li>
+<li>SQL in Cloud Platforms (AWS Athena, BigQuery, Azure Synapse)</li>
+</ul>
+<h2 id="19-sql-in-practice">19. SQL in Practice</h2>
+<ul>
+<li>Data Warehousing with SQL</li>
+<li>ETL using SQL</li>
+<li>Reporting Queries</li>
+<li>Performance Benchmarking</li>
+<li>Debugging Complex Queries</li>
+</ul>
+<h2 id="20-capstone-project">20. Capstone Project</h2>
+<ul>
+<li>Design &amp; Implement Normalized Database</li>
+<li>Build ETL Pipeline using SQL</li>
+<li>Create Analytical Queries &amp; Reports</li>
+<li>Optimize Large-Scale SQL Workloads</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="active " data-nav-id="/sql/"><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/casewhen/"><a class="padding" href="/azure_data_bricks/casewhen/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1756648367" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1756648367" defer></script>
+    <script src="/js/theme.js?1756648367" defer></script>
+  </body>
+</html>

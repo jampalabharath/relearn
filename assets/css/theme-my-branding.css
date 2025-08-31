@@ -1,0 +1,4 @@
+@import "theme-zen-light.css";
+:root {
+  --CODE-theme: mycode; /* name of the chroma stylesheet file */
+}
