@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.org/sql/</loc>
+    <loc>http://localhost:1313/sql/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_factory/</loc>
+    <loc>http://localhost:1313/azure_data_factory/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/</loc>
   </url>
   <url>
-    <loc>https://example.org/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url>
   <url>
-    <loc>https://example.org/</loc>
+    <loc>http://localhost:1313/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/joins/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/joins/</loc>
   </url>
   <url>
-    <loc>https://example.org/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/casewhen/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/casewhen/</loc>
   </url>
 </urlset>

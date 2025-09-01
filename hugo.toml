@@ -19,6 +19,10 @@ theme = 'hugo-theme-relearn'
   disableExplicitIndexURLs = true
   disableDefaultRelref = true
   chapterTitle = false
+  github = "https://github.com/jampalabharath/relearn"
+  editURL = "https://github.com/jampalabharath/relearn/tree/main/content/"
+  showEdit = true
+
 [markup]
   [markup.highlight]
     noClasses = false
