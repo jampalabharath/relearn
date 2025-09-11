@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/azure_data_bricks/df-creation/</loc>
+  </url>
+  <url>
     <loc>http://localhost:1313/sql/</loc>
   </url>
   <url>
     <loc>http://localhost:1313/azure_data_factory/</loc>
   </url>
   <url>
+    <loc>http://localhost:1313/azure_data_bricks/df-operations/</loc>
+  </url>
+  <url>
     <loc>http://localhost:1313/azure_data_bricks/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/functions/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/date/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/nulls/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/aggregations/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/joins/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/when/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/window-functions/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/explode/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/pivot/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/azure_data_bricks/differences/</loc>
   </url>
   <url>
     <loc>http://localhost:1313/categories/</loc>
@@ -16,12 +52,6 @@
     <loc>http://localhost:1313/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/joins/</loc>
-  </url>
-  <url>
     <loc>http://localhost:1313/tags/</loc>
-  </url>
-  <url>
-    <loc>http://localhost:1313/azure_data_bricks/casewhen/</loc>
   </url>
 </urlset>

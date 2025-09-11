@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Column Selection &amp; Manipulation 1. Different Methods to Select Columns In PySpark, you can select specific columns in multiple ways:
+# Using col() function df.select(col(&#34;Name&#34;)).show() # Using column() function df.select(column(&#34;Age&#34;)).show() # Directly using string name df.select(&#34;Salary&#34;).show() 2. Selecting Multiple Columns Together You can combine different methods to select multiple columns:
+# multiple column df2 = df.select(&#34;ID&#34;, &#34;Name&#34;, col(&#34;Salary&#34;), column(&#34;Department&#34;), df.Phone) df2.show() 3. Listing All Columns in a DataFrame To get a list of all the column names:">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="DF Operations :: Data Engineering Notes">
+    <meta name="twitter:description" content="Column Selection &amp; Manipulation 1. Different Methods to Select Columns In PySpark, you can select specific columns in multiple ways:
+# Using col() function df.select(col(&#34;Name&#34;)).show() # Using column() function df.select(column(&#34;Age&#34;)).show() # Directly using string name df.select(&#34;Salary&#34;).show() 2. Selecting Multiple Columns Together You can combine different methods to select multiple columns:
+# multiple column df2 = df.select(&#34;ID&#34;, &#34;Name&#34;, col(&#34;Salary&#34;), column(&#34;Department&#34;), df.Phone) df2.show() 3. Listing All Columns in a DataFrame To get a list of all the column names:">
+    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/df-operations/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="DF Operations :: Data Engineering Notes">
+    <meta property="og:description" content="Column Selection &amp; Manipulation 1. Different Methods to Select Columns In PySpark, you can select specific columns in multiple ways:
+# Using col() function df.select(col(&#34;Name&#34;)).show() # Using column() function df.select(column(&#34;Age&#34;)).show() # Directly using string name df.select(&#34;Salary&#34;).show() 2. Selecting Multiple Columns Together You can combine different methods to select multiple columns:
+# multiple column df2 = df.select(&#34;ID&#34;, &#34;Name&#34;, col(&#34;Salary&#34;), column(&#34;Department&#34;), df.Phone) df2.show() 3. Listing All Columns in a DataFrame To get a list of all the column names:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Bricks">
+    <meta itemprop="name" content="DF Operations :: Data Engineering Notes">
+    <meta itemprop="description" content="Column Selection &amp; Manipulation 1. Different Methods to Select Columns In PySpark, you can select specific columns in multiple ways:
+# Using col() function df.select(col(&#34;Name&#34;)).show() # Using column() function df.select(column(&#34;Age&#34;)).show() # Directly using string name df.select(&#34;Salary&#34;).show() 2. Selecting Multiple Columns Together You can combine different methods to select multiple columns:
+# multiple column df2 = df.select(&#34;ID&#34;, &#34;Name&#34;, col(&#34;Salary&#34;), column(&#34;Department&#34;), df.Phone) df2.show() 3. Listing All Columns in a DataFrame To get a list of all the column names:">
+    <meta itemprop="wordCount" content="1036">
+    <title>DF Operations :: Data Engineering Notes</title>
+    <link href="/images/favicon.ico?1757574908" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757574908" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757574908" defer></script>
+    <script src="/js/search-lunr.js?1757574908" defer></script>
+    <script src="/js/search.js?1757574908" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1757574908";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1757574908" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757574908" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757574908" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757574908" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757574908" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757574908" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757574908" rel="stylesheet">
+    <link href="/css/theme.css?1757574908" rel="stylesheet">
+    <link href="/css/format-html.css?1757574908" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_bricks\/df-operations\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/azure_data_bricks/df-operations/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#column-selection--manipulation">Column Selection &amp; Manipulation</a>
+      <ul>
+        <li><a href="#1-different-methods-to-select-columns">1. Different Methods to Select Columns</a></li>
+        <li><a href="#2-selecting-multiple-columns-together">2. Selecting Multiple Columns Together</a></li>
+        <li><a href="#3-listing-all-columns-in-a-dataframe">3. Listing All Columns in a DataFrame</a></li>
+        <li><a href="#4-renaming-columns-with-alias">4. Renaming Columns with alias()</a></li>
+        <li><a href="#5-using-selectexpr-for-concise-column-selection">5. Using selectExpr() for Concise Column Selection</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
+    <li><a href="#adding-renaming-and-dropping-columns">Adding, Renaming, and Dropping Columns</a>
+      <ul>
+        <li><a href="#1-adding-new-columns-with-withcolumn">1. Adding New Columns with withColumn()</a></li>
+        <li><a href="#2-renaming-columns-with-withcolumnrenamed">2. Renaming Columns with withColumnRenamed()</a></li>
+        <li><a href="#renaming-a-column">Renaming a column:</a></li>
+        <li><a href="#3-dropping-columns-with-drop">3. Dropping Columns with drop()</a></li>
+        <li><a href="#4-immutability-of-dataframes">4. Immutability of DataFrames</a></li>
+        <li><a href="#key-points">Key Points</a></li>
+      </ul>
+    </li>
+    <li><a href="#data-types-filtering-and-unique-values">Data Types, Filtering, and Unique Values</a>
+      <ul>
+        <li><a href="#1-changing-data-types-schema-transformation">1. Changing Data Types (Schema Transformation)</a></li>
+        <li><a href="#2-filtering-data">2. Filtering Data</a></li>
+        <li><a href="#3-multiple-filters-chaining-conditions">3. Multiple Filters (Chaining Conditions)</a></li>
+        <li><a href="#4-filtering-on-null-or-non-null-values">4. Filtering on Null or Non-Null Values</a></li>
+        <li><a href="#5-handling-unique-or-distinct-data">5. Handling Unique or Distinct Data</a></li>
+        <li><a href="#6-counting-distinct-values">6. Counting Distinct Values</a></li>
+        <li><a href="#mastering-pyspark-dataframe-operations">Mastering PySpark DataFrame Operations</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/"><span itemprop="name">ADB</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">DF Operations</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/DF-Operations.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/df-creation/" title="DF Basics (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/functions/" title="Functions (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_bricks" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="df-operations">DF Operations</h1>
+
+<h2 id="column-selection--manipulation">Column Selection &amp; Manipulation</h2>
+<h3 id="1-different-methods-to-select-columns">1. Different Methods to Select Columns</h3>
+<p>In PySpark, you can select specific columns in multiple ways:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Using col() function</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Using column() function</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">column</span><span class="p">(</span><span class="s2">&#34;Age&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Directly using string name</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;Salary&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="2-selecting-multiple-columns-together">2. Selecting Multiple Columns Together</h3>
+<p>You can combine different methods to select multiple columns:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># multiple column</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;ID&#34;</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;Salary&#34;</span><span class="p">),</span> <span class="n">column</span><span class="p">(</span><span class="s2">&#34;Department&#34;</span><span class="p">),</span> <span class="n">df</span><span class="o">.</span><span class="n">Phone</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="3-listing-all-columns-in-a-dataframe">3. Listing All Columns in a DataFrame</h3>
+<p>To get a list of all the column names:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># get all column name</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">columns</span></span></span></code></pre></div>
+<h3 id="4-renaming-columns-with-alias">4. Renaming Columns with alias()</h3>
+<p>You can rename columns using the <code>alias()</code> method:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">col</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;EmployeeName&#39;</span><span class="p">),</span>  <span class="c1"># Rename &#34;Name&#34; to &#34;EmployeeName&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">col</span><span class="p">(</span><span class="s2">&#34;Salary&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;EmployeeSalary&#39;</span><span class="p">),</span>  <span class="c1"># Rename &#34;Salary&#34; to &#34;EmployeeSalary&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">column</span><span class="p">(</span><span class="s2">&#34;Department&#34;</span><span class="p">),</span>  <span class="c1"># Select &#34;Department&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">df</span><span class="o">.</span><span class="n">Joining_Date</span>  <span class="c1"># Select &#34;Joining_Date&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="5-using-selectexpr-for-concise-column-selection">5. Using selectExpr() for Concise Column Selection</h3>
+<p><code>selectExpr()</code> allows you to use SQL expressions directly and rename columns concisely:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&#34;Name as EmployeeName&#34;</span><span class="p">,</span> <span class="s2">&#34;Salary as EmployeeSalary&#34;</span><span class="p">,</span> <span class="s2">&#34;Department&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>Use <code>col()</code>, <code>column()</code>, or string names to select columns.</li>
+<li>Use <code>expr()</code> and <code>selectExpr()</code> for SQL-like expressions and renaming.</li>
+<li>Use <code>alias()</code> to rename columns.</li>
+<li>Get the list of columns using <code>df.columns</code>.</li>
+</ul>
+<hr>
+<h2 id="adding-renaming-and-dropping-columns">Adding, Renaming, and Dropping Columns</h2>
+<h3 id="1-adding-new-columns-with-withcolumn">1. Adding New Columns with withColumn()</h3>
+<p>In PySpark, the <code>withColumn()</code> function is widely used to add new columns to a DataFrame. You can either assign a constant value using <code>lit()</code> or perform transformations using existing columns.</p>
+<h4 id="add-a-constant-value-column">Add a constant value column:</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">newdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;NewColumn&#34;</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span></span></span></code></pre></div>
+<h4 id="add-a-column-based-on-an-expression">Add a column based on an expression:</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">newdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;withinCountry&#34;</span><span class="p">,</span> <span class="n">expr</span><span class="p">(</span><span class="s2">&#34;Country == &#39;India&#39;&#34;</span><span class="p">))</span></span></span></code></pre></div>
+<p>This function allows adding multiple columns, including calculated ones:</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Assign a constant value with <code>lit()</code>.</li>
+<li>Perform calculations using existing columns like multiplying values.</li>
+</ul>
+<h3 id="2-renaming-columns-with-withcolumnrenamed">2. Renaming Columns with withColumnRenamed()</h3>
+<p>PySpark provides the <code>withColumnRenamed()</code> method to rename columns. This is especially useful when you want to change the names for clarity or to follow naming conventions:</p>
+<h3 id="renaming-a-column">Renaming a column:</h3>
+<p>python</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">new_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="s2">&#34;oldColumnName&#34;</span><span class="p">,</span> <span class="s2">&#34;newColumnName&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<h4 id="handling-column-names-with-special-characters-or-spaces">Handling column names with special characters or spaces:</h4>
+<p>If a column has special characters or spaces, you need to use backticks (`) to escape it:</p>
+<p>python</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">newdf</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;`New Column Name`&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="3-dropping-columns-with-drop">3. Dropping Columns with drop()</h3>
+<p>To remove unwanted columns, you can use the <code>drop()</code> method:</p>
+<h4 id="drop-a-single-column">Drop a single column:</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;Country&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<h4 id="drop-multiple-columns">Drop multiple columns:</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;Country&#34;</span><span class="p">,</span> <span class="s2">&#34;Region&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<p>Dropping columns creates a new DataFrame, and the original DataFrame remains unchanged.</p>
+<h3 id="4-immutability-of-dataframes">4. Immutability of DataFrames</h3>
+<p>In Spark, DataFrames are immutable by nature. This means that after creating a DataFrame, its contents cannot be changed. All transformations like adding, renaming, or dropping columns result in a new DataFrame, keeping the original one intact.</p>
+<h4 id="for-instance-dropping-columns-creates-a-new-dataframe-without-altering-the-original">For instance, dropping columns creates a new DataFrame without altering the original:</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">newdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;ItemType&#34;</span><span class="p">,</span> <span class="s2">&#34;SalesChannel&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<p>This immutability ensures data consistency and supports Spark&rsquo;s parallel processing, as transformations do not affect the source data.</p>
+<h3 id="key-points">Key Points</h3>
+<ul>
+<li>Use <code>withColumn()</code> for adding columns, with <code>lit()</code> for constant values and expressions for computed values.</li>
+<li>Use <code>withColumnRenamed()</code> to rename columns and backticks for special characters or spaces.</li>
+<li>Use <code>drop()</code> to remove one or more columns.</li>
+<li>DataFrames are immutable in Spark—transformations result in new DataFrames, leaving the original unchanged.</li>
+</ul>
+<hr>
+<h2 id="data-types-filtering-and-unique-values">Data Types, Filtering, and Unique Values</h2>
+<p>Here&rsquo;s a structured set of notes with code to cover changing data types, filtering data, and handling unique/distinct values in PySpark using the employee data:</p>
+<h3 id="1-changing-data-types-schema-transformation">1. Changing Data Types (Schema Transformation)</h3>
+<p>In PySpark, you can change the data type of a column using the <code>cast()</code> method. This is helpful when you need to convert data types for columns like Salary or Phone.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Change the &#39;Salary&#39; column from integer to double</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;Salary&#34;</span><span class="p">,</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;Salary&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;double&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Convert &#39;Phone&#39; column to string</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;Phone&#34;</span><span class="p">,</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;Phone&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;string&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="2-filtering-data">2. Filtering Data</h3>
+<p>You can filter rows based on specific conditions. For instance, to filter employees with a salary greater than 50,000:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Filter rows where Salary is greater than 50,000</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Salary&#34;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">50000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Filtering rows where Age is not null</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Age&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">isNotNull</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="3-multiple-filters-chaining-conditions">3. Multiple Filters (Chaining Conditions)</h3>
+<p>You can also apply multiple conditions using <code>&amp;</code> or <code>|</code> (AND/OR) to filter data. For example, finding employees over 30 years old and in the IT department:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Filter rows where Age &gt; 30 and Department is &#39;IT&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Age&#34;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Department&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;IT&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="4-filtering-on-null-or-non-null-values">4. Filtering on Null or Non-Null Values</h3>
+<p>Filtering based on whether a column has NULL values or not is crucial for data cleaning:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Filter rows where &#39;Address&#39; is NULL</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Address&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">isNull</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Filter rows where &#39;Email&#39; is NOT NULL</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Email&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">isNotNull</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">filtered_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="5-handling-unique-or-distinct-data">5. Handling Unique or Distinct Data</h3>
+<p>To get distinct rows or unique values from your dataset:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Get distinct rows from the entire DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Get distinct values from the &#39;Department&#39; column</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_departments_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;Department&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_departments_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<p>To remove duplicates based on specific columns, such as Email or Phone, use <code>dropDuplicates()</code>:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Remove duplicates based on &#39;Email&#39; column</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">([</span><span class="s2">&#34;Email&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Remove duplicates based on both &#39;Phone&#39; and &#39;Email&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">([</span><span class="s2">&#34;Phone&#34;</span><span class="p">,</span> <span class="s2">&#34;Email&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="6-counting-distinct-values">6. Counting Distinct Values</h3>
+<p>You can count distinct values in a particular column, or combinations of columns:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Count distinct values in the &#39;Department&#39; column</span>
+</span></span><span class="line"><span class="cl"><span class="n">distinct_count_department</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;Department&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Distinct Department Count:&#34;</span><span class="p">,</span> <span class="n">distinct_count_department</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Count distinct combinations of &#39;Department&#39; and &#39;Performance_Rating&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">distinct_combinations_count</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;Department&#34;</span><span class="p">,</span> <span class="s2">&#34;Performance_Rating&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Distinct Department and Performance Rating Combinations:&#34;</span><span class="p">,</span> <span class="n">distinct_combinations_count</span><span class="p">)</span></span></span></code></pre></div>
+<p>This set of operations will help you efficiently manage and transform your data in PySpark, ensuring data integrity and accuracy for your analysis!</p>
+<h3 id="mastering-pyspark-dataframe-operations">Mastering PySpark DataFrame Operations</h3>
+<ol>
+<li><strong>Changing Data Types</strong>: Easily modify column types using <code>.cast()</code>. E.g., change &lsquo;Salary&rsquo; to double or &lsquo;Phone&rsquo; to string for better data handling.</li>
+<li><strong>Filtering Data</strong>: Use <code>.filter()</code> or <code>.where()</code> to extract specific rows. For example, filter employees with a salary over 50,000 or non-null Age.</li>
+<li><strong>Multiple Conditions</strong>: Chain filters with <code>&amp;</code> and <code>|</code> to apply complex conditions, such as finding employees over 30 in the IT department.</li>
+<li><strong>Handling NULLs</strong>: Use <code>.isNull()</code> and <code>.isNotNull()</code> to filter rows with missing or available values, such as missing addresses or valid emails.</li>
+<li><strong>Unique/Distinct Values</strong>: Use <code>.distinct()</code> to get unique rows or distinct values in a column. Remove duplicates based on specific fields like Email or Phone using <code>.dropDuplicates()</code>.</li>
+<li><strong>Count Distinct Values</strong>: Count distinct values in one or multiple columns to analyze data diversity, such as counting unique departments or combinations of Department and Performance_Rating.</li>
+</ol>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="" data-nav-id="/sql/"><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="parent " data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e" checked><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1757574908" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757574908" defer></script>
+    <script src="/js/theme.js?1757574908" defer></script>
+  </body>
+</html>

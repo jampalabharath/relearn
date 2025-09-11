@@ -1,5 +1,6 @@
 +++
 title = "Joins"
+weight = 7
 +++
 
 ## Joins in PySpark

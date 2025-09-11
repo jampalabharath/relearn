@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Creating DataFrame Creating DataFrame from Lists/Tuples # Sample Data data = [(1, &#34;Alice&#34;), (2, &#34;Bob&#34;), (3, &#34;Charlie&#34;), (4, &#34;David&#34;), (5, &#34;Eve&#34;)] columns = [&#34;ID&#34;, &#34;Name&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Show DataFrame df.show() Creating DataFrame from Pandas import pandas as pd # Sample Pandas DataFrame pandas_df = pd.DataFrame(data, columns=columns) # Convert to PySpark DataFrame df_from_pandas = spark.createDataFrame(pandas_df) df_from_pandas.show() Create DataFrame from Dictionary data_dict = [{&#34;ID&#34;: 1, &#34;Name&#34;: &#34;Alice&#34;}, {&#34;ID&#34;: 2, &#34;Name&#34;: &#34;Bob&#34;}] df_from_dict = spark.createDataFrame(data_dict) df_from_dict.show() Create Empty DataFrame You can create an empty DataFrame with just schema definitions.
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType # Define Schema schema = StructType([ StructField(&#34;ID&#34;, IntegerType(), True), StructField(&#34;Name&#34;, StringType(), True) ]) # Create Empty DataFrame empty_df = spark.createDataFrame([], schema) empty_df.show() Creating DataFrame from Structured Data (CSV, JSON, Parquet) # Reading CSV file into DataFrame df_csv = spark.read.csv(&#34;/path/to/file.csv&#34;, header=True, inferSchema=True) df_csv.show() # Reading JSON file into DataFrame df_json = spark.read.json(&#34;/path/to/file.json&#34;) df_json.show() # Reading Parquet file into DataFrame df_parquet = spark.read.parquet(&#34;/path/to/file.parquet&#34;) df_parquet.show() show() Function in PySpark DataFrames The show() function in PySpark displays the contents of a DataFrame in a tabular format. It has several useful parameters for customization:">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="DF Basics :: Data Engineering Notes">
+    <meta name="twitter:description" content="Creating DataFrame Creating DataFrame from Lists/Tuples # Sample Data data = [(1, &#34;Alice&#34;), (2, &#34;Bob&#34;), (3, &#34;Charlie&#34;), (4, &#34;David&#34;), (5, &#34;Eve&#34;)] columns = [&#34;ID&#34;, &#34;Name&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Show DataFrame df.show() Creating DataFrame from Pandas import pandas as pd # Sample Pandas DataFrame pandas_df = pd.DataFrame(data, columns=columns) # Convert to PySpark DataFrame df_from_pandas = spark.createDataFrame(pandas_df) df_from_pandas.show() Create DataFrame from Dictionary data_dict = [{&#34;ID&#34;: 1, &#34;Name&#34;: &#34;Alice&#34;}, {&#34;ID&#34;: 2, &#34;Name&#34;: &#34;Bob&#34;}] df_from_dict = spark.createDataFrame(data_dict) df_from_dict.show() Create Empty DataFrame You can create an empty DataFrame with just schema definitions.
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType # Define Schema schema = StructType([ StructField(&#34;ID&#34;, IntegerType(), True), StructField(&#34;Name&#34;, StringType(), True) ]) # Create Empty DataFrame empty_df = spark.createDataFrame([], schema) empty_df.show() Creating DataFrame from Structured Data (CSV, JSON, Parquet) # Reading CSV file into DataFrame df_csv = spark.read.csv(&#34;/path/to/file.csv&#34;, header=True, inferSchema=True) df_csv.show() # Reading JSON file into DataFrame df_json = spark.read.json(&#34;/path/to/file.json&#34;) df_json.show() # Reading Parquet file into DataFrame df_parquet = spark.read.parquet(&#34;/path/to/file.parquet&#34;) df_parquet.show() show() Function in PySpark DataFrames The show() function in PySpark displays the contents of a DataFrame in a tabular format. It has several useful parameters for customization:">
+    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/df-creation/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="DF Basics :: Data Engineering Notes">
+    <meta property="og:description" content="Creating DataFrame Creating DataFrame from Lists/Tuples # Sample Data data = [(1, &#34;Alice&#34;), (2, &#34;Bob&#34;), (3, &#34;Charlie&#34;), (4, &#34;David&#34;), (5, &#34;Eve&#34;)] columns = [&#34;ID&#34;, &#34;Name&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Show DataFrame df.show() Creating DataFrame from Pandas import pandas as pd # Sample Pandas DataFrame pandas_df = pd.DataFrame(data, columns=columns) # Convert to PySpark DataFrame df_from_pandas = spark.createDataFrame(pandas_df) df_from_pandas.show() Create DataFrame from Dictionary data_dict = [{&#34;ID&#34;: 1, &#34;Name&#34;: &#34;Alice&#34;}, {&#34;ID&#34;: 2, &#34;Name&#34;: &#34;Bob&#34;}] df_from_dict = spark.createDataFrame(data_dict) df_from_dict.show() Create Empty DataFrame You can create an empty DataFrame with just schema definitions.
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType # Define Schema schema = StructType([ StructField(&#34;ID&#34;, IntegerType(), True), StructField(&#34;Name&#34;, StringType(), True) ]) # Create Empty DataFrame empty_df = spark.createDataFrame([], schema) empty_df.show() Creating DataFrame from Structured Data (CSV, JSON, Parquet) # Reading CSV file into DataFrame df_csv = spark.read.csv(&#34;/path/to/file.csv&#34;, header=True, inferSchema=True) df_csv.show() # Reading JSON file into DataFrame df_json = spark.read.json(&#34;/path/to/file.json&#34;) df_json.show() # Reading Parquet file into DataFrame df_parquet = spark.read.parquet(&#34;/path/to/file.parquet&#34;) df_parquet.show() show() Function in PySpark DataFrames The show() function in PySpark displays the contents of a DataFrame in a tabular format. It has several useful parameters for customization:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Bricks">
+    <meta itemprop="name" content="DF Basics :: Data Engineering Notes">
+    <meta itemprop="description" content="Creating DataFrame Creating DataFrame from Lists/Tuples # Sample Data data = [(1, &#34;Alice&#34;), (2, &#34;Bob&#34;), (3, &#34;Charlie&#34;), (4, &#34;David&#34;), (5, &#34;Eve&#34;)] columns = [&#34;ID&#34;, &#34;Name&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Show DataFrame df.show() Creating DataFrame from Pandas import pandas as pd # Sample Pandas DataFrame pandas_df = pd.DataFrame(data, columns=columns) # Convert to PySpark DataFrame df_from_pandas = spark.createDataFrame(pandas_df) df_from_pandas.show() Create DataFrame from Dictionary data_dict = [{&#34;ID&#34;: 1, &#34;Name&#34;: &#34;Alice&#34;}, {&#34;ID&#34;: 2, &#34;Name&#34;: &#34;Bob&#34;}] df_from_dict = spark.createDataFrame(data_dict) df_from_dict.show() Create Empty DataFrame You can create an empty DataFrame with just schema definitions.
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType # Define Schema schema = StructType([ StructField(&#34;ID&#34;, IntegerType(), True), StructField(&#34;Name&#34;, StringType(), True) ]) # Create Empty DataFrame empty_df = spark.createDataFrame([], schema) empty_df.show() Creating DataFrame from Structured Data (CSV, JSON, Parquet) # Reading CSV file into DataFrame df_csv = spark.read.csv(&#34;/path/to/file.csv&#34;, header=True, inferSchema=True) df_csv.show() # Reading JSON file into DataFrame df_json = spark.read.json(&#34;/path/to/file.json&#34;) df_json.show() # Reading Parquet file into DataFrame df_parquet = spark.read.parquet(&#34;/path/to/file.parquet&#34;) df_parquet.show() show() Function in PySpark DataFrames The show() function in PySpark displays the contents of a DataFrame in a tabular format. It has several useful parameters for customization:">
+    <meta itemprop="wordCount" content="981">
+    <title>DF Basics :: Data Engineering Notes</title>
+    <link href="/images/favicon.ico?1757574908" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757574908" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757574908" defer></script>
+    <script src="/js/search-lunr.js?1757574908" defer></script>
+    <script src="/js/search.js?1757574908" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1757574908";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1757574908" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757574908" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757574908" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757574908" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757574908" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757574908" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757574908" rel="stylesheet">
+    <link href="/css/theme.css?1757574908" rel="stylesheet">
+    <link href="/css/format-html.css?1757574908" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_bricks\/df-creation\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/azure_data_bricks/df-creation/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#creating-dataframe">Creating DataFrame</a>
+      <ul>
+        <li><a href="#creating-dataframe-from-liststuples">Creating DataFrame from Lists/Tuples</a></li>
+        <li><a href="#creating-dataframe-from-pandas">Creating DataFrame from Pandas</a></li>
+        <li><a href="#create-dataframe-from-dictionary">Create DataFrame from Dictionary</a></li>
+        <li><a href="#create-empty-dataframe">Create Empty DataFrame</a></li>
+        <li><a href="#creating-dataframe-from-structured-data-csv-json-parquet">Creating DataFrame from Structured Data (CSV, JSON, Parquet)</a></li>
+        <li><a href="#show-function-in-pyspark-dataframes">show() Function in PySpark DataFrames</a></li>
+        <li><a href="#parameters">Parameters:</a></li>
+        <li><a href="#usage-examples">Usage Examples:</a></li>
+      </ul>
+    </li>
+    <li><a href="#loading-data-from-csv-file-into-a-dataframe">Loading Data from CSV File into a DataFrame</a>
+      <ul>
+        <li><a href="#1-import-required-libraries">1. Import Required Libraries</a></li>
+        <li><a href="#2-define-the-schema">2. Define the Schema</a></li>
+        <li><a href="#3-read-the-csv-file">3. Read the CSV File</a></li>
+        <li><a href="#4-load-multiple-csv-files">4. Load Multiple CSV Files</a></li>
+        <li><a href="#5-load-a-csv-from-filestore">5. Load a CSV from FileStore</a></li>
+        <li><a href="#6-display-the-dataframe">6. Display the DataFrame</a></li>
+        <li><a href="#interview-question-how-does-inferschema-work">Interview Question: How Does inferSchema Work?</a></li>
+        <li><a href="#does-it-make-sense-to-use-inferschema">Does It Make Sense to Use inferSchema?</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+    <li><a href="#pyspark-dataframe-schema-definition">PySpark DataFrame Schema Definition</a>
+      <ul>
+        <li><a href="#1-defining-schema-programmatically-with-structtype">1. Defining Schema Programmatically with StructType</a></li>
+        <li><a href="#2-defining-schema-as-a-string">2. Defining Schema as a String</a></li>
+        <li><a href="#explanation">Explanation</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/"><span itemprop="name">ADB</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">DF Basics</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/DF-Creation.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/" title="Azure Data Bricks (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/df-operations/" title="DF Operations (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_bricks" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="df-basics">DF Basics</h1>
+
+<h2 id="creating-dataframe">Creating DataFrame</h2>
+<h3 id="creating-dataframe-from-liststuples">Creating DataFrame from Lists/Tuples</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Sample Data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;Alice&#34;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;Bob&#34;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&#34;Charlie&#34;</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&#34;David&#34;</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&#34;Eve&#34;</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;ID&#34;</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Show DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="creating-dataframe-from-pandas">Creating DataFrame from Pandas</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample Pandas DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">pandas_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Convert to PySpark DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_from_pandas</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pandas_df</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_from_pandas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="create-dataframe-from-dictionary">Create DataFrame from Dictionary</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data_dict</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&#34;ID&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">:</span> <span class="s2">&#34;Alice&#34;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&#34;ID&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">:</span> <span class="s2">&#34;Bob&#34;</span><span class="p">}]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_from_dict</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_from_dict</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="create-empty-dataframe">Create Empty DataFrame</h3>
+<p>You can create an empty DataFrame with just schema definitions.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">IntegerType</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define Schema</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;ID&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create Empty DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([],</span> <span class="n">schema</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">empty_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="creating-dataframe-from-structured-data-csv-json-parquet">Creating DataFrame from Structured Data (CSV, JSON, Parquet)</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Reading CSV file into DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_csv</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&#34;/path/to/file.csv&#34;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_csv</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Reading JSON file into DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_json</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&#34;/path/to/file.json&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_json</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Reading Parquet file into DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_parquet</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="s2">&#34;/path/to/file.parquet&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_parquet</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="show-function-in-pyspark-dataframes">show() Function in PySpark DataFrames</h3>
+<p>The <code>show()</code> function in PySpark displays the contents of a DataFrame in a tabular format. It has several useful parameters for customization:</p>
+<h3 id="parameters">Parameters:</h3>
+<ol>
+<li><strong>n</strong>: Number of rows to display (default is 20)</li>
+<li><strong>truncate</strong>: If set to True, it truncates column values longer than 20 characters (default is True)</li>
+<li><strong>vertical</strong>: If set to True, prints rows in a vertical format</li>
+</ol>
+<h3 id="usage-examples">Usage Examples:</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Show the first 3 rows, truncate columns to 25 characters, and display vertically:</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">vertical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show entire DataFrame (default settings):</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the first 10 rows:</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show DataFrame without truncating any columns:</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<hr>
+<h2 id="loading-data-from-csv-file-into-a-dataframe">Loading Data from CSV File into a DataFrame</h2>
+<p>Loading data into DataFrames is a fundamental step in any data processing workflow in PySpark. This document outlines how to load data from CSV files into a DataFrame, including using a custom schema and the implications of using the inferSchema option.</p>
+<h3 id="1-import-required-libraries">1. Import Required Libraries</h3>
+<p>Before loading the data, ensure you import the necessary modules:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">DoubleType</span></span></span></code></pre></div>
+<h3 id="2-define-the-schema">2. Define the Schema</h3>
+<p>You can define a custom schema for your CSV file. This allows you to explicitly set the data types for each column.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Define the schema for the CSV file</span>
+</span></span><span class="line"><span class="cl"><span class="n">custom_schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;age&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;salary&#34;</span><span class="p">,</span> <span class="n">DoubleType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span></span></span></code></pre></div>
+<h3 id="3-read-the-csv-file">3. Read the CSV File</h3>
+<p>Load the CSV file into a DataFrame using the <code>read.csv()</code> method. Here, <code>header=True</code> treats the first row as headers, and <code>inferSchema=True</code> allows Spark to automatically assign data types to columns.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Read the CSV file with the custom schema</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&#34;your_file.csv&#34;</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">custom_schema</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></span></span></code></pre></div>
+<h3 id="4-load-multiple-csv-files">4. Load Multiple CSV Files</h3>
+<p>To read multiple CSV files into a single DataFrame, you can pass a list of file paths. Ensure that the schema is consistent across all files.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># List of file paths</span>
+</span></span><span class="line"><span class="cl"><span class="n">file_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;file1.csv&#34;</span><span class="p">,</span> <span class="s2">&#34;file2.csv&#34;</span><span class="p">,</span> <span class="s2">&#34;file3.csv&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Read multiple CSV files into a single DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">file_paths</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></span></span></code></pre></div>
+<h3 id="5-load-a-csv-from-filestore">5. Load a CSV from FileStore</h3>
+<p>Here is an example of loading a CSV file from Databricks FileStore:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&#34;/FileStore/tables/Order.csv&#34;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span></span></span></code></pre></div>
+<h3 id="6-display-the-dataframe">6. Display the DataFrame</h3>
+<p>Use the following commands to check the schema and display the DataFrame:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Print the schema of the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the first 20 rows of the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  <span class="c1"># Displays only the first 20 rows</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the DataFrame in a tabular format</span>
+</span></span><span class="line"><span class="cl"><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>  <span class="c1"># For Databricks notebooks</span></span></span></code></pre></div>
+<h3 id="interview-question-how-does-inferschema-work">Interview Question: How Does inferSchema Work?</h3>
+<p><strong>Behind the Scenes:</strong> When you use <code>inferSchema</code>, Spark runs a job that scans the CSV file from top to bottom to identify the best-suited data type for each column based on the values it encounters.</p>
+<h3 id="does-it-make-sense-to-use-inferschema">Does It Make Sense to Use inferSchema?</h3>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Useful when the schema of the file keeps changing, as it allows Spark to automatically detect the data types.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li><strong>Performance Impact:</strong> Spark must scan the entire file, which can take extra time, especially for large files.</li>
+<li><strong>Loss of Control:</strong> You lose the ability to explicitly define the schema, which may lead to incorrect data types if the data is inconsistent.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>Loading data from CSV files into a DataFrame is straightforward in PySpark. Understanding how to define a schema and the implications of using <code>inferSchema</code> is crucial for optimizing your data processing workflows.</p>
+<p>This document provides a comprehensive overview of how to load CSV data into DataFrames in PySpark, along with considerations for using schema inference. Let me know if you need any more details or adjustments!</p>
+<h2 id="pyspark-dataframe-schema-definition">PySpark DataFrame Schema Definition</h2>
+<h3 id="1-defining-schema-programmatically-with-structtype">1. Defining Schema Programmatically with StructType</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define the schema using StructType</span>
+</span></span><span class="line"><span class="cl"><span class="n">employeeSchema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;ID&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Age&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Salary&#34;</span><span class="p">,</span> <span class="n">DoubleType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Joining_Date&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>  <span class="c1"># Keeping as String for date issues</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Department&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Performance_Rating&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Email&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Address&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;Phone&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Load the DataFrame with the defined schema</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;/FileStore/tables/employees.csv&#34;</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&#34;csv&#34;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">employeeSchema</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Print the schema of the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Optionally display the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># display(df)</span></span></span></code></pre></div>
+<h3 id="2-defining-schema-as-a-string">2. Defining Schema as a String</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Define the schema as a string</span>
+</span></span><span class="line"><span class="cl"><span class="n">employeeSchemaString</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">ID Integer,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Name String,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Age Integer,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Salary Double,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Joining_Date String,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Department String,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Performance_Rating Integer,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Email String,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Address String,
+</span></span></span><span class="line"><span class="cl"><span class="s1">Phone String
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Load the DataFrame with the defined schema</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;dbfs:/FileStore/shared_uploads/imsvk11@gmail.com/employee_data.csv&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                     <span class="nb">format</span><span class="o">=</span><span class="s2">&#34;csv&#34;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">employeeSchemaString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Print the schema of the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Optionally display the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># display(df)</span></span></span></code></pre></div>
+<h3 id="explanation">Explanation</h3>
+<ul>
+<li><strong>Schema Definition</strong>: Both methods define a schema for the DataFrame, accommodating the dataset&rsquo;s requirements, including handling null values where applicable.</li>
+<li><strong>Data Types</strong>: The Joining_Date column is defined as StringType to accommodate potential date format issues or missing values.</li>
+<li><strong>Loading the DataFrame</strong>: The <code>spark.read.load</code> method is used to load the CSV file into a DataFrame using the specified schema.</li>
+<li><strong>Printing the Schema</strong>: The <code>df.printSchema()</code> function allows you to verify that the DataFrame is structured as intended.</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="" data-nav-id="/sql/"><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="parent " data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e" checked><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="active " data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1757574908" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757574908" defer></script>
+    <script src="/js/theme.js?1757574908" defer></script>
+  </body>
+</html>
