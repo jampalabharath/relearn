@@ -118,3 +118,5 @@ weight = 2
 - End-to-End Data Warehouse Load using ADF
 - Incremental Data Pipeline with Delta Processing
 - Enterprise Data Integration with ADF and Synapse
+
+
