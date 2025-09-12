@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="This document provides an overview of SQL filtering techniques using WHERE and various operators for precise data retrieval.
+1. Comparison Operators (=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=) -- Retrieve all customers from Germany SELECT * FROM customers WHERE country = &#39;Germany&#39;; -- Retrieve all customers who are not from Germany SELECT * FROM customers WHERE country &lt;&gt; &#39;Germany&#39;; -- Retrieve all customers with a score greater than 500 SELECT * FROM customers WHERE score &gt; 500; -- Retrieve all customers with a score of 500 or more SELECT * FROM customers WHERE score &gt;= 500; -- Retrieve all customers with a score less than 500 SELECT * FROM customers WHERE score &lt; 500; -- Retrieve all customers with a score of 500 or less SELECT * FROM customers WHERE score &lt;= 500; 2. Logical Operators (AND, OR, NOT) -- Customers from the USA and score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; AND score &gt; 500; -- Customers from the USA or score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; OR score &gt; 500; -- Customers with score not less than 500 SELECT * FROM customers WHERE NOT score &lt; 500; 3. Range Filtering – BETWEEN -- Customers with score between 100 and 500 SELECT * FROM customers WHERE score BETWEEN 100 AND 500; -- Equivalent to BETWEEN SELECT * FROM customers WHERE score &gt;= 100 AND score &lt;= 500; 4. Set Filtering – IN -- Customers from Germany or USA SELECT * FROM customers WHERE country IN (&#39;Germany&#39;, &#39;USA&#39;); 5. Pattern Matching – LIKE -- First name starts with &#39;M&#39; SELECT * FROM customers WHERE first_name LIKE &#39;M%&#39;; -- First name ends with &#39;n&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%n&#39;; -- First name contains &#39;r&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%r%&#39;; -- First name has &#39;r&#39; in the third position SELECT * FROM customers WHERE first_name LIKE &#39;__r%&#39;;">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Filtering Data :: Data Engineering Notes">
+    <meta name="twitter:description" content="This document provides an overview of SQL filtering techniques using WHERE and various operators for precise data retrieval.
+1. Comparison Operators (=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=) -- Retrieve all customers from Germany SELECT * FROM customers WHERE country = &#39;Germany&#39;; -- Retrieve all customers who are not from Germany SELECT * FROM customers WHERE country &lt;&gt; &#39;Germany&#39;; -- Retrieve all customers with a score greater than 500 SELECT * FROM customers WHERE score &gt; 500; -- Retrieve all customers with a score of 500 or more SELECT * FROM customers WHERE score &gt;= 500; -- Retrieve all customers with a score less than 500 SELECT * FROM customers WHERE score &lt; 500; -- Retrieve all customers with a score of 500 or less SELECT * FROM customers WHERE score &lt;= 500; 2. Logical Operators (AND, OR, NOT) -- Customers from the USA and score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; AND score &gt; 500; -- Customers from the USA or score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; OR score &gt; 500; -- Customers with score not less than 500 SELECT * FROM customers WHERE NOT score &lt; 500; 3. Range Filtering – BETWEEN -- Customers with score between 100 and 500 SELECT * FROM customers WHERE score BETWEEN 100 AND 500; -- Equivalent to BETWEEN SELECT * FROM customers WHERE score &gt;= 100 AND score &lt;= 500; 4. Set Filtering – IN -- Customers from Germany or USA SELECT * FROM customers WHERE country IN (&#39;Germany&#39;, &#39;USA&#39;); 5. Pattern Matching – LIKE -- First name starts with &#39;M&#39; SELECT * FROM customers WHERE first_name LIKE &#39;M%&#39;; -- First name ends with &#39;n&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%n&#39;; -- First name contains &#39;r&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%r%&#39;; -- First name has &#39;r&#39; in the third position SELECT * FROM customers WHERE first_name LIKE &#39;__r%&#39;;">
+    <meta property="og:url" content="https://example.org/sql/filter/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Filtering Data :: Data Engineering Notes">
+    <meta property="og:description" content="This document provides an overview of SQL filtering techniques using WHERE and various operators for precise data retrieval.
+1. Comparison Operators (=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=) -- Retrieve all customers from Germany SELECT * FROM customers WHERE country = &#39;Germany&#39;; -- Retrieve all customers who are not from Germany SELECT * FROM customers WHERE country &lt;&gt; &#39;Germany&#39;; -- Retrieve all customers with a score greater than 500 SELECT * FROM customers WHERE score &gt; 500; -- Retrieve all customers with a score of 500 or more SELECT * FROM customers WHERE score &gt;= 500; -- Retrieve all customers with a score less than 500 SELECT * FROM customers WHERE score &lt; 500; -- Retrieve all customers with a score of 500 or less SELECT * FROM customers WHERE score &lt;= 500; 2. Logical Operators (AND, OR, NOT) -- Customers from the USA and score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; AND score &gt; 500; -- Customers from the USA or score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; OR score &gt; 500; -- Customers with score not less than 500 SELECT * FROM customers WHERE NOT score &lt; 500; 3. Range Filtering – BETWEEN -- Customers with score between 100 and 500 SELECT * FROM customers WHERE score BETWEEN 100 AND 500; -- Equivalent to BETWEEN SELECT * FROM customers WHERE score &gt;= 100 AND score &lt;= 500; 4. Set Filtering – IN -- Customers from Germany or USA SELECT * FROM customers WHERE country IN (&#39;Germany&#39;, &#39;USA&#39;); 5. Pattern Matching – LIKE -- First name starts with &#39;M&#39; SELECT * FROM customers WHERE first_name LIKE &#39;M%&#39;; -- First name ends with &#39;n&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%n&#39;; -- First name contains &#39;r&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%r%&#39;; -- First name has &#39;r&#39; in the third position SELECT * FROM customers WHERE first_name LIKE &#39;__r%&#39;;">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="SQL">
+    <meta itemprop="name" content="Filtering Data :: Data Engineering Notes">
+    <meta itemprop="description" content="This document provides an overview of SQL filtering techniques using WHERE and various operators for precise data retrieval.
+1. Comparison Operators (=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=) -- Retrieve all customers from Germany SELECT * FROM customers WHERE country = &#39;Germany&#39;; -- Retrieve all customers who are not from Germany SELECT * FROM customers WHERE country &lt;&gt; &#39;Germany&#39;; -- Retrieve all customers with a score greater than 500 SELECT * FROM customers WHERE score &gt; 500; -- Retrieve all customers with a score of 500 or more SELECT * FROM customers WHERE score &gt;= 500; -- Retrieve all customers with a score less than 500 SELECT * FROM customers WHERE score &lt; 500; -- Retrieve all customers with a score of 500 or less SELECT * FROM customers WHERE score &lt;= 500; 2. Logical Operators (AND, OR, NOT) -- Customers from the USA and score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; AND score &gt; 500; -- Customers from the USA or score &gt; 500 SELECT * FROM customers WHERE country = &#39;USA&#39; OR score &gt; 500; -- Customers with score not less than 500 SELECT * FROM customers WHERE NOT score &lt; 500; 3. Range Filtering – BETWEEN -- Customers with score between 100 and 500 SELECT * FROM customers WHERE score BETWEEN 100 AND 500; -- Equivalent to BETWEEN SELECT * FROM customers WHERE score &gt;= 100 AND score &lt;= 500; 4. Set Filtering – IN -- Customers from Germany or USA SELECT * FROM customers WHERE country IN (&#39;Germany&#39;, &#39;USA&#39;); 5. Pattern Matching – LIKE -- First name starts with &#39;M&#39; SELECT * FROM customers WHERE first_name LIKE &#39;M%&#39;; -- First name ends with &#39;n&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%n&#39;; -- First name contains &#39;r&#39; SELECT * FROM customers WHERE first_name LIKE &#39;%r%&#39;; -- First name has &#39;r&#39; in the third position SELECT * FROM customers WHERE first_name LIKE &#39;__r%&#39;;">
+    <meta itemprop="wordCount" content="319">
+    <title>Filtering Data :: Data Engineering Notes</title>
+    <link href="/images/favicon.ico?1757668587" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757668587" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757668587" defer></script>
+    <script src="/js/search-lunr.min.js?1757668587" defer></script>
+    <script src="/js/search.min.js?1757668587" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1757668587";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1757668587" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757668587" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757668587" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757668587" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757668587" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757668587" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757668587" rel="stylesheet">
+    <link href="/css/theme.min.css?1757668587" rel="stylesheet">
+    <link href="/css/format-html.min.css?1757668587" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = `.min`;
+      window.relearn.path='\/sql\/filter\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='https:\/\/example.org';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/sql/filter/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#1-comparison-operators------">1. Comparison Operators (=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=)</a></li>
+    <li><a href="#2-logical-operators-and-or-not">2. Logical Operators (AND, OR, NOT)</a></li>
+    <li><a href="#3-range-filtering--between">3. Range Filtering – BETWEEN</a></li>
+    <li><a href="#4-set-filtering--in">4. Set Filtering – IN</a></li>
+    <li><a href="#5-pattern-matching--like">5. Pattern Matching – LIKE</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/sql/"><span itemprop="name">SQL</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Filtering Data</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Filter.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/dml/" title="DML (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/joins/" title="Joins (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable sql" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="filtering-data">Filtering Data</h1>
+
+<p>This document provides an overview of SQL filtering techniques using <code>WHERE</code> and various operators for precise data retrieval.</p>
+<hr>
+<h2 id="1-comparison-operators------">1. Comparison Operators (=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=)</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Retrieve all customers from Germany
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Germany&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Retrieve all customers who are not from Germany
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="s1">&#39;Germany&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Retrieve all customers with a score greater than 500
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Retrieve all customers with a score of 500 or more
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Retrieve all customers with a score less than 500
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Retrieve all customers with a score of 500 or less
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="2-logical-operators-and-or-not">2. Logical Operators (AND, OR, NOT)</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Customers from the USA and score &gt; 500
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Customers from the USA or score &gt; 500
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Customers with score not less than 500
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="3-range-filtering--between">3. Range Filtering – BETWEEN</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Customers with score between 100 and 500
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Equivalent to BETWEEN
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="4-set-filtering--in">4. Set Filtering – IN</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Customers from Germany or USA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Germany&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="p">);</span></span></span></code></pre></div>
+<h2 id="5-pattern-matching--like">5. Pattern Matching – LIKE</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- First name starts with &#39;M&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">first_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;M%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- First name ends with &#39;n&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">first_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%n&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- First name contains &#39;r&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">first_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%r%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- First name has &#39;r&#39; in the third position
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">first_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;__r%&#39;</span><span class="p">;</span></span></span></code></pre></div>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent " data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0" checked><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1757668587" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757668587" defer></script>
+    <script src="/js/theme.min.js?1757668587" defer></script>
+  </body>
+</html>

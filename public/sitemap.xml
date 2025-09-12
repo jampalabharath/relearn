@@ -1,57 +1,102 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/df-creation/</loc>
+    <loc>https://example.org/azure_data_bricks/df-creation/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/sql/</loc>
+    <loc>https://example.org/sql/select/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_factory/</loc>
+    <loc>https://example.org/sql/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/df-operations/</loc>
+    <loc>https://example.org/azure_data_factory/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/</loc>
+    <loc>https://example.org/sql/ddl/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/functions/</loc>
+    <loc>https://example.org/azure_data_bricks/df-operations/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/date/</loc>
+    <loc>https://example.org/azure_data_bricks/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/nulls/</loc>
+    <loc>https://example.org/sql/dml/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/aggregations/</loc>
+    <loc>https://example.org/azure_data_bricks/functions/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/joins/</loc>
+    <loc>https://example.org/azure_data_bricks/date/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/when/</loc>
+    <loc>https://example.org/sql/filter/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/window-functions/</loc>
+    <loc>https://example.org/azure_data_bricks/nulls/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/explode/</loc>
+    <loc>https://example.org/sql/joins/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/pivot/</loc>
+    <loc>https://example.org/azure_data_bricks/aggregations/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/azure_data_bricks/differences/</loc>
+    <loc>https://example.org/sql/set-operations/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://example.org/azure_data_bricks/joins/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://example.org/sql/string-functions/</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://example.org/sql/number-functions/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/azure_data_bricks/when/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/sql/date-time1/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/azure_data_bricks/window-functions/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/sql/date-time2/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/azure_data_bricks/explode/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/sql/null-functions/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/azure_data_bricks/pivot/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/sql/case-statement/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/azure_data_bricks/comparisons/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/sql/aggregate-functions/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/sql/window-functions/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/sql/window_aggregations/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/categories/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/</loc>
+  </url>
+  <url>
+    <loc>https://example.org/tags/</loc>
   </url>
 </urlset>

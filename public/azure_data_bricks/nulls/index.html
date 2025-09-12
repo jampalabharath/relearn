@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -10,7 +10,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Handling Nulls :: Data Engineering Notes">
     <meta name="twitter:description" content="Sample Sales Data with Null Values # Sample data: sales data with nulls data = [ (&#34;John&#34;, &#34;North&#34;, 100, None), (&#34;Doe&#34;, &#34;East&#34;, None, 50), (None, &#34;West&#34;, 150, 30), (&#34;Alice&#34;, None, 200, 40), (&#34;Bob&#34;, &#34;South&#34;, None, None), (None, None, None, None) ] columns = [&#34;Name&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;Revenue&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) df.show() 1. Detecting Null Values Use isNull() to identify rows where a column contains null values. The output is a boolean flag indicating whether the value is null. 2. Dropping Rows with Null Values dropna() removes rows with nulls in any column (default mode). Use how=&#34;all&#34; to remove rows only if all columns are null. Use subset=[&#34;col1&#34;, &#34;col2&#34;] to target specific columns. 3. Filling Null Values fillna() replaces nulls with specified default values. Replace across all columns or selectively. Example: Replace Region nulls with &#34;Unknown&#34;. Replace UnitsSold and Revenue nulls with 0. 4. Coalesce Function coalesce() returns the first non-null value among multiple columns. Useful when providing fallback values if some columns contain nulls. 5. Handling Nulls in Aggregations Nulls can distort aggregations like mean(). Use coalesce() to substitute nulls with defaults (e.g., 0.0). This prevents inaccurate results. 📌 Summary Detecting Nulls: Use isNull() to find null values. Dropping Nulls: Use dropna() to remove rows with nulls (all or specific columns). Filling Nulls: Use fillna() to replace nulls with defaults. Coalesce Function: Use coalesce() to return the first non-null value. Aggregations: Use coalesce() in aggregations to handle nulls safely.">
-    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/nulls/">
+    <meta property="og:url" content="https://example.org/azure_data_bricks/nulls/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Handling Nulls :: Data Engineering Notes">
     <meta property="og:description" content="Sample Sales Data with Null Values # Sample data: sales data with nulls data = [ (&#34;John&#34;, &#34;North&#34;, 100, None), (&#34;Doe&#34;, &#34;East&#34;, None, 50), (None, &#34;West&#34;, 150, 30), (&#34;Alice&#34;, None, 200, 40), (&#34;Bob&#34;, &#34;South&#34;, None, None), (None, None, None, None) ] columns = [&#34;Name&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;Revenue&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) df.show() 1. Detecting Null Values Use isNull() to identify rows where a column contains null values. The output is a boolean flag indicating whether the value is null. 2. Dropping Rows with Null Values dropna() removes rows with nulls in any column (default mode). Use how=&#34;all&#34; to remove rows only if all columns are null. Use subset=[&#34;col1&#34;, &#34;col2&#34;] to target specific columns. 3. Filling Null Values fillna() replaces nulls with specified default values. Replace across all columns or selectively. Example: Replace Region nulls with &#34;Unknown&#34;. Replace UnitsSold and Revenue nulls with 0. 4. Coalesce Function coalesce() returns the first non-null value among multiple columns. Useful when providing fallback values if some columns contain nulls. 5. Handling Nulls in Aggregations Nulls can distort aggregations like mean(). Use coalesce() to substitute nulls with defaults (e.g., 0.0). This prevents inaccurate results. 📌 Summary Detecting Nulls: Use isNull() to find null values. Dropping Nulls: Use dropna() to remove rows with nulls (all or specific columns). Filling Nulls: Use fillna() to replace nulls with defaults. Coalesce Function: Use coalesce() to return the first non-null value. Aggregations: Use coalesce() in aggregations to handle nulls safely.">
@@ -21,35 +21,35 @@
     <meta itemprop="description" content="Sample Sales Data with Null Values # Sample data: sales data with nulls data = [ (&#34;John&#34;, &#34;North&#34;, 100, None), (&#34;Doe&#34;, &#34;East&#34;, None, 50), (None, &#34;West&#34;, 150, 30), (&#34;Alice&#34;, None, 200, 40), (&#34;Bob&#34;, &#34;South&#34;, None, None), (None, None, None, None) ] columns = [&#34;Name&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;Revenue&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) df.show() 1. Detecting Null Values Use isNull() to identify rows where a column contains null values. The output is a boolean flag indicating whether the value is null. 2. Dropping Rows with Null Values dropna() removes rows with nulls in any column (default mode). Use how=&#34;all&#34; to remove rows only if all columns are null. Use subset=[&#34;col1&#34;, &#34;col2&#34;] to target specific columns. 3. Filling Null Values fillna() replaces nulls with specified default values. Replace across all columns or selectively. Example: Replace Region nulls with &#34;Unknown&#34;. Replace UnitsSold and Revenue nulls with 0. 4. Coalesce Function coalesce() returns the first non-null value among multiple columns. Useful when providing fallback values if some columns contain nulls. 5. Handling Nulls in Aggregations Nulls can distort aggregations like mean(). Use coalesce() to substitute nulls with defaults (e.g., 0.0). This prevents inaccurate results. 📌 Summary Detecting Nulls: Use isNull() to find null values. Dropping Nulls: Use dropna() to remove rows with nulls (all or specific columns). Filling Nulls: Use fillna() to replace nulls with defaults. Coalesce Function: Use coalesce() to return the first non-null value. Aggregations: Use coalesce() in aggregations to handle nulls safely.">
     <meta itemprop="wordCount" content="243">
     <title>Handling Nulls :: Data Engineering Notes</title>
-    <link href="/images/favicon.ico?1757574908" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1757574908" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1757574908" defer></script>
-    <script src="/js/search-lunr.js?1757574908" defer></script>
-    <script src="/js/search.js?1757574908" defer></script>
+    <link href="/images/favicon.ico?1757668587" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757668587" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757668587" defer></script>
+    <script src="/js/search-lunr.min.js?1757668587" defer></script>
+    <script src="/js/search.min.js?1757668587" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1757574908";
+      window.relearn.index_js_url="/searchindex.en.js?1757668587";
     </script>
-    <script src="/js/lunr/lunr.min.js?1757574908" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1757574908" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1757574908" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1757574908" defer></script>
+    <script src="/js/lunr/lunr.min.js?1757668587" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757668587" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757668587" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757668587" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757574908" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757574908" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757574908" rel="stylesheet">
-    <link href="/css/theme.css?1757574908" rel="stylesheet">
-    <link href="/css/format-html.css?1757574908" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757668587" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757668587" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757668587" rel="stylesheet">
+    <link href="/css/theme.min.css?1757668587" rel="stylesheet">
+    <link href="/css/format-html.min.css?1757668587" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = ``;
+      window.relearn.min = `.min`;
       window.relearn.path='\/azure_data_bricks\/nulls\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.absBaseUri='https:\/\/example.org';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -299,7 +299,22 @@
       <div id="R-content-wrapper" class="highlightable">
         <div class="R-sidebarmenu R-shortcutmenu-main">
           <ul class="enlarge morespace collapsible-menu">
-            <li class="" data-nav-id="/sql/"><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0"><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="parent " data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e" checked><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
             <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
@@ -357,8 +372,8 @@
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1757574908" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757574908" defer></script>
-    <script src="/js/theme.js?1757574908" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1757668587" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757668587" defer></script>
+    <script src="/js/theme.min.js?1757668587" defer></script>
   </body>
 </html>
