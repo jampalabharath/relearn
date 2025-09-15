@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="This script demonstrates various index types in SQL Server including clustered, non-clustered, columnstore, unique, and filtered indexes.
+It also covers index monitoring techniques like usage stats, missing/duplicate indexes, updating statistics, and fragmentation.
+📑 Table of Contents Index Types Clustered and Non-Clustered Indexes Leftmost Prefix Rule Explanation Columnstore Indexes Unique Indexes Filtered Indexes Index Monitoring Monitor Index Usage Monitor Missing Indexes Monitor Duplicate Indexes Update Statistics Fragmentations Index Types Clustered and Non-Clustered Indexes -- Create a Heap Table as a copy of Sales.Customers SELECT * INTO Sales.DBCustomers FROM Sales.Customers; -- Test Query SELECT * FROM Sales.DBCustomers WHERE CustomerID = 1; -- Create a Clustered Index CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Attempt to create a second Clustered Index (will fail) CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Drop the Clustered Index DROP INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers; -- Query using LastName filter SELECT * FROM Sales.DBCustomers WHERE LastName = &#39;Brown&#39;; -- Create a Non-Clustered Index on LastName CREATE NONCLUSTERED INDEX idx_DBCustomers_LastName ON Sales.DBCustomers (LastName); -- Additional Non-Clustered Index on FirstName CREATE INDEX idx_DBCustomers_FirstName ON Sales.DBCustomers (FirstName); -- Composite Index on Country and Score CREATE INDEX idx_DBCustomers_CountryScore ON Sales.DBCustomers (Country, Score); -- Query that uses Composite Index SELECT * FROM Sales.DBCustomers WHERE Country = &#39;USA&#39; AND Score &gt; 500; -- Query that may not use Composite Index due to column order SELECT * FROM Sales.DBCustomers WHERE Score &gt; 500 AND Country = &#39;USA&#39;; Leftmost Prefix Rule Explanation For a composite index (A, B, C, D) the index is useful when filtering on:">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Indexes :: Data Engineering Notes">
+    <meta name="twitter:description" content="This script demonstrates various index types in SQL Server including clustered, non-clustered, columnstore, unique, and filtered indexes.
+It also covers index monitoring techniques like usage stats, missing/duplicate indexes, updating statistics, and fragmentation.
+📑 Table of Contents Index Types Clustered and Non-Clustered Indexes Leftmost Prefix Rule Explanation Columnstore Indexes Unique Indexes Filtered Indexes Index Monitoring Monitor Index Usage Monitor Missing Indexes Monitor Duplicate Indexes Update Statistics Fragmentations Index Types Clustered and Non-Clustered Indexes -- Create a Heap Table as a copy of Sales.Customers SELECT * INTO Sales.DBCustomers FROM Sales.Customers; -- Test Query SELECT * FROM Sales.DBCustomers WHERE CustomerID = 1; -- Create a Clustered Index CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Attempt to create a second Clustered Index (will fail) CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Drop the Clustered Index DROP INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers; -- Query using LastName filter SELECT * FROM Sales.DBCustomers WHERE LastName = &#39;Brown&#39;; -- Create a Non-Clustered Index on LastName CREATE NONCLUSTERED INDEX idx_DBCustomers_LastName ON Sales.DBCustomers (LastName); -- Additional Non-Clustered Index on FirstName CREATE INDEX idx_DBCustomers_FirstName ON Sales.DBCustomers (FirstName); -- Composite Index on Country and Score CREATE INDEX idx_DBCustomers_CountryScore ON Sales.DBCustomers (Country, Score); -- Query that uses Composite Index SELECT * FROM Sales.DBCustomers WHERE Country = &#39;USA&#39; AND Score &gt; 500; -- Query that may not use Composite Index due to column order SELECT * FROM Sales.DBCustomers WHERE Score &gt; 500 AND Country = &#39;USA&#39;; Leftmost Prefix Rule Explanation For a composite index (A, B, C, D) the index is useful when filtering on:">
+    <meta property="og:url" content="http://localhost:1313/sql/indexes/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Indexes :: Data Engineering Notes">
+    <meta property="og:description" content="This script demonstrates various index types in SQL Server including clustered, non-clustered, columnstore, unique, and filtered indexes.
+It also covers index monitoring techniques like usage stats, missing/duplicate indexes, updating statistics, and fragmentation.
+📑 Table of Contents Index Types Clustered and Non-Clustered Indexes Leftmost Prefix Rule Explanation Columnstore Indexes Unique Indexes Filtered Indexes Index Monitoring Monitor Index Usage Monitor Missing Indexes Monitor Duplicate Indexes Update Statistics Fragmentations Index Types Clustered and Non-Clustered Indexes -- Create a Heap Table as a copy of Sales.Customers SELECT * INTO Sales.DBCustomers FROM Sales.Customers; -- Test Query SELECT * FROM Sales.DBCustomers WHERE CustomerID = 1; -- Create a Clustered Index CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Attempt to create a second Clustered Index (will fail) CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Drop the Clustered Index DROP INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers; -- Query using LastName filter SELECT * FROM Sales.DBCustomers WHERE LastName = &#39;Brown&#39;; -- Create a Non-Clustered Index on LastName CREATE NONCLUSTERED INDEX idx_DBCustomers_LastName ON Sales.DBCustomers (LastName); -- Additional Non-Clustered Index on FirstName CREATE INDEX idx_DBCustomers_FirstName ON Sales.DBCustomers (FirstName); -- Composite Index on Country and Score CREATE INDEX idx_DBCustomers_CountryScore ON Sales.DBCustomers (Country, Score); -- Query that uses Composite Index SELECT * FROM Sales.DBCustomers WHERE Country = &#39;USA&#39; AND Score &gt; 500; -- Query that may not use Composite Index due to column order SELECT * FROM Sales.DBCustomers WHERE Score &gt; 500 AND Country = &#39;USA&#39;; Leftmost Prefix Rule Explanation For a composite index (A, B, C, D) the index is useful when filtering on:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="SQL">
+    <meta itemprop="name" content="Indexes :: Data Engineering Notes">
+    <meta itemprop="description" content="This script demonstrates various index types in SQL Server including clustered, non-clustered, columnstore, unique, and filtered indexes.
+It also covers index monitoring techniques like usage stats, missing/duplicate indexes, updating statistics, and fragmentation.
+📑 Table of Contents Index Types Clustered and Non-Clustered Indexes Leftmost Prefix Rule Explanation Columnstore Indexes Unique Indexes Filtered Indexes Index Monitoring Monitor Index Usage Monitor Missing Indexes Monitor Duplicate Indexes Update Statistics Fragmentations Index Types Clustered and Non-Clustered Indexes -- Create a Heap Table as a copy of Sales.Customers SELECT * INTO Sales.DBCustomers FROM Sales.Customers; -- Test Query SELECT * FROM Sales.DBCustomers WHERE CustomerID = 1; -- Create a Clustered Index CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Attempt to create a second Clustered Index (will fail) CREATE CLUSTERED INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers (CustomerID); -- Drop the Clustered Index DROP INDEX idx_DBCustomers_CustomerID ON Sales.DBCustomers; -- Query using LastName filter SELECT * FROM Sales.DBCustomers WHERE LastName = &#39;Brown&#39;; -- Create a Non-Clustered Index on LastName CREATE NONCLUSTERED INDEX idx_DBCustomers_LastName ON Sales.DBCustomers (LastName); -- Additional Non-Clustered Index on FirstName CREATE INDEX idx_DBCustomers_FirstName ON Sales.DBCustomers (FirstName); -- Composite Index on Country and Score CREATE INDEX idx_DBCustomers_CountryScore ON Sales.DBCustomers (Country, Score); -- Query that uses Composite Index SELECT * FROM Sales.DBCustomers WHERE Country = &#39;USA&#39; AND Score &gt; 500; -- Query that may not use Composite Index due to column order SELECT * FROM Sales.DBCustomers WHERE Score &gt; 500 AND Country = &#39;USA&#39;; Leftmost Prefix Rule Explanation For a composite index (A, B, C, D) the index is useful when filtering on:">
+    <meta itemprop="wordCount" content="732">
+    <title>Indexes :: Data Engineering Notes</title>
+    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
+    <script src="/js/search-lunr.js?1757910108" defer></script>
+    <script src="/js/search.js?1757910108" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1757910108";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
+    <link href="/css/theme.css?1757910108" rel="stylesheet">
+    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/sql\/indexes\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/sql/indexes/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#-table-of-contents">📑 Table of Contents</a>
+      <ul>
+        <li><a href="#index-types">Index Types</a></li>
+        <li><a href="#index-monitoring">Index Monitoring</a></li>
+      </ul>
+    </li>
+    <li><a href="#index-types-1">Index Types</a>
+      <ul>
+        <li><a href="#clustered-and-non-clustered-indexes">Clustered and Non-Clustered Indexes</a></li>
+        <li><a href="#leftmost-prefix-rule-explanation">Leftmost Prefix Rule Explanation</a></li>
+        <li><a href="#columnstore-indexes">Columnstore Indexes</a></li>
+        <li><a href="#unique-indexes">Unique Indexes</a></li>
+        <li><a href="#filtered-indexes">Filtered Indexes</a></li>
+      </ul>
+    </li>
+    <li><a href="#index-monitoring-1">Index Monitoring</a>
+      <ul>
+        <li><a href="#monitor-index-usage">Monitor Index Usage</a></li>
+        <li><a href="#monitor-missing-indexes">Monitor Missing Indexes</a></li>
+        <li><a href="#monitor-duplicate-indexes">Monitor Duplicate Indexes</a></li>
+        <li><a href="#update-statistics">Update Statistics</a></li>
+        <li><a href="#fragmentations">Fragmentations</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/sql/"><span itemprop="name">SQL</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Indexes</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Indexes.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/triggers/" title="Triggers (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/partitions/" title="Partitioning (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable sql" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="indexes">Indexes</h1>
+
+<p>This script demonstrates various <strong>index types in SQL Server</strong> including clustered, non-clustered, columnstore, unique, and filtered indexes.<br>
+It also covers <strong>index monitoring techniques</strong> like usage stats, missing/duplicate indexes, updating statistics, and fragmentation.</p>
+<hr>
+<h2 id="-table-of-contents">📑 Table of Contents</h2>
+<h3 id="index-types">Index Types</h3>
+<ul>
+<li>Clustered and Non-Clustered Indexes</li>
+<li>Leftmost Prefix Rule Explanation</li>
+<li>Columnstore Indexes</li>
+<li>Unique Indexes</li>
+<li>Filtered Indexes</li>
+</ul>
+<h3 id="index-monitoring">Index Monitoring</h3>
+<ul>
+<li>Monitor Index Usage</li>
+<li>Monitor Missing Indexes</li>
+<li>Monitor Duplicate Indexes</li>
+<li>Update Statistics</li>
+<li>Fragmentations</li>
+</ul>
+<hr>
+<h2 id="index-types-1">Index Types</h2>
+<h3 id="clustered-and-non-clustered-indexes">Clustered and Non-Clustered Indexes</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Create a Heap Table as a copy of Sales.Customers 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INTO</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Test Query
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Create a Clustered Index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w"> </span><span class="p">(</span><span class="n">CustomerID</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Attempt to create a second Clustered Index (will fail)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w"> </span><span class="p">(</span><span class="n">CustomerID</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Drop the Clustered Index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">DROP</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Query using LastName filter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Brown&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Create a Non-Clustered Index on LastName
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">NONCLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_LastName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w"> </span><span class="p">(</span><span class="n">LastName</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Additional Non-Clustered Index on FirstName
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w"> </span><span class="p">(</span><span class="n">FirstName</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Composite Index on Country and Score
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_CountryScore</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w"> </span><span class="p">(</span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">Score</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Query that uses Composite Index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">Score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Query that may not use Composite Index due to column order
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">Score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="leftmost-prefix-rule-explanation">Leftmost Prefix Rule Explanation</h3>
+<p>For a composite index (A, B, C, D) the index is useful when filtering on:</p>
+<p>A only</p>
+<p>A, B</p>
+<p>A, B, C</p>
+<p>It is not effective when filtering on:</p>
+<p>B only</p>
+<p>A, C</p>
+<p>A, B, D</p>
+<h3 id="columnstore-indexes">Columnstore Indexes</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Create Clustered Columnstore Index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="w"> </span><span class="n">COLUMNSTORE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_CS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Non-Clustered Columnstore Index on FirstName
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">NONCLUSTERED</span><span class="w"> </span><span class="n">COLUMNSTORE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_DBCustomers_CS_FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w"> </span><span class="p">(</span><span class="n">FirstName</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Switch context to AdventureWorksDW2022
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">USE</span><span class="w"> </span><span class="n">AdventureWorksDW2022</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Create Heap Table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INTO</span><span class="w"> </span><span class="n">FactInternetSales_HP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">FactInternetSales</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Create RowStore Table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INTO</span><span class="w"> </span><span class="n">FactInternetSales_RS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">FactInternetSales</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Clustered Index on RowStore
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_FactInternetSales_RS_PK</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">FactInternetSales_RS</span><span class="w"> </span><span class="p">(</span><span class="n">SalesOrderNumber</span><span class="p">,</span><span class="w"> </span><span class="n">SalesOrderLineNumber</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Create Columnstore Table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INTO</span><span class="w"> </span><span class="n">FactInternetSales_CS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">FactInternetSales</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Clustered Columnstore Index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="w"> </span><span class="n">COLUMNSTORE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_FactInternetSales_CS_PK</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">FactInternetSales_CS</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="unique-indexes">Unique Indexes</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Attempt Unique Index on Category (fails if duplicates exist)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_Products_Category</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Products</span><span class="w"> </span><span class="p">(</span><span class="n">Category</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Unique Index on Product
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_Products_Product</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Products</span><span class="w"> </span><span class="p">(</span><span class="n">Product</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Test Insert (should fail if duplicate constraint holds)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Products</span><span class="w"> </span><span class="p">(</span><span class="n">ProductID</span><span class="p">,</span><span class="w"> </span><span class="n">Product</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">106</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Caps&#39;</span><span class="p">);</span></span></span></code></pre></div>
+<h3 id="filtered-indexes">Filtered Indexes</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Test Query
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Filtered Index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">NONCLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_Customers_Country</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="p">(</span><span class="n">Country</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="index-monitoring-1">Index Monitoring</h2>
+<h3 id="monitor-index-usage">Monitor Index Usage</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- List all indexes on a table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">sp_helpindex</span><span class="w"> </span><span class="s1">&#39;Sales.DBCustomers&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Monitor Index Usage
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">tbl</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TableName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">idx</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IndexName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">idx</span><span class="p">.</span><span class="n">type_desc</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IndexType</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">idx</span><span class="p">.</span><span class="n">is_primary_key</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IsPrimaryKey</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">idx</span><span class="p">.</span><span class="n">is_unique</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IsUnique</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">idx</span><span class="p">.</span><span class="n">is_disabled</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IsDisabled</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">user_seeks</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UserSeeks</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">user_scans</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UserScans</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">user_lookups</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UserLookups</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">user_updates</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UserUpdates</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">COALESCE</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">last_user_seek</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">last_user_scan</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LastUpdate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">indexes</span><span class="w"> </span><span class="n">idx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="n">tbl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tbl</span><span class="p">.</span><span class="n">object_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">dm_db_index_usage_stats</span><span class="w"> </span><span class="n">s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">object_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">index_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">index_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">tbl</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">name</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="monitor-missing-indexes">Monitor Missing Indexes</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">dm_db_missing_index_details</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="monitor-duplicate-indexes">Monitor Duplicate Indexes</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">tbl</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TableName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">col</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IndexColumn</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">idx</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IndexName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">idx</span><span class="p">.</span><span class="n">type_desc</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IndexType</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">tbl</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="n">ColumnCount</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">indexes</span><span class="w"> </span><span class="n">idx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="n">tbl</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tbl</span><span class="p">.</span><span class="n">object_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">index_columns</span><span class="w"> </span><span class="n">ic</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ic</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">index_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ic</span><span class="p">.</span><span class="n">index_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">columns</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ic</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ic</span><span class="p">.</span><span class="n">column_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col</span><span class="p">.</span><span class="n">column_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ColumnCount</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="update-statistics">Update Statistics</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SCHEMA_NAME</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">schema_id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SchemaName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TableName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">StatisticName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">sp</span><span class="p">.</span><span class="n">last_updated</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LastUpdate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">DATEDIFF</span><span class="p">(</span><span class="k">day</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">.</span><span class="n">last_updated</span><span class="p">,</span><span class="w"> </span><span class="n">GETDATE</span><span class="p">())</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LastUpdateDay</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">sp</span><span class="p">.</span><span class="k">rows</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s1">&#39;Rows&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">sp</span><span class="p">.</span><span class="n">modification_counter</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ModificationsSinceLastUpdate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">stats</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">object_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CROSS</span><span class="w"> </span><span class="n">APPLY</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">dm_db_stats_properties</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">object_id</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">stats_id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">sp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">sp</span><span class="p">.</span><span class="n">modification_counter</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Update specific system statistic
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">UPDATE</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="w"> </span><span class="n">_WA_Sys_00000001_6EF57B66</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Update all statistics for a table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">UPDATE</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">DBCustomers</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Update all statistics in the database
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">EXEC</span><span class="w"> </span><span class="n">sp_updatestats</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span></span></span></code></pre></div>
+<h3 id="fragmentations">Fragmentations</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Retrieve fragmentation stats
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">tbl</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TableName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">idx</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">IndexName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">avg_fragmentation_in_percent</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">page_count</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">dm_db_index_physical_stats</span><span class="p">(</span><span class="n">DB_ID</span><span class="p">(),</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;LIMITED&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="n">tbl</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tbl</span><span class="p">.</span><span class="n">object_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">sys</span><span class="p">.</span><span class="n">indexes</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">idx</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">object_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">object_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">idx</span><span class="p">.</span><span class="n">index_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">index_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">avg_fragmentation_in_percent</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Reorganize index (lightweight)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_Customers_CS_Country</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="n">REORGANIZE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Rebuild index (full)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_Customers_Country</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="n">REBUILD</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span></span></span></code></pre></div>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent " data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0" checked><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
+    <script src="/js/theme.js?1757910108" defer></script>
+  </body>
+</html>

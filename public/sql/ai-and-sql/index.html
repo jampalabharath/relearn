@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="This document contains a series of AI-powered prompts designed to help SQL developers and learners improve skills in writing, optimizing, and understanding SQL queries.
+The prompts cover tasks, readability, performance, debugging, interview/exam prep, and more.
+Each section provides clear instructions and sample code to support self-learning and real-world application.
+Table of Contents Solve an SQL Task Improve the Readability Optimize the Performance Query Optimize Execution Plan Debugging Explain the Result Styling &amp; Formatting Documentations &amp; Comments Improve Database DDL Generate Test Dataset Create SQL Course Understand SQL Concept Comparing SQL Concepts SQL Questions with Options Prepare for a SQL Interview Prepare for a SQL Exam 1. Solve an SQL Task Prompt:
+In my SQL Server database, we have two tables:">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="AI and SQL :: Data Engineering Notes">
+    <meta name="twitter:description" content="This document contains a series of AI-powered prompts designed to help SQL developers and learners improve skills in writing, optimizing, and understanding SQL queries.
+The prompts cover tasks, readability, performance, debugging, interview/exam prep, and more.
+Each section provides clear instructions and sample code to support self-learning and real-world application.
+Table of Contents Solve an SQL Task Improve the Readability Optimize the Performance Query Optimize Execution Plan Debugging Explain the Result Styling &amp; Formatting Documentations &amp; Comments Improve Database DDL Generate Test Dataset Create SQL Course Understand SQL Concept Comparing SQL Concepts SQL Questions with Options Prepare for a SQL Interview Prepare for a SQL Exam 1. Solve an SQL Task Prompt:
+In my SQL Server database, we have two tables:">
+    <meta property="og:url" content="http://localhost:1313/sql/ai-and-sql/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="AI and SQL :: Data Engineering Notes">
+    <meta property="og:description" content="This document contains a series of AI-powered prompts designed to help SQL developers and learners improve skills in writing, optimizing, and understanding SQL queries.
+The prompts cover tasks, readability, performance, debugging, interview/exam prep, and more.
+Each section provides clear instructions and sample code to support self-learning and real-world application.
+Table of Contents Solve an SQL Task Improve the Readability Optimize the Performance Query Optimize Execution Plan Debugging Explain the Result Styling &amp; Formatting Documentations &amp; Comments Improve Database DDL Generate Test Dataset Create SQL Course Understand SQL Concept Comparing SQL Concepts SQL Questions with Options Prepare for a SQL Interview Prepare for a SQL Exam 1. Solve an SQL Task Prompt:
+In my SQL Server database, we have two tables:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="SQL">
+    <meta itemprop="name" content="AI and SQL :: Data Engineering Notes">
+    <meta itemprop="description" content="This document contains a series of AI-powered prompts designed to help SQL developers and learners improve skills in writing, optimizing, and understanding SQL queries.
+The prompts cover tasks, readability, performance, debugging, interview/exam prep, and more.
+Each section provides clear instructions and sample code to support self-learning and real-world application.
+Table of Contents Solve an SQL Task Improve the Readability Optimize the Performance Query Optimize Execution Plan Debugging Explain the Result Styling &amp; Formatting Documentations &amp; Comments Improve Database DDL Generate Test Dataset Create SQL Course Understand SQL Concept Comparing SQL Concepts SQL Questions with Options Prepare for a SQL Interview Prepare for a SQL Exam 1. Solve an SQL Task Prompt:
+In my SQL Server database, we have two tables:">
+    <meta itemprop="wordCount" content="979">
+    <title>AI and SQL :: Data Engineering Notes</title>
+    <link href="/images/favicon.ico?1757910279" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757910279" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757910279" defer></script>
+    <script src="/js/search-lunr.js?1757910279" defer></script>
+    <script src="/js/search.js?1757910279" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1757910279";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1757910279" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910279" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757910279" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757910279" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910279" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910279" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910279" rel="stylesheet">
+    <link href="/css/theme.css?1757910279" rel="stylesheet">
+    <link href="/css/format-html.css?1757910279" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/sql\/ai-and-sql\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/sql/ai-and-sql/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#table-of-contents">Table of Contents</a></li>
+    <li><a href="#1-solve-an-sql-task">1. Solve an SQL Task</a></li>
+    <li><a href="#2-improve-the-readability">2. Improve the Readability</a></li>
+    <li><a href="#3-optimize-the-performance-query">3. Optimize the Performance Query</a></li>
+    <li><a href="#4-optimize-execution-plan">4. Optimize Execution Plan</a></li>
+    <li><a href="#5-debugging">5. Debugging</a></li>
+    <li><a href="#6-explain-the-result">6. Explain the Result</a></li>
+    <li><a href="#7-styling--formatting">7. Styling &amp; Formatting</a></li>
+    <li><a href="#8-documentations--comments">8. Documentations &amp; Comments</a></li>
+    <li><a href="#9-improve-database-ddl">9. Improve Database DDL</a></li>
+    <li><a href="#10-generate-test-dataset">10. Generate Test Dataset</a></li>
+    <li><a href="#11-create-sql-course">11. Create SQL Course</a></li>
+    <li><a href="#12-understand-sql-concept">12. Understand SQL Concept</a></li>
+    <li><a href="#13-comparing-sql-concepts">13. Comparing SQL Concepts</a></li>
+    <li><a href="#14-sql-questions-with-options">14. SQL Questions with Options</a></li>
+    <li><a href="#15-prepare-for-a-sql-interview">15. Prepare for a SQL Interview</a></li>
+    <li><a href="#16-prepare-for-a-sql-exam">16. Prepare for a SQL Exam</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/sql/"><span itemprop="name">SQL</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">AI and SQL</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/AI-and-SQL.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/performance-optimization/" title="Performance Tips (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/" title="Azure Data Factory (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable sql" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="ai-and-sql">AI and SQL</h1>
+
+<p>This document contains a series of <strong>AI-powered prompts</strong> designed to help SQL developers and learners improve skills in writing, optimizing, and understanding SQL queries.<br>
+The prompts cover <strong>tasks, readability, performance, debugging, interview/exam prep</strong>, and more.<br>
+Each section provides clear <strong>instructions and sample code</strong> to support <strong>self-learning</strong> and <strong>real-world application</strong>.</p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="/sql/ai-and-sql/#1-solve-an-sql-task">Solve an SQL Task</a></li>
+<li><a href="/sql/ai-and-sql/#2-improve-the-readability">Improve the Readability</a></li>
+<li><a href="/sql/ai-and-sql/#3-optimize-the-performance-query">Optimize the Performance Query</a></li>
+<li><a href="/sql/ai-and-sql/#4-optimize-execution-plan">Optimize Execution Plan</a></li>
+<li><a href="/sql/ai-and-sql/#5-debugging">Debugging</a></li>
+<li><a href="/sql/ai-and-sql/#6-explain-the-result">Explain the Result</a></li>
+<li><a href="/sql/ai-and-sql/#7-styling--formatting">Styling &amp; Formatting</a></li>
+<li><a href="/sql/ai-and-sql/#8-documentations--comments">Documentations &amp; Comments</a></li>
+<li><a href="/sql/ai-and-sql/#9-improve-database-ddl">Improve Database DDL</a></li>
+<li><a href="/sql/ai-and-sql/#10-generate-test-dataset">Generate Test Dataset</a></li>
+<li><a href="/sql/ai-and-sql/#11-create-sql-course">Create SQL Course</a></li>
+<li><a href="/sql/ai-and-sql/#12-understand-sql-concept">Understand SQL Concept</a></li>
+<li><a href="/sql/ai-and-sql/#13-comparing-sql-concepts">Comparing SQL Concepts</a></li>
+<li><a href="/sql/ai-and-sql/#14-sql-questions-with-options">SQL Questions with Options</a></li>
+<li><a href="/sql/ai-and-sql/#15-prepare-for-a-sql-interview">Prepare for a SQL Interview</a></li>
+<li><a href="/sql/ai-and-sql/#16-prepare-for-a-sql-exam">Prepare for a SQL Exam</a></li>
+</ol>
+<hr>
+<h2 id="1-solve-an-sql-task">1. Solve an SQL Task</h2>
+<p>Prompt:<br>
+In my SQL Server database, we have two tables:</p>
+<ul>
+<li><code>orders(order_id, sales, customer_id, product_id)</code></li>
+<li><code>customers(customer_id, first_name, last_name, country)</code></li>
+</ul>
+<p>Tasks:</p>
+<ul>
+<li>Write a query to rank customers based on their sales.</li>
+<li>Result must include: <code>customer_id</code>, full name, country, total sales, rank.</li>
+<li>Write <strong>3 different versions</strong> of the query.</li>
+<li>Include comments (avoid obvious ones).</li>
+<li>Evaluate which version is best in terms of <strong>readability</strong> and <strong>performance</strong>.</li>
+</ul>
+<hr>
+<h2 id="2-improve-the-readability">2. Improve the Readability</h2>
+<p>The following SQL Server query is long and hard to understand.</p>
+<p><strong>Task:</strong></p>
+<ul>
+<li>Improve its readability.</li>
+<li>Remove any redundancy and consolidate it.</li>
+<li>Include comments (avoid obvious ones).</li>
+<li>Explain each improvement.</li>
+</ul>
+<p><strong>Original Query:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WITH</span><span class="w"> </span><span class="n">CTE_Total_Sales_By_Customer</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">LastName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">FullName</span><span class="p">,</span><span class="w">  </span><span class="k">SUM</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalSales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w">  </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w">  </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">LastName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">),</span><span class="n">CTE_Highest_Order_Product</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">Product</span><span class="p">,</span><span class="w"> </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">Sales</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">rn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Products</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">ProductID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">ProductID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CTE_Highest_Category</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">  </span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w">  </span><span class="n">p</span><span class="p">.</span><span class="n">Category</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">rn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Products</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">ProductID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">ProductID</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w">  </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Category</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CTE_Last_Order_Date</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">MAX</span><span class="p">(</span><span class="n">OrderDate</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LastOrderDate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w">  </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CTE_Total_Discounts_By_Customer</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w">  </span><span class="k">SUM</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">Quantity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalDiscounts</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w">  </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Products</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">ProductID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">ProductID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ts</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="p">.</span><span class="n">FullName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ts</span><span class="p">.</span><span class="n">TotalSales</span><span class="p">,</span><span class="n">hop</span><span class="p">.</span><span class="n">Product</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">HighestOrderProduct</span><span class="p">,</span><span class="n">hc</span><span class="p">.</span><span class="n">Category</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">HighestCategory</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">lod</span><span class="p">.</span><span class="n">LastOrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">td</span><span class="p">.</span><span class="n">TotalDiscounts</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">CTE_Total_Sales_By_Customer</span><span class="w"> </span><span class="n">ts</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="n">Product</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">CTE_Highest_Order_Product</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">rn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">hop</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ts</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hop</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">CTE_Highest_Category</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">rn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">hc</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ts</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hc</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">CTE_Last_Order_Date</span><span class="w"> </span><span class="n">lod</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ts</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lod</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w">  </span><span class="n">CTE_Total_Discounts_By_Customer</span><span class="w"> </span><span class="n">td</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ts</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">td</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w">  </span><span class="n">ts</span><span class="p">.</span><span class="n">TotalSales</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w">  </span><span class="n">ts</span><span class="p">.</span><span class="n">TotalSales</span><span class="w"> </span><span class="k">DESC</span></span></span></code></pre></div>
+<h2 id="3-optimize-the-performance-query">3. Optimize the Performance Query</h2>
+<p>The following query is slow.</p>
+<p><strong>Task:</strong></p>
+<p>Propose optimizations.</p>
+<p>Provide an improved query.</p>
+<p>Explain each improvement.</p>
+<p><strong>Original Query:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CustomerFirstName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">o2</span><span class="p">.</span><span class="n">OrderID</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">     </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">     </span><span class="k">WHERE</span><span class="w"> </span><span class="n">o2</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">OrderCount</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">LOWER</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">OrderStatus</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;delivered&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">OR</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">OrderDate</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2025</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">OR</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="mi">2</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="mi">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">OR</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%USA%&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">)</span></span></span></code></pre></div>
+<h2 id="4-optimize-execution-plan">4. Optimize Execution Plan</h2>
+<p><strong>Task:</strong></p>
+<p>Describe the execution plan step by step.</p>
+<p>Identify performance bottlenecks.</p>
+<p>Suggest optimizations.</p>
+<h2 id="5-debugging">5. Debugging</h2>
+<p>The following query causes an error:
+Msg 8120, Level 16, State 1, Line 5</p>
+<p><strong>Task:</strong></p>
+<p>Explain the error.</p>
+<p>Find the root cause.</p>
+<p>Suggest a fix.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">C</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">C</span><span class="p">.</span><span class="n">Country</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">O</span><span class="p">.</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">C</span><span class="p">.</span><span class="n">Country</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">O</span><span class="p">.</span><span class="n">Sales</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">RankInCountry</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">C</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">O</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="k">C</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">O</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">C</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="k">C</span><span class="p">.</span><span class="n">Country</span></span></span></code></pre></div>
+<h2 id="6-explain-the-result">6. Explain the Result</h2>
+<p><strong>Query:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WITH</span><span class="w"> </span><span class="n">Series</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="c1">-- Anchor Query
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">	</span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">MyNumber</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="c1">-- Recursive Query
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">	</span><span class="k">SELECT</span><span class="w"> </span><span class="n">MyNumber</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">FROM</span><span class="w"> </span><span class="n">Series</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">WHERE</span><span class="w"> </span><span class="n">MyNumber</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Series</span></span></span></code></pre></div>
+<p><strong>Task:</strong></p>
+<p>Break down how SQL processes this query step by step.</p>
+<p>Explain how the result is formed.</p>
+<h2 id="7-styling--formatting">7. Styling &amp; Formatting</h2>
+<p>The following query is hard to read.</p>
+<p><strong>Task:</strong></p>
+<p>Restyle for readability.</p>
+<p>Align column aliases.</p>
+<p>Keep compact.</p>
+<p><strong>Original Query:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">with</span><span class="w"> </span><span class="n">CTE_Total_Sales</span><span class="w"> </span><span class="k">as</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(</span><span class="k">Select</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="k">sum</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">TotalSales</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">from</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">cte_customer_segments</span><span class="w"> </span><span class="k">as</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">case</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">TotalSales</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="s1">&#39;High Value&#39;</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">when</span><span class="w"> </span><span class="n">TotalSales</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="s1">&#39;Medium Value&#39;</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Low Value&#39;</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">CustomerSegment</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">from</span><span class="w"> </span><span class="n">CTE_Total_Sales</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">LastName</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">cts</span><span class="p">.</span><span class="n">TotalSales</span><span class="p">,</span><span class="w"> </span><span class="n">ccs</span><span class="p">.</span><span class="n">CustomerSegment</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">sales</span><span class="p">.</span><span class="n">customers</span><span class="w"> </span><span class="k">c</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">left</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">CTE_Total_Sales</span><span class="w"> </span><span class="n">cts</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">cts</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">left</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">cte_customer_segments</span><span class="w"> </span><span class="n">ccs</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ccs</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span></span></span></code></pre></div>
+<h2 id="8-documentations--comments">8. Documentations &amp; Comments</h2>
+<p>The following query lacks comments.</p>
+<p><strong>Task:</strong></p>
+<p>Add a leading comment.</p>
+<p>Insert clarifying comments where needed.</p>
+<p>Create two documents:</p>
+<p>Business rules implemented.</p>
+<p>How the query works.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WITH</span><span class="w"> </span><span class="n">CTE_Total_Sales</span><span class="w"> </span><span class="k">AS</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CustomerID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalSales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CTE_Customer_Segements</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">CustomerID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">CASE</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">WHEN</span><span class="w"> </span><span class="n">TotalSales</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;High Value&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">WHEN</span><span class="w"> </span><span class="n">TotalSales</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Medium Value&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Low Value&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">END</span><span class="w"> </span><span class="n">CustomerSegment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">CTE_Total_Sales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">c</span><span class="p">.</span><span class="n">LastName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">cts</span><span class="p">.</span><span class="n">TotalSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">ccs</span><span class="p">.</span><span class="n">CustomerSegment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">CTE_Total_Sales</span><span class="w"> </span><span class="n">cts</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">cts</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">CTE_Customer_Segements</span><span class="w"> </span><span class="n">ccs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">ccs</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span></span></span></code></pre></div>
+<h2 id="9-improve-database-ddl">9. Improve Database DDL</h2>
+<p><strong>Task:</strong></p>
+<p>Check naming consistency.</p>
+<p>Optimize data types.</p>
+<p>Verify PK/FK integrity.</p>
+<p>Review indexes.</p>
+<p>Ensure normalization.</p>
+<h2 id="10-generate-test-dataset">10. Generate Test Dataset</h2>
+<p><strong>Task:</strong></p>
+<p>Generate realistic test dataset with INSERT statements.</p>
+<p>Keep it small.</p>
+<p>Ensure valid PK/FK relationships.</p>
+<p>Avoid NULL.</p>
+<h2 id="11-create-sql-course">11. Create SQL Course</h2>
+<p><strong>Task:</strong></p>
+<p>Build a beginner-to-advanced SQL roadmap.</p>
+<p>Include analytics-focused topics.</p>
+<p>Use real-world scenarios.</p>
+<h2 id="12-understand-sql-concept">12. Understand SQL Concept</h2>
+<p><strong>Task:</strong></p>
+<p>Explain SQL Window Functions.</p>
+<p>Provide an analogy.</p>
+<p>Describe when/why to use them.</p>
+<p>Show syntax &amp; examples.</p>
+<p>List top 3 use cases.</p>
+<h2 id="13-comparing-sql-concepts">13. Comparing SQL Concepts</h2>
+<p><strong>Task:</strong></p>
+<p>Compare Window Functions vs GROUP BY.</p>
+<p>Explain key differences.</p>
+<p>Show examples.</p>
+<p>Provide pros/cons.</p>
+<p>Summarize in a side-by-side table.</p>
+<h2 id="14-sql-questions-with-options">14. SQL Questions with Options</h2>
+<p><strong>Task:</strong></p>
+<p>Act as SQL trainer.</p>
+<p>Provide sample dataset.</p>
+<p>Create progressive tasks.</p>
+<p>Simulate SQL Server results.</p>
+<p>Review solutions &amp; suggest improvements.</p>
+<h2 id="15-prepare-for-a-sql-interview">15. Prepare for a SQL Interview</h2>
+<p><strong>Task:</strong></p>
+<p>Act as interviewer.</p>
+<p>Ask common SQL questions.</p>
+<p>Progress to advanced topics.</p>
+<p>Evaluate answers &amp; give feedback.</p>
+<h2 id="16-prepare-for-a-sql-exam">16. Prepare for a SQL Exam</h2>
+<p><strong>Task:</strong></p>
+<p>Ask SQL exam-style questions.</p>
+<p>Progress gradually.</p>
+<p>Evaluate answers &amp; give feedback.</p>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent " data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0" checked><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1757910279" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910279" defer></script>
+    <script src="/js/theme.js?1757910279" defer></script>
+  </body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="These functions allow you to rank and order rows within a result set without the need for complex joins or subqueries. They enable you to assign unique or non-unique rankings, group rows into buckets, and analyze data distributions on ordered data.
+SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK Task 1: Rank Orders Based on Sales from Highest to Lowest SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (ORDER BY Sales DESC) AS SalesRank_Row, RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Rank, DENSE_RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Dense FROM Sales.Orders; Task 2: Top-N Analysis → Find the Highest Sale for Each Product SELECT * FROM ( SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (PARTITION BY ProductID ORDER BY Sales DESC) AS RankByProduct FROM Sales.Orders ) AS TopProductSales WHERE RankByProduct = 1; Task 3: Bottom-N Analysis → Find the Lowest 2 Customers Based on Total Sales SELECT * FROM ( SELECT CustomerID, SUM(Sales) AS TotalSales, ROW_NUMBER() OVER (ORDER BY SUM(Sales)) AS RankCustomers FROM Sales.Orders GROUP BY CustomerID ) AS BottomCustomerSales WHERE RankCustomers &lt;= 2; Task 4: Assign Unique IDs to Rows of the ‘Order Archive’ SELECT ROW_NUMBER() OVER (ORDER BY OrderID, OrderDate) AS UniqueID, * FROM Sales.OrdersArchive; Task 5: Identify Duplicates in ‘Order Archive’ SELECT * FROM ( SELECT ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY CreationTime DESC) AS rn, * FROM Sales.OrdersArchive ) AS UniqueOrdersArchive WHERE rn = 1; SQL WINDOW RANKING | NTILE Task 6: Divide Orders into Groups Based on Sales SELECT OrderID, Sales, NTILE(1) OVER (ORDER BY Sales) AS OneBucket, NTILE(2) OVER (ORDER BY Sales) AS TwoBuckets, NTILE(3) OVER (ORDER BY Sales) AS ThreeBuckets, NTILE(4) OVER (ORDER BY Sales) AS FourBuckets, NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts FROM Sales.Orders; Task 7: Segment Orders into High, Medium, and Low Sales SELECT OrderID, Sales, Buckets, CASE WHEN Buckets = 1 THEN &#39;High&#39; WHEN Buckets = 2 THEN &#39;Medium&#39; WHEN Buckets = 3 THEN &#39;Low&#39; END AS SalesSegmentations FROM ( SELECT OrderID, Sales, NTILE(3) OVER (ORDER BY Sales DESC) AS Buckets FROM Sales.Orders ) AS SalesBuckets; Task 8: Divide Orders into Groups for Processing SELECT NTILE(5) OVER (ORDER BY OrderID) AS Buckets, * FROM Sales.Orders; SQL WINDOW RANKING | CUME_DIST Task 9: Find Products Within the Highest 40% of Prices SELECT Product, Price, DistRank, CONCAT(DistRank * 100, &#39;%&#39;) AS DistRankPerc FROM ( SELECT Product, Price, CUME_DIST() OVER (ORDER BY Price DESC) AS DistRank FROM Sales.Products ) AS PriceDistribution WHERE DistRank &lt;= 0.4;">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Window Ranking Functions :: Data Engineering Notes">
+    <meta name="twitter:description" content="These functions allow you to rank and order rows within a result set without the need for complex joins or subqueries. They enable you to assign unique or non-unique rankings, group rows into buckets, and analyze data distributions on ordered data.
+SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK Task 1: Rank Orders Based on Sales from Highest to Lowest SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (ORDER BY Sales DESC) AS SalesRank_Row, RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Rank, DENSE_RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Dense FROM Sales.Orders; Task 2: Top-N Analysis → Find the Highest Sale for Each Product SELECT * FROM ( SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (PARTITION BY ProductID ORDER BY Sales DESC) AS RankByProduct FROM Sales.Orders ) AS TopProductSales WHERE RankByProduct = 1; Task 3: Bottom-N Analysis → Find the Lowest 2 Customers Based on Total Sales SELECT * FROM ( SELECT CustomerID, SUM(Sales) AS TotalSales, ROW_NUMBER() OVER (ORDER BY SUM(Sales)) AS RankCustomers FROM Sales.Orders GROUP BY CustomerID ) AS BottomCustomerSales WHERE RankCustomers &lt;= 2; Task 4: Assign Unique IDs to Rows of the ‘Order Archive’ SELECT ROW_NUMBER() OVER (ORDER BY OrderID, OrderDate) AS UniqueID, * FROM Sales.OrdersArchive; Task 5: Identify Duplicates in ‘Order Archive’ SELECT * FROM ( SELECT ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY CreationTime DESC) AS rn, * FROM Sales.OrdersArchive ) AS UniqueOrdersArchive WHERE rn = 1; SQL WINDOW RANKING | NTILE Task 6: Divide Orders into Groups Based on Sales SELECT OrderID, Sales, NTILE(1) OVER (ORDER BY Sales) AS OneBucket, NTILE(2) OVER (ORDER BY Sales) AS TwoBuckets, NTILE(3) OVER (ORDER BY Sales) AS ThreeBuckets, NTILE(4) OVER (ORDER BY Sales) AS FourBuckets, NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts FROM Sales.Orders; Task 7: Segment Orders into High, Medium, and Low Sales SELECT OrderID, Sales, Buckets, CASE WHEN Buckets = 1 THEN &#39;High&#39; WHEN Buckets = 2 THEN &#39;Medium&#39; WHEN Buckets = 3 THEN &#39;Low&#39; END AS SalesSegmentations FROM ( SELECT OrderID, Sales, NTILE(3) OVER (ORDER BY Sales DESC) AS Buckets FROM Sales.Orders ) AS SalesBuckets; Task 8: Divide Orders into Groups for Processing SELECT NTILE(5) OVER (ORDER BY OrderID) AS Buckets, * FROM Sales.Orders; SQL WINDOW RANKING | CUME_DIST Task 9: Find Products Within the Highest 40% of Prices SELECT Product, Price, DistRank, CONCAT(DistRank * 100, &#39;%&#39;) AS DistRankPerc FROM ( SELECT Product, Price, CUME_DIST() OVER (ORDER BY Price DESC) AS DistRank FROM Sales.Products ) AS PriceDistribution WHERE DistRank &lt;= 0.4;">
+    <meta property="og:url" content="http://localhost:1313/sql/window-ranking/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Window Ranking Functions :: Data Engineering Notes">
+    <meta property="og:description" content="These functions allow you to rank and order rows within a result set without the need for complex joins or subqueries. They enable you to assign unique or non-unique rankings, group rows into buckets, and analyze data distributions on ordered data.
+SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK Task 1: Rank Orders Based on Sales from Highest to Lowest SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (ORDER BY Sales DESC) AS SalesRank_Row, RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Rank, DENSE_RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Dense FROM Sales.Orders; Task 2: Top-N Analysis → Find the Highest Sale for Each Product SELECT * FROM ( SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (PARTITION BY ProductID ORDER BY Sales DESC) AS RankByProduct FROM Sales.Orders ) AS TopProductSales WHERE RankByProduct = 1; Task 3: Bottom-N Analysis → Find the Lowest 2 Customers Based on Total Sales SELECT * FROM ( SELECT CustomerID, SUM(Sales) AS TotalSales, ROW_NUMBER() OVER (ORDER BY SUM(Sales)) AS RankCustomers FROM Sales.Orders GROUP BY CustomerID ) AS BottomCustomerSales WHERE RankCustomers &lt;= 2; Task 4: Assign Unique IDs to Rows of the ‘Order Archive’ SELECT ROW_NUMBER() OVER (ORDER BY OrderID, OrderDate) AS UniqueID, * FROM Sales.OrdersArchive; Task 5: Identify Duplicates in ‘Order Archive’ SELECT * FROM ( SELECT ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY CreationTime DESC) AS rn, * FROM Sales.OrdersArchive ) AS UniqueOrdersArchive WHERE rn = 1; SQL WINDOW RANKING | NTILE Task 6: Divide Orders into Groups Based on Sales SELECT OrderID, Sales, NTILE(1) OVER (ORDER BY Sales) AS OneBucket, NTILE(2) OVER (ORDER BY Sales) AS TwoBuckets, NTILE(3) OVER (ORDER BY Sales) AS ThreeBuckets, NTILE(4) OVER (ORDER BY Sales) AS FourBuckets, NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts FROM Sales.Orders; Task 7: Segment Orders into High, Medium, and Low Sales SELECT OrderID, Sales, Buckets, CASE WHEN Buckets = 1 THEN &#39;High&#39; WHEN Buckets = 2 THEN &#39;Medium&#39; WHEN Buckets = 3 THEN &#39;Low&#39; END AS SalesSegmentations FROM ( SELECT OrderID, Sales, NTILE(3) OVER (ORDER BY Sales DESC) AS Buckets FROM Sales.Orders ) AS SalesBuckets; Task 8: Divide Orders into Groups for Processing SELECT NTILE(5) OVER (ORDER BY OrderID) AS Buckets, * FROM Sales.Orders; SQL WINDOW RANKING | CUME_DIST Task 9: Find Products Within the Highest 40% of Prices SELECT Product, Price, DistRank, CONCAT(DistRank * 100, &#39;%&#39;) AS DistRankPerc FROM ( SELECT Product, Price, CUME_DIST() OVER (ORDER BY Price DESC) AS DistRank FROM Sales.Products ) AS PriceDistribution WHERE DistRank &lt;= 0.4;">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="SQL">
+    <meta itemprop="name" content="Window Ranking Functions :: Data Engineering Notes">
+    <meta itemprop="description" content="These functions allow you to rank and order rows within a result set without the need for complex joins or subqueries. They enable you to assign unique or non-unique rankings, group rows into buckets, and analyze data distributions on ordered data.
+SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK Task 1: Rank Orders Based on Sales from Highest to Lowest SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (ORDER BY Sales DESC) AS SalesRank_Row, RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Rank, DENSE_RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Dense FROM Sales.Orders; Task 2: Top-N Analysis → Find the Highest Sale for Each Product SELECT * FROM ( SELECT OrderID, ProductID, Sales, ROW_NUMBER() OVER (PARTITION BY ProductID ORDER BY Sales DESC) AS RankByProduct FROM Sales.Orders ) AS TopProductSales WHERE RankByProduct = 1; Task 3: Bottom-N Analysis → Find the Lowest 2 Customers Based on Total Sales SELECT * FROM ( SELECT CustomerID, SUM(Sales) AS TotalSales, ROW_NUMBER() OVER (ORDER BY SUM(Sales)) AS RankCustomers FROM Sales.Orders GROUP BY CustomerID ) AS BottomCustomerSales WHERE RankCustomers &lt;= 2; Task 4: Assign Unique IDs to Rows of the ‘Order Archive’ SELECT ROW_NUMBER() OVER (ORDER BY OrderID, OrderDate) AS UniqueID, * FROM Sales.OrdersArchive; Task 5: Identify Duplicates in ‘Order Archive’ SELECT * FROM ( SELECT ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY CreationTime DESC) AS rn, * FROM Sales.OrdersArchive ) AS UniqueOrdersArchive WHERE rn = 1; SQL WINDOW RANKING | NTILE Task 6: Divide Orders into Groups Based on Sales SELECT OrderID, Sales, NTILE(1) OVER (ORDER BY Sales) AS OneBucket, NTILE(2) OVER (ORDER BY Sales) AS TwoBuckets, NTILE(3) OVER (ORDER BY Sales) AS ThreeBuckets, NTILE(4) OVER (ORDER BY Sales) AS FourBuckets, NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts FROM Sales.Orders; Task 7: Segment Orders into High, Medium, and Low Sales SELECT OrderID, Sales, Buckets, CASE WHEN Buckets = 1 THEN &#39;High&#39; WHEN Buckets = 2 THEN &#39;Medium&#39; WHEN Buckets = 3 THEN &#39;Low&#39; END AS SalesSegmentations FROM ( SELECT OrderID, Sales, NTILE(3) OVER (ORDER BY Sales DESC) AS Buckets FROM Sales.Orders ) AS SalesBuckets; Task 8: Divide Orders into Groups for Processing SELECT NTILE(5) OVER (ORDER BY OrderID) AS Buckets, * FROM Sales.Orders; SQL WINDOW RANKING | CUME_DIST Task 9: Find Products Within the Highest 40% of Prices SELECT Product, Price, DistRank, CONCAT(DistRank * 100, &#39;%&#39;) AS DistRankPerc FROM ( SELECT Product, Price, CUME_DIST() OVER (ORDER BY Price DESC) AS DistRank FROM Sales.Products ) AS PriceDistribution WHERE DistRank &lt;= 0.4;">
+    <meta itemprop="wordCount" content="404">
+    <title>Window Ranking Functions :: Data Engineering Notes</title>
+    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
+    <script src="/js/search-lunr.js?1757910108" defer></script>
+    <script src="/js/search.js?1757910108" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1757910108";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
+    <link href="/css/theme.css?1757910108" rel="stylesheet">
+    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/sql\/window-ranking\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/sql/window-ranking/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#sql-window-ranking--row_number-rank-dense_rank">SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK</a>
+      <ul>
+        <li><a href="#task-1-rank-orders-based-on-sales-from-highest-to-lowest">Task 1: Rank Orders Based on Sales from Highest to Lowest</a></li>
+        <li><a href="#task-2-top-n-analysis--find-the-highest-sale-for-each-product">Task 2: Top-N Analysis → Find the Highest Sale for Each Product</a></li>
+        <li><a href="#task-3-bottom-n-analysis--find-the-lowest-2-customers-based-on-total-sales">Task 3: Bottom-N Analysis → Find the Lowest 2 Customers Based on Total Sales</a></li>
+        <li><a href="#task-4-assign-unique-ids-to-rows-of-the-order-archive">Task 4: Assign Unique IDs to Rows of the &lsquo;Order Archive&rsquo;</a></li>
+        <li><a href="#task-5-identify-duplicates-in-order-archive">Task 5: Identify Duplicates in &lsquo;Order Archive&rsquo;</a></li>
+      </ul>
+    </li>
+    <li><a href="#sql-window-ranking--ntile">SQL WINDOW RANKING | NTILE</a>
+      <ul>
+        <li><a href="#task-6-divide-orders-into-groups-based-on-sales">Task 6: Divide Orders into Groups Based on Sales</a></li>
+        <li><a href="#task-7-segment-orders-into-high-medium-and-low-sales">Task 7: Segment Orders into High, Medium, and Low Sales</a></li>
+        <li><a href="#task-8-divide-orders-into-groups-for-processing">Task 8: Divide Orders into Groups for Processing</a></li>
+      </ul>
+    </li>
+    <li><a href="#sql-window-ranking--cume_dist">SQL WINDOW RANKING | CUME_DIST</a>
+      <ul>
+        <li><a href="#task-9-find-products-within-the-highest-40-of-prices">Task 9: Find Products Within the Highest 40% of Prices</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/sql/"><span itemprop="name">SQL</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Window Ranking Functions</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Window-Ranking.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window_aggregations/" title="Window Aggregate Functions (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window-value-functions/" title="Window Value Functions (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable sql" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="window-ranking-functions">Window Ranking Functions</h1>
+
+<p>These functions allow you to rank and order rows within a result set without the need for complex joins or subqueries. They enable you to assign unique or non-unique rankings, group rows into buckets, and analyze data distributions on ordered data.</p>
+<hr>
+<h2 id="sql-window-ranking--row_number-rank-dense_rank">SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK</h2>
+<h3 id="task-1-rank-orders-based-on-sales-from-highest-to-lowest">Task 1: Rank Orders Based on Sales from Highest to Lowest</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SalesRank_Row</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SalesRank_Rank</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">DENSE_RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SalesRank_Dense</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="task-2-top-n-analysis--find-the-highest-sale-for-each-product">Task 2: Top-N Analysis → Find the Highest Sale for Each Product</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">RankByProduct</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TopProductSales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">RankByProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="task-3-bottom-n-analysis--find-the-lowest-2-customers-based-on-total-sales">Task 3: Bottom-N Analysis → Find the Lowest 2 Customers Based on Total Sales</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">CustomerID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">RankCustomers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">BottomCustomerSales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">RankCustomers</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="task-4-assign-unique-ids-to-rows-of-the-order-archive">Task 4: Assign Unique IDs to Rows of the &lsquo;Order Archive&rsquo;</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="n">OrderDate</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UniqueID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">OrdersArchive</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="task-5-identify-duplicates-in-order-archive">Task 5: Identify Duplicates in &lsquo;Order Archive&rsquo;</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">OrderID</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CreationTime</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">rn</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">OrdersArchive</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UniqueOrdersArchive</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">rn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="sql-window-ranking--ntile">SQL WINDOW RANKING | NTILE</h2>
+<h3 id="task-6-divide-orders-into-groups-based-on-sales">Task 6: Divide Orders into Groups Based on Sales</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">NTILE</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">OneBucket</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">NTILE</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TwoBuckets</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">NTILE</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ThreeBuckets</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">NTILE</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">FourBuckets</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">NTILE</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TwoBucketByProducts</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="task-7-segment-orders-into-high-medium-and-low-sales">Task 7: Segment Orders into High, Medium, and Low Sales</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Buckets</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">CASE</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">Buckets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;High&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">Buckets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Medium&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">Buckets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Low&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SalesSegmentations</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">NTILE</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Sales</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Buckets</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SalesBuckets</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="task-8-divide-orders-into-groups-for-processing">Task 8: Divide Orders into Groups for Processing</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">NTILE</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">OrderID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Buckets</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="sql-window-ranking--cume_dist">SQL WINDOW RANKING | CUME_DIST</h2>
+<h3 id="task-9-find-products-within-the-highest-40-of-prices">Task 9: Find Products Within the Highest 40% of Prices</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Product</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Price</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">DistRank</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">DistRank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DistRankPerc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Product</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Price</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">CUME_DIST</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Price</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DistRank</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Products</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PriceDistribution</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">DistRank</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span></span></span></code></pre></div>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent " data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0" checked><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
+    <script src="/js/theme.js?1757910108" defer></script>
+  </body>
+</html>

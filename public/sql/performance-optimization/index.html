@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="This guide demonstrates best practices for:
+Fetching data Filtering Joins UNION Aggregations Subqueries/CTE DDL Indexing It covers techniques such as selecting only necessary columns, proper filtering methods, explicit joins, avoiding redundant logic, and efficient indexing strategies.
+Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sales.Customers; -- Good Practice SELECT CustomerID, FirstName, LastName FROM Sales.Customers; Tip 2: Avoid unnecessary DISTINCT &amp; ORDER BY -- Bad Practice SELECT DISTINCT FirstName FROM Sales.Customers ORDER BY FirstName; -- Good Practice SELECT FirstName FROM Sales.Customers; Tip 3: For Exploration Purpose, Limit Rows! -- Bad Practice SELECT OrderID, Sales FROM Sales.Orders; -- Good Practice SELECT TOP 10 OrderID, Sales FROM Sales.Orders; Filtering Tip 4: Create nonclustered index on frequently used columns SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; CREATE NONCLUSTERED INDEX Idx_Orders_OrderStatus ON Sales.Orders(OrderStatus); Tip 5: Avoid applying functions in WHERE -- Bad SELECT * FROM Sales.Orders WHERE LOWER(OrderStatus) = &#39;delivered&#39;; -- Good SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; -- Bad SELECT * FROM Sales.Customers WHERE SUBSTRING(FirstName, 1, 1) = &#39;A&#39;; -- Good SELECT * FROM Sales.Customers WHERE FirstName LIKE &#39;A%&#39;; -- Bad SELECT * FROM Sales.Orders WHERE YEAR(OrderDate) = 2025; -- Good SELECT * FROM Sales.Orders WHERE OrderDate BETWEEN &#39;2025-01-01&#39; AND &#39;2025-12-31&#39;; Tip 6: Avoid leading wildcards -- Bad SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;%Gold%&#39;; -- Good SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;Gold%&#39;; Tip 7: Use IN instead of multiple OR -- Bad SELECT * FROM Sales.Orders WHERE CustomerID = 1 OR CustomerID = 2 OR CustomerID = 3; -- Good SELECT * FROM Sales.Orders WHERE CustomerID IN (1, 2, 3); Joins Tip 8: Use INNER JOIN when possible -- Best SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Slower SELECT c.FirstName, o.OrderID FROM Sales.Customers c LEFT JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Worst SELECT c.FirstName, o.OrderID FROM Sales.Customers c OUTER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 9: Use explicit (ANSI) joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c, Sales.Orders o WHERE c.CustomerID = o.CustomerID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 10: Index columns used in ON clause SELECT c.FirstName, o.OrderID FROM Sales.Orders o INNER JOIN Sales.Customers c ON c.CustomerID = o.CustomerID; CREATE NONCLUSTERED INDEX IX_Orders_CustomerID ON Sales.Orders(CustomerID); Tip 11: Filter before joining big tables -- Best for big tables SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN ( SELECT OrderID, CustomerID FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39; ) o ON c.CustomerID = o.CustomerID; Tip 12: Aggregate before joining -- Best for big tables SELECT c.CustomerID, c.FirstName, o.OrderCount FROM Sales.Customers c INNER JOIN ( SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID ) o ON c.CustomerID = o.CustomerID; Tip 13: Use UNION instead of OR in joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OR c.CustomerID = o.SalesPersonID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID UNION SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.SalesPersonID; Tip 14: Use SQL hints for optimization SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OPTION (HASH JOIN); Union Tip 15: Use UNION ALL when duplicates are acceptable -- Bad SELECT CustomerID FROM Sales.Orders UNION SELECT CustomerID FROM Sales.OrdersArchive; -- Good SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive; Tip 16: Use UNION ALL &#43; DISTINCT when duplicates not allowed SELECT DISTINCT CustomerID FROM ( SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive ) CombinedData; Aggregations Tip 17: Use columnstore indexes SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID; CREATE CLUSTERED COLUMNSTORE INDEX Idx_Orders_Columnstore ON Sales.Orders; Tip 18: Pre-aggregate data SELECT MONTH(OrderDate) AS OrderYear, SUM(Sales) AS TotalSales INTO Sales.SalesSummary FROM Sales.Orders GROUP BY MONTH(OrderDate); SELECT OrderYear, TotalSales FROM Sales.SalesSummary; Subqueries &amp; CTE Tip 19: Prefer JOIN or EXISTS over IN -- Good SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE EXISTS ( SELECT 1 FROM Sales.Customers c WHERE c.CustomerID = o.CustomerID AND c.Country = &#39;USA&#39; ); -- Bad SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE o.CustomerID IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;USA&#39; ); Tip 20: Avoid redundant logic -- Good SELECT EmployeeID, FirstName, CASE WHEN Salary &gt; AVG(Salary) OVER () THEN &#39;Above Average&#39; WHEN Salary &lt; AVG(Salary) OVER () THEN &#39;Below Average&#39; ELSE &#39;Average&#39; END AS Status FROM Sales.Employees; DDL Tip 21: Avoid VARCHAR(MAX) unless necessary. Tip 22: Avoid overly large lengths. Tip 23: Use NOT NULL when possible. Tip 24: All tables should have a clustered primary key. Tip 25: Create nonclustered indexes on foreign keys when frequently used. -- Good Practice CREATE TABLE CustomersInfo ( CustomerID INT PRIMARY KEY CLUSTERED, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, Country VARCHAR(50) NOT NULL, TotalPurchases FLOAT, Score INT, BirthDate DATE, EmployeeID INT, CONSTRAINT FK_CustomersInfo_EmployeeID FOREIGN KEY (EmployeeID) REFERENCES Sales.Employees(EmployeeID) ); CREATE NONCLUSTERED INDEX IX_CustomersInfo_EmployeeID ON CustomersInfo(EmployeeID); Indexing Tip 26: Avoid over-indexing (slows down writes). Tip 27: Drop unused indexes regularly. Tip 28: Update table statistics weekly. Tip 29: Reorganize/rebuild fragmented indexes weekly. Tip 30: For very large tables, partition &#43; columnstore index.">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Performance Tips :: Data Engineering Notes">
+    <meta name="twitter:description" content="This guide demonstrates best practices for:
+Fetching data Filtering Joins UNION Aggregations Subqueries/CTE DDL Indexing It covers techniques such as selecting only necessary columns, proper filtering methods, explicit joins, avoiding redundant logic, and efficient indexing strategies.
+Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sales.Customers; -- Good Practice SELECT CustomerID, FirstName, LastName FROM Sales.Customers; Tip 2: Avoid unnecessary DISTINCT &amp; ORDER BY -- Bad Practice SELECT DISTINCT FirstName FROM Sales.Customers ORDER BY FirstName; -- Good Practice SELECT FirstName FROM Sales.Customers; Tip 3: For Exploration Purpose, Limit Rows! -- Bad Practice SELECT OrderID, Sales FROM Sales.Orders; -- Good Practice SELECT TOP 10 OrderID, Sales FROM Sales.Orders; Filtering Tip 4: Create nonclustered index on frequently used columns SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; CREATE NONCLUSTERED INDEX Idx_Orders_OrderStatus ON Sales.Orders(OrderStatus); Tip 5: Avoid applying functions in WHERE -- Bad SELECT * FROM Sales.Orders WHERE LOWER(OrderStatus) = &#39;delivered&#39;; -- Good SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; -- Bad SELECT * FROM Sales.Customers WHERE SUBSTRING(FirstName, 1, 1) = &#39;A&#39;; -- Good SELECT * FROM Sales.Customers WHERE FirstName LIKE &#39;A%&#39;; -- Bad SELECT * FROM Sales.Orders WHERE YEAR(OrderDate) = 2025; -- Good SELECT * FROM Sales.Orders WHERE OrderDate BETWEEN &#39;2025-01-01&#39; AND &#39;2025-12-31&#39;; Tip 6: Avoid leading wildcards -- Bad SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;%Gold%&#39;; -- Good SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;Gold%&#39;; Tip 7: Use IN instead of multiple OR -- Bad SELECT * FROM Sales.Orders WHERE CustomerID = 1 OR CustomerID = 2 OR CustomerID = 3; -- Good SELECT * FROM Sales.Orders WHERE CustomerID IN (1, 2, 3); Joins Tip 8: Use INNER JOIN when possible -- Best SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Slower SELECT c.FirstName, o.OrderID FROM Sales.Customers c LEFT JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Worst SELECT c.FirstName, o.OrderID FROM Sales.Customers c OUTER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 9: Use explicit (ANSI) joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c, Sales.Orders o WHERE c.CustomerID = o.CustomerID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 10: Index columns used in ON clause SELECT c.FirstName, o.OrderID FROM Sales.Orders o INNER JOIN Sales.Customers c ON c.CustomerID = o.CustomerID; CREATE NONCLUSTERED INDEX IX_Orders_CustomerID ON Sales.Orders(CustomerID); Tip 11: Filter before joining big tables -- Best for big tables SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN ( SELECT OrderID, CustomerID FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39; ) o ON c.CustomerID = o.CustomerID; Tip 12: Aggregate before joining -- Best for big tables SELECT c.CustomerID, c.FirstName, o.OrderCount FROM Sales.Customers c INNER JOIN ( SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID ) o ON c.CustomerID = o.CustomerID; Tip 13: Use UNION instead of OR in joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OR c.CustomerID = o.SalesPersonID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID UNION SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.SalesPersonID; Tip 14: Use SQL hints for optimization SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OPTION (HASH JOIN); Union Tip 15: Use UNION ALL when duplicates are acceptable -- Bad SELECT CustomerID FROM Sales.Orders UNION SELECT CustomerID FROM Sales.OrdersArchive; -- Good SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive; Tip 16: Use UNION ALL &#43; DISTINCT when duplicates not allowed SELECT DISTINCT CustomerID FROM ( SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive ) CombinedData; Aggregations Tip 17: Use columnstore indexes SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID; CREATE CLUSTERED COLUMNSTORE INDEX Idx_Orders_Columnstore ON Sales.Orders; Tip 18: Pre-aggregate data SELECT MONTH(OrderDate) AS OrderYear, SUM(Sales) AS TotalSales INTO Sales.SalesSummary FROM Sales.Orders GROUP BY MONTH(OrderDate); SELECT OrderYear, TotalSales FROM Sales.SalesSummary; Subqueries &amp; CTE Tip 19: Prefer JOIN or EXISTS over IN -- Good SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE EXISTS ( SELECT 1 FROM Sales.Customers c WHERE c.CustomerID = o.CustomerID AND c.Country = &#39;USA&#39; ); -- Bad SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE o.CustomerID IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;USA&#39; ); Tip 20: Avoid redundant logic -- Good SELECT EmployeeID, FirstName, CASE WHEN Salary &gt; AVG(Salary) OVER () THEN &#39;Above Average&#39; WHEN Salary &lt; AVG(Salary) OVER () THEN &#39;Below Average&#39; ELSE &#39;Average&#39; END AS Status FROM Sales.Employees; DDL Tip 21: Avoid VARCHAR(MAX) unless necessary. Tip 22: Avoid overly large lengths. Tip 23: Use NOT NULL when possible. Tip 24: All tables should have a clustered primary key. Tip 25: Create nonclustered indexes on foreign keys when frequently used. -- Good Practice CREATE TABLE CustomersInfo ( CustomerID INT PRIMARY KEY CLUSTERED, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, Country VARCHAR(50) NOT NULL, TotalPurchases FLOAT, Score INT, BirthDate DATE, EmployeeID INT, CONSTRAINT FK_CustomersInfo_EmployeeID FOREIGN KEY (EmployeeID) REFERENCES Sales.Employees(EmployeeID) ); CREATE NONCLUSTERED INDEX IX_CustomersInfo_EmployeeID ON CustomersInfo(EmployeeID); Indexing Tip 26: Avoid over-indexing (slows down writes). Tip 27: Drop unused indexes regularly. Tip 28: Update table statistics weekly. Tip 29: Reorganize/rebuild fragmented indexes weekly. Tip 30: For very large tables, partition &#43; columnstore index.">
+    <meta property="og:url" content="http://localhost:1313/sql/performance-optimization/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Performance Tips :: Data Engineering Notes">
+    <meta property="og:description" content="This guide demonstrates best practices for:
+Fetching data Filtering Joins UNION Aggregations Subqueries/CTE DDL Indexing It covers techniques such as selecting only necessary columns, proper filtering methods, explicit joins, avoiding redundant logic, and efficient indexing strategies.
+Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sales.Customers; -- Good Practice SELECT CustomerID, FirstName, LastName FROM Sales.Customers; Tip 2: Avoid unnecessary DISTINCT &amp; ORDER BY -- Bad Practice SELECT DISTINCT FirstName FROM Sales.Customers ORDER BY FirstName; -- Good Practice SELECT FirstName FROM Sales.Customers; Tip 3: For Exploration Purpose, Limit Rows! -- Bad Practice SELECT OrderID, Sales FROM Sales.Orders; -- Good Practice SELECT TOP 10 OrderID, Sales FROM Sales.Orders; Filtering Tip 4: Create nonclustered index on frequently used columns SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; CREATE NONCLUSTERED INDEX Idx_Orders_OrderStatus ON Sales.Orders(OrderStatus); Tip 5: Avoid applying functions in WHERE -- Bad SELECT * FROM Sales.Orders WHERE LOWER(OrderStatus) = &#39;delivered&#39;; -- Good SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; -- Bad SELECT * FROM Sales.Customers WHERE SUBSTRING(FirstName, 1, 1) = &#39;A&#39;; -- Good SELECT * FROM Sales.Customers WHERE FirstName LIKE &#39;A%&#39;; -- Bad SELECT * FROM Sales.Orders WHERE YEAR(OrderDate) = 2025; -- Good SELECT * FROM Sales.Orders WHERE OrderDate BETWEEN &#39;2025-01-01&#39; AND &#39;2025-12-31&#39;; Tip 6: Avoid leading wildcards -- Bad SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;%Gold%&#39;; -- Good SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;Gold%&#39;; Tip 7: Use IN instead of multiple OR -- Bad SELECT * FROM Sales.Orders WHERE CustomerID = 1 OR CustomerID = 2 OR CustomerID = 3; -- Good SELECT * FROM Sales.Orders WHERE CustomerID IN (1, 2, 3); Joins Tip 8: Use INNER JOIN when possible -- Best SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Slower SELECT c.FirstName, o.OrderID FROM Sales.Customers c LEFT JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Worst SELECT c.FirstName, o.OrderID FROM Sales.Customers c OUTER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 9: Use explicit (ANSI) joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c, Sales.Orders o WHERE c.CustomerID = o.CustomerID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 10: Index columns used in ON clause SELECT c.FirstName, o.OrderID FROM Sales.Orders o INNER JOIN Sales.Customers c ON c.CustomerID = o.CustomerID; CREATE NONCLUSTERED INDEX IX_Orders_CustomerID ON Sales.Orders(CustomerID); Tip 11: Filter before joining big tables -- Best for big tables SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN ( SELECT OrderID, CustomerID FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39; ) o ON c.CustomerID = o.CustomerID; Tip 12: Aggregate before joining -- Best for big tables SELECT c.CustomerID, c.FirstName, o.OrderCount FROM Sales.Customers c INNER JOIN ( SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID ) o ON c.CustomerID = o.CustomerID; Tip 13: Use UNION instead of OR in joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OR c.CustomerID = o.SalesPersonID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID UNION SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.SalesPersonID; Tip 14: Use SQL hints for optimization SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OPTION (HASH JOIN); Union Tip 15: Use UNION ALL when duplicates are acceptable -- Bad SELECT CustomerID FROM Sales.Orders UNION SELECT CustomerID FROM Sales.OrdersArchive; -- Good SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive; Tip 16: Use UNION ALL &#43; DISTINCT when duplicates not allowed SELECT DISTINCT CustomerID FROM ( SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive ) CombinedData; Aggregations Tip 17: Use columnstore indexes SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID; CREATE CLUSTERED COLUMNSTORE INDEX Idx_Orders_Columnstore ON Sales.Orders; Tip 18: Pre-aggregate data SELECT MONTH(OrderDate) AS OrderYear, SUM(Sales) AS TotalSales INTO Sales.SalesSummary FROM Sales.Orders GROUP BY MONTH(OrderDate); SELECT OrderYear, TotalSales FROM Sales.SalesSummary; Subqueries &amp; CTE Tip 19: Prefer JOIN or EXISTS over IN -- Good SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE EXISTS ( SELECT 1 FROM Sales.Customers c WHERE c.CustomerID = o.CustomerID AND c.Country = &#39;USA&#39; ); -- Bad SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE o.CustomerID IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;USA&#39; ); Tip 20: Avoid redundant logic -- Good SELECT EmployeeID, FirstName, CASE WHEN Salary &gt; AVG(Salary) OVER () THEN &#39;Above Average&#39; WHEN Salary &lt; AVG(Salary) OVER () THEN &#39;Below Average&#39; ELSE &#39;Average&#39; END AS Status FROM Sales.Employees; DDL Tip 21: Avoid VARCHAR(MAX) unless necessary. Tip 22: Avoid overly large lengths. Tip 23: Use NOT NULL when possible. Tip 24: All tables should have a clustered primary key. Tip 25: Create nonclustered indexes on foreign keys when frequently used. -- Good Practice CREATE TABLE CustomersInfo ( CustomerID INT PRIMARY KEY CLUSTERED, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, Country VARCHAR(50) NOT NULL, TotalPurchases FLOAT, Score INT, BirthDate DATE, EmployeeID INT, CONSTRAINT FK_CustomersInfo_EmployeeID FOREIGN KEY (EmployeeID) REFERENCES Sales.Employees(EmployeeID) ); CREATE NONCLUSTERED INDEX IX_CustomersInfo_EmployeeID ON CustomersInfo(EmployeeID); Indexing Tip 26: Avoid over-indexing (slows down writes). Tip 27: Drop unused indexes regularly. Tip 28: Update table statistics weekly. Tip 29: Reorganize/rebuild fragmented indexes weekly. Tip 30: For very large tables, partition &#43; columnstore index.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="SQL">
+    <meta itemprop="name" content="Performance Tips :: Data Engineering Notes">
+    <meta itemprop="description" content="This guide demonstrates best practices for:
+Fetching data Filtering Joins UNION Aggregations Subqueries/CTE DDL Indexing It covers techniques such as selecting only necessary columns, proper filtering methods, explicit joins, avoiding redundant logic, and efficient indexing strategies.
+Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sales.Customers; -- Good Practice SELECT CustomerID, FirstName, LastName FROM Sales.Customers; Tip 2: Avoid unnecessary DISTINCT &amp; ORDER BY -- Bad Practice SELECT DISTINCT FirstName FROM Sales.Customers ORDER BY FirstName; -- Good Practice SELECT FirstName FROM Sales.Customers; Tip 3: For Exploration Purpose, Limit Rows! -- Bad Practice SELECT OrderID, Sales FROM Sales.Orders; -- Good Practice SELECT TOP 10 OrderID, Sales FROM Sales.Orders; Filtering Tip 4: Create nonclustered index on frequently used columns SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; CREATE NONCLUSTERED INDEX Idx_Orders_OrderStatus ON Sales.Orders(OrderStatus); Tip 5: Avoid applying functions in WHERE -- Bad SELECT * FROM Sales.Orders WHERE LOWER(OrderStatus) = &#39;delivered&#39;; -- Good SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; -- Bad SELECT * FROM Sales.Customers WHERE SUBSTRING(FirstName, 1, 1) = &#39;A&#39;; -- Good SELECT * FROM Sales.Customers WHERE FirstName LIKE &#39;A%&#39;; -- Bad SELECT * FROM Sales.Orders WHERE YEAR(OrderDate) = 2025; -- Good SELECT * FROM Sales.Orders WHERE OrderDate BETWEEN &#39;2025-01-01&#39; AND &#39;2025-12-31&#39;; Tip 6: Avoid leading wildcards -- Bad SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;%Gold%&#39;; -- Good SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;Gold%&#39;; Tip 7: Use IN instead of multiple OR -- Bad SELECT * FROM Sales.Orders WHERE CustomerID = 1 OR CustomerID = 2 OR CustomerID = 3; -- Good SELECT * FROM Sales.Orders WHERE CustomerID IN (1, 2, 3); Joins Tip 8: Use INNER JOIN when possible -- Best SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Slower SELECT c.FirstName, o.OrderID FROM Sales.Customers c LEFT JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Worst SELECT c.FirstName, o.OrderID FROM Sales.Customers c OUTER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 9: Use explicit (ANSI) joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c, Sales.Orders o WHERE c.CustomerID = o.CustomerID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 10: Index columns used in ON clause SELECT c.FirstName, o.OrderID FROM Sales.Orders o INNER JOIN Sales.Customers c ON c.CustomerID = o.CustomerID; CREATE NONCLUSTERED INDEX IX_Orders_CustomerID ON Sales.Orders(CustomerID); Tip 11: Filter before joining big tables -- Best for big tables SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN ( SELECT OrderID, CustomerID FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39; ) o ON c.CustomerID = o.CustomerID; Tip 12: Aggregate before joining -- Best for big tables SELECT c.CustomerID, c.FirstName, o.OrderCount FROM Sales.Customers c INNER JOIN ( SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID ) o ON c.CustomerID = o.CustomerID; Tip 13: Use UNION instead of OR in joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OR c.CustomerID = o.SalesPersonID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID UNION SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.SalesPersonID; Tip 14: Use SQL hints for optimization SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OPTION (HASH JOIN); Union Tip 15: Use UNION ALL when duplicates are acceptable -- Bad SELECT CustomerID FROM Sales.Orders UNION SELECT CustomerID FROM Sales.OrdersArchive; -- Good SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive; Tip 16: Use UNION ALL &#43; DISTINCT when duplicates not allowed SELECT DISTINCT CustomerID FROM ( SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive ) CombinedData; Aggregations Tip 17: Use columnstore indexes SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID; CREATE CLUSTERED COLUMNSTORE INDEX Idx_Orders_Columnstore ON Sales.Orders; Tip 18: Pre-aggregate data SELECT MONTH(OrderDate) AS OrderYear, SUM(Sales) AS TotalSales INTO Sales.SalesSummary FROM Sales.Orders GROUP BY MONTH(OrderDate); SELECT OrderYear, TotalSales FROM Sales.SalesSummary; Subqueries &amp; CTE Tip 19: Prefer JOIN or EXISTS over IN -- Good SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE EXISTS ( SELECT 1 FROM Sales.Customers c WHERE c.CustomerID = o.CustomerID AND c.Country = &#39;USA&#39; ); -- Bad SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE o.CustomerID IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;USA&#39; ); Tip 20: Avoid redundant logic -- Good SELECT EmployeeID, FirstName, CASE WHEN Salary &gt; AVG(Salary) OVER () THEN &#39;Above Average&#39; WHEN Salary &lt; AVG(Salary) OVER () THEN &#39;Below Average&#39; ELSE &#39;Average&#39; END AS Status FROM Sales.Employees; DDL Tip 21: Avoid VARCHAR(MAX) unless necessary. Tip 22: Avoid overly large lengths. Tip 23: Use NOT NULL when possible. Tip 24: All tables should have a clustered primary key. Tip 25: Create nonclustered indexes on foreign keys when frequently used. -- Good Practice CREATE TABLE CustomersInfo ( CustomerID INT PRIMARY KEY CLUSTERED, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, Country VARCHAR(50) NOT NULL, TotalPurchases FLOAT, Score INT, BirthDate DATE, EmployeeID INT, CONSTRAINT FK_CustomersInfo_EmployeeID FOREIGN KEY (EmployeeID) REFERENCES Sales.Employees(EmployeeID) ); CREATE NONCLUSTERED INDEX IX_CustomersInfo_EmployeeID ON CustomersInfo(EmployeeID); Indexing Tip 26: Avoid over-indexing (slows down writes). Tip 27: Drop unused indexes regularly. Tip 28: Update table statistics weekly. Tip 29: Reorganize/rebuild fragmented indexes weekly. Tip 30: For very large tables, partition &#43; columnstore index.">
+    <meta itemprop="wordCount" content="869">
+    <title>Performance Tips :: Data Engineering Notes</title>
+    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
+    <script src="/js/search-lunr.js?1757910108" defer></script>
+    <script src="/js/search.js?1757910108" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1757910108";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
+    <link href="/css/theme.css?1757910108" rel="stylesheet">
+    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/sql\/performance-optimization\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/sql/performance-optimization/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#fetching-data">Fetching Data</a>
+      <ul>
+        <li><a href="#tip-1-select-only-what-you-need">Tip 1: Select Only What You Need</a></li>
+        <li><a href="#tip-2-avoid-unnecessary-distinct--order-by">Tip 2: Avoid unnecessary DISTINCT &amp; ORDER BY</a></li>
+        <li><a href="#tip-3-for-exploration-purpose-limit-rows">Tip 3: For Exploration Purpose, Limit Rows!</a></li>
+      </ul>
+    </li>
+    <li><a href="#filtering">Filtering</a>
+      <ul>
+        <li><a href="#tip-4-create-nonclustered-index-on-frequently-used-columns">Tip 4: Create nonclustered index on frequently used columns</a></li>
+        <li><a href="#tip-5-avoid-applying-functions-in-where">Tip 5: Avoid applying functions in WHERE</a></li>
+        <li><a href="#tip-6-avoid-leading-wildcards">Tip 6: Avoid leading wildcards</a></li>
+        <li><a href="#tip-7-use-in-instead-of-multiple-or">Tip 7: Use IN instead of multiple OR</a></li>
+      </ul>
+    </li>
+    <li><a href="#joins">Joins</a>
+      <ul>
+        <li><a href="#tip-8-use-inner-join-when-possible">Tip 8: Use INNER JOIN when possible</a></li>
+        <li><a href="#tip-9-use-explicit-ansi-joins">Tip 9: Use explicit (ANSI) joins</a></li>
+        <li><a href="#tip-10-index-columns-used-in-on-clause">Tip 10: Index columns used in ON clause</a></li>
+        <li><a href="#tip-11-filter-before-joining-big-tables">Tip 11: Filter before joining big tables</a></li>
+        <li><a href="#tip-12-aggregate-before-joining">Tip 12: Aggregate before joining</a></li>
+        <li><a href="#tip-13-use-union-instead-of-or-in-joins">Tip 13: Use UNION instead of OR in joins</a></li>
+        <li><a href="#tip-14-use-sql-hints-for-optimization">Tip 14: Use SQL hints for optimization</a></li>
+      </ul>
+    </li>
+    <li><a href="#union">Union</a>
+      <ul>
+        <li><a href="#tip-15-use-union-all-when-duplicates-are-acceptable">Tip 15: Use UNION ALL when duplicates are acceptable</a></li>
+        <li><a href="#tip-16-use-union-all--distinct-when-duplicates-not-allowed">Tip 16: Use UNION ALL + DISTINCT when duplicates not allowed</a></li>
+      </ul>
+    </li>
+    <li><a href="#aggregations">Aggregations</a>
+      <ul>
+        <li><a href="#tip-17-use-columnstore-indexes">Tip 17: Use columnstore indexes</a></li>
+        <li><a href="#tip-18-pre-aggregate-data">Tip 18: Pre-aggregate data</a></li>
+      </ul>
+    </li>
+    <li><a href="#subqueries--cte">Subqueries &amp; CTE</a>
+      <ul>
+        <li><a href="#tip-19-prefer-join-or-exists-over-in">Tip 19: Prefer JOIN or EXISTS over IN</a></li>
+        <li><a href="#tip-20-avoid-redundant-logic">Tip 20: Avoid redundant logic</a></li>
+      </ul>
+    </li>
+    <li><a href="#ddl">DDL</a>
+      <ul>
+        <li><a href="#tip-21-avoid-varcharmax-unless-necessary">Tip 21: Avoid VARCHAR(MAX) unless necessary.</a></li>
+        <li><a href="#tip-22-avoid-overly-large-lengths">Tip 22: Avoid overly large lengths.</a></li>
+        <li><a href="#tip-23-use-not-null-when-possible">Tip 23: Use NOT NULL when possible.</a></li>
+        <li><a href="#tip-24-all-tables-should-have-a-clustered-primary-key">Tip 24: All tables should have a clustered primary key.</a></li>
+        <li><a href="#tip-25-create-nonclustered-indexes-on-foreign-keys-when-frequently-used">Tip 25: Create nonclustered indexes on foreign keys when frequently used.</a></li>
+      </ul>
+    </li>
+    <li><a href="#indexing">Indexing</a>
+      <ul>
+        <li><a href="#tip-26-avoid-over-indexing-slows-down-writes">Tip 26: Avoid over-indexing (slows down writes).</a></li>
+        <li><a href="#tip-27-drop-unused-indexes-regularly">Tip 27: Drop unused indexes regularly.</a></li>
+        <li><a href="#tip-28-update-table-statistics-weekly">Tip 28: Update table statistics weekly.</a></li>
+        <li><a href="#tip-29-reorganizerebuild-fragmented-indexes-weekly">Tip 29: Reorganize/rebuild fragmented indexes weekly.</a></li>
+        <li><a href="#tip-30-for-very-large-tables-partition--columnstore-index">Tip 30: For very large tables, partition + columnstore index.</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/sql/"><span itemprop="name">SQL</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Performance Tips</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Performance-Optimization.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/partitions/" title="Partitioning (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/ai-and-sql/" title="AI and SQL (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable sql" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="performance-tips">Performance Tips</h1>
+
+<p>This guide demonstrates best practices for:</p>
+<ul>
+<li>Fetching data</li>
+<li>Filtering</li>
+<li>Joins</li>
+<li>UNION</li>
+<li>Aggregations</li>
+<li>Subqueries/CTE</li>
+<li>DDL</li>
+<li>Indexing</li>
+</ul>
+<p>It covers techniques such as selecting only necessary columns, proper filtering methods, explicit joins, avoiding redundant logic, and efficient indexing strategies.</p>
+<hr>
+<h2 id="fetching-data">Fetching Data</h2>
+<h3 id="tip-1-select-only-what-you-need">Tip 1: Select Only What You Need</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad Practice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good Practice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-2-avoid-unnecessary-distinct--order-by">Tip 2: Avoid unnecessary DISTINCT &amp; ORDER BY</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad Practice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">FirstName</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good Practice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-3-for-exploration-purpose-limit-rows">Tip 3: For Exploration Purpose, Limit Rows!</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad Practice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="n">Sales</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good Practice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="n">Sales</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="filtering">Filtering</h2>
+<h3 id="tip-4-create-nonclustered-index-on-frequently-used-columns">Tip 4: Create nonclustered index on frequently used columns</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">OrderStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Delivered&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">NONCLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">Idx_Orders_OrderStatus</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">(</span><span class="n">OrderStatus</span><span class="p">);</span></span></span></code></pre></div>
+<h3 id="tip-5-avoid-applying-functions-in-where">Tip 5: Avoid applying functions in WHERE</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="n">OrderStatus</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;delivered&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">OrderStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Delivered&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;A&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;A%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">OrderDate</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2025</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">OrderDate</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">&#39;2025-01-01&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">&#39;2025-12-31&#39;</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-6-avoid-leading-wildcards">Tip 6: Avoid leading wildcards</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%Gold%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;Gold%&#39;</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-7-use-in-instead-of-multiple-or">Tip 7: Use IN instead of multiple OR</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span></span></span></code></pre></div>
+<h2 id="joins">Joins</h2>
+<h3 id="tip-8-use-inner-join-when-possible">Tip 8: Use INNER JOIN when possible</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Best
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Slower
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Worst
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">OUTER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-9-use-explicit-ansi-joins">Tip 9: Use explicit (ANSI) joins</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="p">,</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-10-index-columns-used-in-on-clause">Tip 10: Index columns used in ON clause</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">NONCLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">IX_Orders_CustomerID</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">(</span><span class="n">CustomerID</span><span class="p">);</span></span></span></code></pre></div>
+<h3 id="tip-11-filter-before-joining-big-tables">Tip 11: Filter before joining big tables</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Best for big tables
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">OrderStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Delivered&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-12-aggregate-before-joining">Tip 12: Aggregate before joining</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Best for big tables
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderCount</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">OrderID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">OrderCount</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-13-use-union-instead-of-or-in-joins">Tip 13: Use UNION instead of OR in joins</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="k">OR</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">SalesPersonID</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UNION</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">SalesPersonID</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-14-use-sql-hints-for-optimization">Tip 14: Use SQL hints for optimization</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">FirstName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">OPTION</span><span class="w"> </span><span class="p">(</span><span class="n">HASH</span><span class="w"> </span><span class="k">JOIN</span><span class="p">);</span></span></span></code></pre></div>
+<h2 id="union">Union</h2>
+<h3 id="tip-15-use-union-all-when-duplicates-are-acceptable">Tip 15: Use UNION ALL when duplicates are acceptable</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UNION</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">OrdersArchive</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">OrdersArchive</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-16-use-union-all--distinct-when-duplicates-not-allowed">Tip 16: Use UNION ALL + DISTINCT when duplicates not allowed</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">OrdersArchive</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">CombinedData</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="aggregations">Aggregations</h2>
+<h3 id="tip-17-use-columnstore-indexes">Tip 17: Use columnstore indexes</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">OrderID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">OrderCount</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="w"> </span><span class="n">COLUMNSTORE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">Idx_Orders_Columnstore</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="p">;</span></span></span></code></pre></div>
+<h3 id="tip-18-pre-aggregate-data">Tip 18: Pre-aggregate data</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">MONTH</span><span class="p">(</span><span class="n">OrderDate</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">OrderYear</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalSales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INTO</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">SalesSummary</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">MONTH</span><span class="p">(</span><span class="n">OrderDate</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">OrderYear</span><span class="p">,</span><span class="w"> </span><span class="n">TotalSales</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">SalesSummary</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="subqueries--cte">Subqueries &amp; CTE</h2>
+<h3 id="tip-19-prefer-join-or-exists-over-in">Tip 19: Prefer JOIN or EXISTS over IN</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">Sales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="k">AND</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">OrderID</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">Sales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">CustomerID</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;USA&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span></span></span></code></pre></div>
+<h3 id="tip-20-avoid-redundant-logic">Tip 20: Avoid redundant logic</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">EmployeeID</span><span class="p">,</span><span class="w"> </span><span class="n">FirstName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">CASE</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">Salary</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">Salary</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Above Average&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">Salary</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">Salary</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Below Average&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Average&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Status</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Employees</span><span class="p">;</span></span></span></code></pre></div>
+<h2 id="ddl">DDL</h2>
+<h3 id="tip-21-avoid-varcharmax-unless-necessary">Tip 21: Avoid VARCHAR(MAX) unless necessary.</h3>
+<h3 id="tip-22-avoid-overly-large-lengths">Tip 22: Avoid overly large lengths.</h3>
+<h3 id="tip-23-use-not-null-when-possible">Tip 23: Use NOT NULL when possible.</h3>
+<h3 id="tip-24-all-tables-should-have-a-clustered-primary-key">Tip 24: All tables should have a clustered primary key.</h3>
+<h3 id="tip-25-create-nonclustered-indexes-on-foreign-keys-when-frequently-used">Tip 25: Create nonclustered indexes on foreign keys when frequently used.</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Good Practice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">CustomersInfo</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CustomerID</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">FirstName</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">LastName</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Country</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">TotalPurchases</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Score</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">BirthDate</span><span class="w"> </span><span class="nb">DATE</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">EmployeeID</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">FK_CustomersInfo_EmployeeID</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">EmployeeID</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Employees</span><span class="p">(</span><span class="n">EmployeeID</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">NONCLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">IX_CustomersInfo_EmployeeID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">CustomersInfo</span><span class="p">(</span><span class="n">EmployeeID</span><span class="p">);</span></span></span></code></pre></div>
+<h2 id="indexing">Indexing</h2>
+<h3 id="tip-26-avoid-over-indexing-slows-down-writes">Tip 26: Avoid over-indexing (slows down writes).</h3>
+<h3 id="tip-27-drop-unused-indexes-regularly">Tip 27: Drop unused indexes regularly.</h3>
+<h3 id="tip-28-update-table-statistics-weekly">Tip 28: Update table statistics weekly.</h3>
+<h3 id="tip-29-reorganizerebuild-fragmented-indexes-weekly">Tip 29: Reorganize/rebuild fragmented indexes weekly.</h3>
+<h3 id="tip-30-for-very-large-tables-partition--columnstore-index">Tip 30: For very large tables, partition + columnstore index.</h3>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent " data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0" checked><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
+    <script src="/js/theme.js?1757910108" defer></script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -12,7 +12,7 @@ Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COU
     <meta name="twitter:title" content="Window Aggregate Functions :: Data Engineering Notes">
     <meta name="twitter:description" content="These functions allow you to perform aggregate calculations over a set of rows without the need for complex subqueries. They enable you to compute counts, sums, averages, minimums, and maximums while still retaining access to individual row details.
 Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COUNT Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer SELECT OrderID, OrderDate, CustomerID, COUNT(*) OVER() AS TotalOrders, COUNT(*) OVER(PARTITION BY CustomerID) AS OrdersByCustomers FROM Sales.Orders Task 2: Find the Total Number of Customers, Scores, and Countries SELECT *, COUNT(*) OVER () AS TotalCustomersStar, COUNT(1) OVER () AS TotalCustomersOne, COUNT(Score) OVER() AS TotalScores, COUNT(Country) OVER() AS TotalCountries FROM Sales.Customers Task 3: Check whether the table ‘OrdersArchive’ contains any duplicate rows SELECT * FROM ( SELECT *, COUNT(*) OVER(PARTITION BY OrderID) AS CheckDuplicates FROM Sales.OrdersArchive ) t WHERE CheckDuplicates &gt; 1 SUM Task 4: Find the Total Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, SUM(Sales) OVER () AS TotalSales, SUM(Sales) OVER (PARTITION BY ProductID) AS SalesByProduct FROM Sales.Orders Task 5: Find the Percentage Contribution of Each Product’s Sales to the Total Sales SELECT OrderID, ProductID, Sales, SUM(Sales) OVER () AS TotalSales, ROUND(CAST(Sales AS FLOAT) / SUM(Sales) OVER () * 100, 2) AS PercentageOfTotal FROM Sales.Orders AVG Task 6: Find the Average Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, AVG(Sales) OVER () AS AvgSales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgSalesByProduct FROM Sales.Orders Task 7: Find the Average Scores of Customers SELECT CustomerID, LastName, Score, COALESCE(Score, 0) AS CustomerScore, AVG(Score) OVER () AS AvgScore, AVG(COALESCE(Score, 0)) OVER () AS AvgScoreWithoutNull FROM Sales.Customers Task 8: Find all orders where Sales exceed the average Sales across all orders SELECT * FROM ( SELECT OrderID, ProductID, Sales, AVG(Sales) OVER () AS Avg_Sales FROM Sales.Orders ) t WHERE Sales &gt; Avg_Sales MAX / MIN Task 9: Find the Highest and Lowest Sales across all orders SELECT MIN(Sales) AS MinSales, MAX(Sales) AS MaxSales FROM Sales.Orders Task 10: Find the Lowest Sales across all orders and by Product SELECT OrderID, ProductID, OrderDate, Sales, MIN(Sales) OVER () AS LowestSales, MIN(Sales) OVER (PARTITION BY ProductID) AS LowestSalesByProduct FROM Sales.Orders Task 11: Show the employees who have the highest salaries SELECT * FROM ( SELECT *, MAX(Salary) OVER() AS HighestSalary FROM Sales.Employees ) t WHERE Salary = HighestSalary Task 12: Find the deviation of each Sale from the minimum and maximum Sales SELECT OrderID, OrderDate, ProductID, Sales, MAX(Sales) OVER () AS HighestSales, MIN(Sales) OVER () AS LowestSales, Sales - MIN(Sales) OVER () AS DeviationFromMin, MAX(Sales) OVER () - Sales AS DeviationFromMax FROM Sales.Orders ROLLING SUM &amp; AVERAGE Use Case Task 13: Calculate the moving average of Sales for each Product over time SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgByProduct, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS MovingAvg FROM Sales.Orders Task 14: Calculate the moving average of Sales for each Product over time, including only the next order SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) AS RollingAvg FROM Sales.Orders">
-    <meta property="og:url" content="https://example.org/sql/window_aggregations/">
+    <meta property="og:url" content="http://localhost:1313/sql/window_aggregations/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Window Aggregate Functions :: Data Engineering Notes">
     <meta property="og:description" content="These functions allow you to perform aggregate calculations over a set of rows without the need for complex subqueries. They enable you to compute counts, sums, averages, minimums, and maximums while still retaining access to individual row details.
@@ -25,35 +25,35 @@ Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COU
 Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COUNT Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer SELECT OrderID, OrderDate, CustomerID, COUNT(*) OVER() AS TotalOrders, COUNT(*) OVER(PARTITION BY CustomerID) AS OrdersByCustomers FROM Sales.Orders Task 2: Find the Total Number of Customers, Scores, and Countries SELECT *, COUNT(*) OVER () AS TotalCustomersStar, COUNT(1) OVER () AS TotalCustomersOne, COUNT(Score) OVER() AS TotalScores, COUNT(Country) OVER() AS TotalCountries FROM Sales.Customers Task 3: Check whether the table ‘OrdersArchive’ contains any duplicate rows SELECT * FROM ( SELECT *, COUNT(*) OVER(PARTITION BY OrderID) AS CheckDuplicates FROM Sales.OrdersArchive ) t WHERE CheckDuplicates &gt; 1 SUM Task 4: Find the Total Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, SUM(Sales) OVER () AS TotalSales, SUM(Sales) OVER (PARTITION BY ProductID) AS SalesByProduct FROM Sales.Orders Task 5: Find the Percentage Contribution of Each Product’s Sales to the Total Sales SELECT OrderID, ProductID, Sales, SUM(Sales) OVER () AS TotalSales, ROUND(CAST(Sales AS FLOAT) / SUM(Sales) OVER () * 100, 2) AS PercentageOfTotal FROM Sales.Orders AVG Task 6: Find the Average Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, AVG(Sales) OVER () AS AvgSales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgSalesByProduct FROM Sales.Orders Task 7: Find the Average Scores of Customers SELECT CustomerID, LastName, Score, COALESCE(Score, 0) AS CustomerScore, AVG(Score) OVER () AS AvgScore, AVG(COALESCE(Score, 0)) OVER () AS AvgScoreWithoutNull FROM Sales.Customers Task 8: Find all orders where Sales exceed the average Sales across all orders SELECT * FROM ( SELECT OrderID, ProductID, Sales, AVG(Sales) OVER () AS Avg_Sales FROM Sales.Orders ) t WHERE Sales &gt; Avg_Sales MAX / MIN Task 9: Find the Highest and Lowest Sales across all orders SELECT MIN(Sales) AS MinSales, MAX(Sales) AS MaxSales FROM Sales.Orders Task 10: Find the Lowest Sales across all orders and by Product SELECT OrderID, ProductID, OrderDate, Sales, MIN(Sales) OVER () AS LowestSales, MIN(Sales) OVER (PARTITION BY ProductID) AS LowestSalesByProduct FROM Sales.Orders Task 11: Show the employees who have the highest salaries SELECT * FROM ( SELECT *, MAX(Salary) OVER() AS HighestSalary FROM Sales.Employees ) t WHERE Salary = HighestSalary Task 12: Find the deviation of each Sale from the minimum and maximum Sales SELECT OrderID, OrderDate, ProductID, Sales, MAX(Sales) OVER () AS HighestSales, MIN(Sales) OVER () AS LowestSales, Sales - MIN(Sales) OVER () AS DeviationFromMin, MAX(Sales) OVER () - Sales AS DeviationFromMax FROM Sales.Orders ROLLING SUM &amp; AVERAGE Use Case Task 13: Calculate the moving average of Sales for each Product over time SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgByProduct, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS MovingAvg FROM Sales.Orders Task 14: Calculate the moving average of Sales for each Product over time, including only the next order SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) AS RollingAvg FROM Sales.Orders">
     <meta itemprop="wordCount" content="528">
     <title>Window Aggregate Functions :: Data Engineering Notes</title>
-    <link href="/images/favicon.ico?1757668587" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1757668587" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1757668587" defer></script>
-    <script src="/js/search-lunr.min.js?1757668587" defer></script>
-    <script src="/js/search.min.js?1757668587" defer></script>
+    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
+    <script src="/js/search-lunr.js?1757910108" defer></script>
+    <script src="/js/search.js?1757910108" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1757668587";
+      window.relearn.index_js_url="/searchindex.en.js?1757910108";
     </script>
-    <script src="/js/lunr/lunr.min.js?1757668587" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1757668587" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1757668587" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1757668587" defer></script>
+    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757668587" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757668587" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757668587" rel="stylesheet">
-    <link href="/css/theme.min.css?1757668587" rel="stylesheet">
-    <link href="/css/format-html.min.css?1757668587" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
+    <link href="/css/theme.css?1757910108" rel="stylesheet">
+    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = `.min`;
+      window.relearn.min = ``;
       window.relearn.path='\/sql\/window_aggregations\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='https:\/\/example.org';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -169,7 +169,7 @@ Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COU
             </div>
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window-functions/" title="Window Functions (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
-            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/" title="Azure Data Factory (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window-ranking/" title="Window Ranking Functions (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
             </div>
             <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
               <div class="topbar-content">
@@ -424,7 +424,19 @@ Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COU
             <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
-            <li class="active " data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="active " data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
             <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
@@ -482,8 +494,8 @@ Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COU
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1757668587" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757668587" defer></script>
-    <script src="/js/theme.min.js?1757668587" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
+    <script src="/js/theme.js?1757910108" defer></script>
   </body>
 </html>
