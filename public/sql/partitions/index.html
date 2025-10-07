@@ -25,27 +25,29 @@ Partition functions, filegroups, data files, partition schemes Partitioned table
 Partition functions, filegroups, data files, partition schemes Partitioned tables and data insertion Verification queries and execution plan comparisons Step 1: Create a Partition Function -- Create Left Range Partition Functions based on Years CREATE PARTITION FUNCTION PartitionByYear (DATE) AS RANGE LEFT FOR VALUES (&#39;2023-12-31&#39;, &#39;2024-12-31&#39;, &#39;2025-12-31&#39;); -- List all existing Partition Functions SELECT name, function_id, type, type_desc, boundary_value_on_right FROM sys.partition_functions; Step 2: Create Filegroups -- Create Filegroups in SalesDB ALTER DATABASE SalesDB ADD FILEGROUP FG_2023; ALTER DATABASE SalesDB ADD FILEGROUP FG_2024; ALTER DATABASE SalesDB ADD FILEGROUP FG_2025; ALTER DATABASE SalesDB ADD FILEGROUP FG_2026; -- Optional: Remove a Filegroup ALTER DATABASE SalesDB REMOVE FILEGROUP FG_2023; -- List existing Filegroups SELECT * FROM sys.filegroups WHERE type = &#39;FG&#39;; Step 3: Create Data Files -- Create Data Files and map them to Filegroups ALTER DATABASE SalesDB ADD FILE ( NAME = P_2023, FILENAME = &#39;C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\P_2023.ndf&#39; ) TO FILEGROUP FG_2023; ALTER DATABASE SalesDB ADD FILE ( NAME = P_2024, FILENAME = &#39;C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\P_2024.ndf&#39; ) TO FILEGROUP FG_2024; ALTER DATABASE SalesDB ADD FILE ( NAME = P_2025, FILENAME = &#39;C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\P_2025.ndf&#39; ) TO FILEGROUP FG_2025; ALTER DATABASE SalesDB ADD FILE ( NAME = P_2026, FILENAME = &#39;C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\P_2026.ndf&#39; ) TO FILEGROUP FG_2026; -- List all files in SalesDB SELECT fg.name AS FilegroupName, mf.name AS LogicalFileName, mf.physical_name AS PhysicalFilePath, mf.size / 128 AS SizeInMB FROM sys.filegroups fg JOIN sys.master_files mf ON fg.data_space_id = mf.data_space_id WHERE mf.database_id = DB_ID(&#39;SalesDB&#39;); Step 4: Create Partition Scheme -- Partition Scheme using the Partition Function CREATE PARTITION SCHEME SchemePartitionByYear AS PARTITION PartitionByYear TO (FG_2023, FG_2024, FG_2025, FG_2026); -- List Partition Schemes SELECT ps.name AS PartitionSchemeName, pf.name AS PartitionFunctionName, ds.destination_id AS PartitionNumber, fg.name AS FilegroupName FROM sys.partition_schemes ps JOIN sys.partition_functions pf ON ps.function_id = pf.function_id JOIN sys.destination_data_spaces ds ON ps.data_space_id = ds.partition_scheme_id JOIN sys.filegroups fg ON ds.data_space_id = fg.data_space_id; Step 5: Create the Partitioned Table CREATE TABLE Sales.Orders_Partitioned ( OrderID INT, OrderDate DATE, Sales INT ) ON SchemePartitionByYear (OrderDate); Step 6: Insert Data Into the Partitioned Table INSERT INTO Sales.Orders_Partitioned VALUES (1, &#39;2023-05-15&#39;, 100); INSERT INTO Sales.Orders_Partitioned VALUES (2, &#39;2024-07-20&#39;, 50); INSERT INTO Sales.Orders_Partitioned VALUES (3, &#39;2025-12-31&#39;, 20); INSERT INTO Sales.Orders_Partitioned VALUES (4, &#39;2026-01-01&#39;, 100); Step 7: Verify Partitioning and Compare Execution Plans -- Verify that data is correctly partitioned SELECT p.partition_number AS PartitionNumber, f.name AS PartitionFilegroup, p.rows AS NumberOfRows FROM sys.partitions p JOIN sys.destination_data_spaces dds ON p.partition_number = dds.destination_id JOIN sys.filegroups f ON dds.data_space_id = f.data_space_id WHERE OBJECT_NAME(p.object_id) = &#39;Orders_Partitioned&#39;; -- Non-partitioned copy for comparison SELECT * INTO Sales.Orders_NoPartition FROM Sales.Orders_Partitioned; -- Query on Partitioned Table SELECT * FROM Sales.Orders_Partitioned WHERE OrderDate IN (&#39;2026-01-01&#39;, &#39;2025-12-31&#39;); -- Query on Non-Partitioned Table SELECT * FROM Sales.Orders_NoPartition WHERE OrderDate IN (&#39;2026-01-01&#39;, &#39;2025-12-31&#39;);">
     <meta itemprop="wordCount" content="455">
     <title>Partitioning :: Data Engineering Notes</title>
-    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
-    <script src="/js/search-lunr.js?1757910108" defer></script>
-    <script src="/js/search.js?1757910108" defer></script>
+    <link href="/sql/partitions/index.md" rel="alternate" type="text/markdown" title="Partitioning :: Data Engineering Notes">
+    <link href="/sql/partitions/index.print.html" rel="alternate" type="text/html" title="Partitioning :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759820572" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759820572" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759820572" defer></script>
+    <script src="/js/search-lunr.js?1759820572" defer></script>
+    <script src="/js/search.js?1759820572" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1757910108";
+      window.relearn.index_js_url="/searchindex.en.js?1759820572";
     </script>
-    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759820572" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
-    <link href="/css/theme.css?1757910108" rel="stylesheet">
-    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759820572" rel="stylesheet">
+    <link href="/css/theme.css?1759820572" rel="stylesheet">
+    <link href="/css/format-html.css?1759820572" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -138,6 +140,10 @@ Partition functions, filegroups, data files, partition schemes Partitioned table
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Partitions.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/partitions/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/partitions/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
             </div>
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/indexes/" title="Indexes (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
@@ -393,9 +399,14 @@ Partition functions, filegroups, data files, partition schemes Partitioned table
             <li class="active " data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
-            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/"><input type="checkbox" id="R-section-c1c884e4194f85ef98db8cc87f1e973a" aria-controls="R-subsections-c1c884e4194f85ef98db8cc87f1e973a"><label for="R-section-c1c884e4194f85ef98db8cc87f1e973a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADF</span></label><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-c1c884e4194f85ef98db8cc87f1e973a" class="collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/azure_data_factory/activities/"><input type="checkbox" id="R-section-9a4edd8345cef5c530f46ba254125443" aria-controls="R-subsections-9a4edd8345cef5c530f46ba254125443" checked><label for="R-section-9a4edd8345cef5c530f46ba254125443"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Tasks</span></label><a class="padding" href="/azure_data_factory/activities/">Tasks<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-9a4edd8345cef5c530f46ba254125443" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_factory/activities/copy-activity/"><a class="padding" href="/azure_data_factory/activities/copy-activity/">Copy Activity<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/activities/copy-tasks/"><a class="padding" href="/azure_data_factory/activities/copy-tasks/">Copy Activity Tasks<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li></ul></li>
             <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
             <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="alwaysopen " data-nav-id="/azure_data_bricks/learn/"><input type="checkbox" id="R-section-377d1400f63bb26d363e5ccc43d91649" aria-controls="R-subsections-377d1400f63bb26d363e5ccc43d91649" checked><label for="R-section-377d1400f63bb26d363e5ccc43d91649"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Spark</span></label><a class="padding" href="/azure_data_bricks/learn/">Spark<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-377d1400f63bb26d363e5ccc43d91649" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/learn/intro/"><a class="padding" href="/azure_data_bricks/learn/intro/">Introduction<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
@@ -407,6 +418,11 @@ Partition functions, filegroups, data files, partition schemes Partitioned table
             <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a"><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
+            <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b"><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -450,8 +466,8 @@ Partition functions, filegroups, data files, partition schemes Partitioned table
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
-    <script src="/js/theme.js?1757910108" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759820572" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759820572" defer></script>
+    <script src="/js/theme.js?1759820572" defer></script>
   </body>
 </html>

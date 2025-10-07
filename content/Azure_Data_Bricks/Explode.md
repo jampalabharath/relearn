@@ -3,7 +3,7 @@ title = "Explode"
 weight = 10
 +++
 
-## Explode vs Explode_outer in PySpark
+## Explode vs Explode_outer
 
 In PySpark, `explode` and `explode_outer` are functions used to work with nested data structures, like **arrays** or **maps**, by *“exploding”* (flattening) each element of an array or key-value pair in a map into separate rows.  
 
@@ -11,7 +11,7 @@ The key difference between **explode** and **explode_outer** is in handling **nu
 
 ---
 
-### 1. explode()
+## 1. explode()
 
 The `explode()` function takes a column with array or map data and creates a new row for each element in the array (or each key-value pair in the map).  
 If the array is empty or null, `explode()` will **drop the row entirely**.
@@ -21,7 +21,7 @@ If the array is empty or null, `explode()` will **drop the row entirely**.
 - Drops rows with **null** or **empty arrays**.
 
 
-## Example: Using `explode()` in PySpark
+### Example: Using `explode()` in PySpark
 
 ```python
 from pyspark.sql import SparkSession
@@ -48,30 +48,21 @@ exploded_df = df.select("Name", explode("Subjects").alias("Subject"))
 exploded_df.show()
 ```
 
-
----
-
-## 1. explode()
-
-The `explode()` function expands the `Subjects` array into individual rows.  
-Rows with **empty (`[]`)** or **null (`None`)** arrays are removed, which is why **Cathy** and **David** do not appear in the output.
-
-### Key Characteristics
-- Converts each element in an array or each entry in a map into its own row.
-- **Drops** rows with null or empty arrays.
-
----
+### Explanation:
+- `explode()` expands the Subjects array into individual rows.
+- Rows with empty (`[]`) or null arrays (`None`) are removed, which is why Cathy and David do not appear in the output.
 
 ## 2. explode_outer()
 
 The `explode_outer()` function works similarly to `explode()`, but it **keeps rows** with null or empty arrays.  
 When `explode_outer()` encounters a null or empty array, it still generates a row for that entry, with **null** as the value in the resulting column.
 
-### Key Characteristics
+#### Key Characteristics
 - Converts each element in an array or each entry in a map into its own row.
 - **Retains** rows with null or empty arrays, using `null` values in the exploded column.
 
 
+### Example: Using `explode_outer()` in PySpark
 ```python
 # Use explode_outer to flatten the array while keeping null or empty rows
 exploded_outer_df = df.select(
@@ -84,7 +75,7 @@ exploded_outer_df.show()
 ```
 
 
-## Explanation: explode_outer()
+### Explanation: explode_outer()
 
 - `explode_outer()` expands the **Subjects** array into individual rows.  
 - Unlike `explode()`, rows with empty (`[]`) or null arrays (`None`) are **kept** in the result, with **null values** in the `Subject` column for these cases.

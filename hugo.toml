@@ -27,3 +27,8 @@ theme = 'hugo-theme-relearn'
   [markup.highlight]
     noClasses = false
 
+[outputs]
+  home = ['html', 'rss', 'markdown', 'print']
+  page = ['html', 'markdown','print']
+  section = ['html', 'rss', 'markdown','print']
+

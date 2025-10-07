@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Copy Activity in Azure Data Factory What is Copy Activity? Copy Activity is the core data movement activity in Azure Data Factory (ADF). It allows you to securely and efficiently copy data from a source data store to a destination (sink) data store. This is widely used for data ingestion, ETL pipelines, and data migration across on-premises, cloud, and hybrid environments.
+Key Features Supports 100&#43; connectors for structured, semi-structured, and unstructured data.">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Copy Activity :: Data Engineering Notes">
+    <meta name="twitter:description" content="Copy Activity in Azure Data Factory What is Copy Activity? Copy Activity is the core data movement activity in Azure Data Factory (ADF). It allows you to securely and efficiently copy data from a source data store to a destination (sink) data store. This is widely used for data ingestion, ETL pipelines, and data migration across on-premises, cloud, and hybrid environments.
+Key Features Supports 100&#43; connectors for structured, semi-structured, and unstructured data.">
+    <meta property="og:url" content="http://localhost:1313/azure_data_factory/activities/copy-activity/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Copy Activity :: Data Engineering Notes">
+    <meta property="og:description" content="Copy Activity in Azure Data Factory What is Copy Activity? Copy Activity is the core data movement activity in Azure Data Factory (ADF). It allows you to securely and efficiently copy data from a source data store to a destination (sink) data store. This is widely used for data ingestion, ETL pipelines, and data migration across on-premises, cloud, and hybrid environments.
+Key Features Supports 100&#43; connectors for structured, semi-structured, and unstructured data.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Factory">
+    <meta itemprop="name" content="Copy Activity :: Data Engineering Notes">
+    <meta itemprop="description" content="Copy Activity in Azure Data Factory What is Copy Activity? Copy Activity is the core data movement activity in Azure Data Factory (ADF). It allows you to securely and efficiently copy data from a source data store to a destination (sink) data store. This is widely used for data ingestion, ETL pipelines, and data migration across on-premises, cloud, and hybrid environments.
+Key Features Supports 100&#43; connectors for structured, semi-structured, and unstructured data.">
+    <meta itemprop="wordCount" content="1422">
+    <title>Copy Activity :: Data Engineering Notes</title>
+    <link href="/azure_data_factory/activities/copy-activity/index.md" rel="alternate" type="text/markdown" title="Copy Activity :: Data Engineering Notes">
+    <link href="/azure_data_factory/activities/copy-activity/index.print.html" rel="alternate" type="text/html" title="Copy Activity :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759831580" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759831580" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759831580" defer></script>
+    <script src="/js/search-lunr.js?1759831580" defer></script>
+    <script src="/js/search.js?1759831580" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759831580";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759831580" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759831580" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759831580" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759831580" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759831580" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759831580" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759831580" rel="stylesheet">
+    <link href="/css/theme.css?1759831580" rel="stylesheet">
+    <link href="/css/format-html.css?1759831580" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_factory\/activities\/copy-activity\/';
+      window.relearn.relBasePath='..\/..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/azure_data_factory/activities/copy-activity/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#copy-activity-in-azure-data-factory">Copy Activity in Azure Data Factory</a>
+      <ul>
+        <li><a href="#what-is-copy-activity">What is Copy Activity?</a></li>
+        <li><a href="#key-features">Key Features</a></li>
+        <li><a href="#components-of-copy-activity">Components of Copy Activity</a></li>
+        <li><a href="#workflow-of-copy-activity">Workflow of Copy Activity</a></li>
+        <li><a href="#supported-data-stores">Supported Data Stores</a></li>
+        <li><a href="#performance-tuning-options">Performance Tuning Options</a></li>
+        <li><a href="#monitoring--troubleshooting">Monitoring &amp; Troubleshooting</a></li>
+        <li><a href="#example-use-cases">Example Use Cases</a></li>
+        <li><a href="#best-practices">Best Practices</a></li>
+      </ul>
+    </li>
+    <li><a href="#-source-options-for-adls-in-copy-activity">📂 Source Options for ADLS in Copy Activity</a>
+      <ul>
+        <li><a href="#1-file-path-settings">1. <strong>File Path Settings</strong></a></li>
+        <li><a href="#2-file-filter-options">2. <strong>File Filter Options</strong></a></li>
+        <li><a href="#3-binary-copy">3. <strong>Binary Copy</strong></a></li>
+        <li><a href="#4-compression">4. <strong>Compression</strong></a></li>
+        <li><a href="#5-file-format-settings-if-not-binary-copy">5. <strong>File Format Settings</strong> (if not binary copy)</a></li>
+        <li><a href="#6-partition-options-for-performance">6. <strong>Partition Options</strong> (for performance)</a></li>
+        <li><a href="#7-additional-options">7. <strong>Additional Options</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#-source-options-for-sql-server-in-copy-activity">🗄️ Source Options for SQL Server in Copy Activity</a>
+      <ul>
+        <li><a href="#1-data-retrieval-options">1. <strong>Data Retrieval Options</strong></a></li>
+        <li><a href="#2-query-behavior">2. <strong>Query Behavior</strong></a></li>
+        <li><a href="#3-batching--fetch-options">3. <strong>Batching &amp; Fetch Options</strong></a></li>
+        <li><a href="#4-partition-options-for-parallel-reads">4. <strong>Partition Options (for parallel reads)</strong></a></li>
+        <li><a href="#5-additional-options">5. <strong>Additional Options</strong></a></li>
+        <li><a href="#6-data-consistency--validation">6. <strong>Data Consistency &amp; Validation</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#file-path-options"><strong>File Path Options</strong></a></li>
+        <li><a href="#file-format-settings"><strong>File Format Settings</strong></a></li>
+        <li><a href="#compression"><strong>Compression</strong></a></li>
+        <li><a href="#copy-behavior"><strong>Copy Behavior</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#table--write-options"><strong>Table &amp; Write Options</strong></a></li>
+        <li><a href="#write-behavior"><strong>Write Behavior</strong></a></li>
+        <li><a href="#batching--performance"><strong>Batching &amp; Performance</strong></a></li>
+        <li><a href="#additional-options"><strong>Additional Options</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_factory/"><span itemprop="name">ADF</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_factory/activities/"><span itemprop="name">Tasks</span></a><meta itemprop="position" content="3">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Copy Activity</span><meta itemprop="position" content="4"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Factory/Activities/Copy-Activity.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/activities/copy-activity/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/activities/copy-activity/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/activities/" title="Tasks (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/activities/copy-tasks/" title="Copy Activity Tasks (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_factory" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="copy-activity">Copy Activity</h1>
+
+<h2 id="copy-activity-in-azure-data-factory">Copy Activity in Azure Data Factory</h2>
+<h3 id="what-is-copy-activity">What is Copy Activity?</h3>
+<p>Copy Activity is the core data movement activity in <strong>Azure Data Factory (ADF)</strong>. It allows you to securely and efficiently copy data from a source data store to a destination (sink) data store. This is widely used for <strong>data ingestion</strong>, <strong>ETL pipelines</strong>, and <strong>data migration</strong> across on-premises, cloud, and hybrid environments.</p>
+<hr>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li>
+<p><strong>Supports 100+ connectors</strong> for structured, semi-structured, and unstructured data.</p>
+</li>
+<li>
+<p><strong>Scalable data movement</strong> – can handle gigabytes to terabytes of data.</p>
+</li>
+<li>
+<p><strong>Secure integration</strong> with managed identities, Key Vault, and encrypted channels.</p>
+</li>
+<li>
+<p><strong>Rich transformation support</strong> like column mapping, schema drift handling, and format conversions.</p>
+</li>
+<li>
+<p><strong>Parallelism &amp; partitioning</strong> for high-performance copying.</p>
+</li>
+</ul>
+<hr>
+<h3 id="components-of-copy-activity">Components of Copy Activity</h3>
+<ol>
+<li>
+<p><strong>Source (From)</strong> – The dataset or linked service where the data resides (e.g., SQL DB, Blob storage, REST API).</p>
+</li>
+<li>
+<p><strong>Sink (To)</strong> – The destination dataset where the data will be written (e.g., ADLS, Synapse, Cosmos DB).</p>
+</li>
+<li>
+<p><strong>Mapping</strong> – Defines how columns/fields from the source map to the sink.</p>
+</li>
+<li>
+<p><strong>Settings</strong> – Performance tuning options such as degree of parallelism, staging, and fault tolerance.</p>
+</li>
+</ol>
+<hr>
+<h3 id="workflow-of-copy-activity">Workflow of Copy Activity</h3>
+<ol>
+<li>
+<p>A pipeline triggers the Copy Activity.</p>
+</li>
+<li>
+<p>ADF reads data from the <strong>source</strong> using a linked service.</p>
+</li>
+<li>
+<p>Data is optionally transformed (format, schema mapping, partitioning).</p>
+</li>
+<li>
+<p>Data is written to the <strong>sink</strong>.</p>
+</li>
+<li>
+<p>The process is logged and monitored in the ADF monitoring dashboard.</p>
+</li>
+</ol>
+<hr>
+<h3 id="supported-data-stores">Supported Data Stores</h3>
+<ul>
+<li>
+<p><strong>Azure Sources/Sinks:</strong> Blob Storage, Data Lake (ADLS Gen1/Gen2), Azure SQL, Synapse, Cosmos DB, Table Storage.</p>
+</li>
+<li>
+<p><strong>On-Premises:</strong> SQL Server, Oracle, SAP, File system (via Self-hosted IR).</p>
+</li>
+<li>
+<p><strong>SaaS Applications:</strong> Salesforce, Dynamics 365, ServiceNow, Google Analytics, etc.</p>
+</li>
+<li>
+<p><strong>Big Data &amp; NoSQL:</strong> Amazon S3, MongoDB, Cassandra, Hadoop.</p>
+</li>
+</ul>
+<hr>
+<h3 id="performance-tuning-options">Performance Tuning Options</h3>
+<ul>
+<li>
+<p><strong>Parallel Copy:</strong> Enable parallelism to copy partitions of data simultaneously.</p>
+</li>
+<li>
+<p><strong>Staging:</strong> Use Azure Blob/ADLS as a staging area for complex transformations.</p>
+</li>
+<li>
+<p><strong>Batch Size &amp; Block Size:</strong> Adjust for optimal throughput.</p>
+</li>
+<li>
+<p><strong>Self-hosted IR Scaling:</strong> Scale out compute for large hybrid data transfers.</p>
+</li>
+</ul>
+<hr>
+<h3 id="monitoring--troubleshooting">Monitoring &amp; Troubleshooting</h3>
+<ul>
+<li>
+<p><strong>Activity Runs View:</strong> Shows status (Success, Failed, In Progress).</p>
+</li>
+<li>
+<p><strong>Detailed Metrics:</strong> Throughput, rows read/written, time taken.</p>
+</li>
+<li>
+<p><strong>Retry Policies:</strong> Configure automatic retries on transient failures.</p>
+</li>
+<li>
+<p><strong>Integration with Log Analytics:</strong> Centralized monitoring and alerting.</p>
+</li>
+</ul>
+<hr>
+<h3 id="example-use-cases">Example Use Cases</h3>
+<ul>
+<li>
+<p>Migrating on-prem SQL Server data to Azure SQL Database.</p>
+</li>
+<li>
+<p>Ingesting CSV/JSON/XML files from Blob Storage to Synapse for reporting.</p>
+</li>
+<li>
+<p>Copying SaaS application data (e.g., Salesforce) into Data Lake for analytics.</p>
+</li>
+<li>
+<p>Hybrid ETL: Moving data from on-prem Oracle DB to ADLS for big data processing.</p>
+</li>
+</ul>
+<hr>
+<h3 id="best-practices">Best Practices</h3>
+<ul>
+<li>
+<p>Use <strong>Integration Runtime</strong> close to data sources for better performance.</p>
+</li>
+<li>
+<p>Leverage <strong>incremental loads</strong> instead of full loads to optimize costs.</p>
+</li>
+<li>
+<p>Enable <strong>fault tolerance</strong> for large jobs.</p>
+</li>
+<li>
+<p>Store sensitive connection strings in <strong>Azure Key Vault</strong>.</p>
+</li>
+<li>
+<p>Use <strong>parameterized datasets</strong> for reusability.</p>
+</li>
+</ul>
+<p>==========================================</p>
+<h2 id="-source-options-for-adls-in-copy-activity">📂 Source Options for ADLS in Copy Activity</h2>
+<h3 id="1-file-path-settings">1. <strong>File Path Settings</strong></h3>
+<ul>
+<li>
+<p><strong>File path type</strong> → Choose how to select files:</p>
+<ul>
+<li>
+<p><em>File path</em> → Specific file (container/folder/file).</p>
+</li>
+<li>
+<p><em>Wildcard file path</em> → Use <code>*</code> or <code>?</code> to match multiple files. Example: <code>input/*.csv</code>.</p>
+</li>
+<li>
+<p><em>Folder path</em> → Copy all files in a folder.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Recursive</strong> → If enabled, copies files from subfolders as well.</p>
+</li>
+</ul>
+<hr>
+<h3 id="2-file-filter-options">2. <strong>File Filter Options</strong></h3>
+<ul>
+<li>
+<p><strong>File name wildcard</strong> → Filter by pattern (e.g., <code>*.json</code>, <code>2025-09-*.parquet</code>).</p>
+</li>
+<li>
+<p><strong>Modified date filter</strong> → Pick files based on <em>last modified time</em>. Useful for <strong>incremental loads</strong>.</p>
+</li>
+<li>
+<p><strong>List of files</strong> → Provide explicit list of files (parameterized).</p>
+</li>
+</ul>
+<hr>
+<h3 id="3-binary-copy">3. <strong>Binary Copy</strong></h3>
+<ul>
+<li><strong>Binary Copy Mode</strong> → If enabled, files are copied as-is (no parsing). Used for images, videos, executables.</li>
+</ul>
+<hr>
+<h3 id="4-compression">4. <strong>Compression</strong></h3>
+<ul>
+<li>
+<p>If files are compressed, choose:</p>
+<ul>
+<li>
+<p><strong>Gzip, Bzip2, Deflate, Zip</strong> → Auto-decompress on read.</p>
+</li>
+<li>
+<p><em>None</em> → If files are plain text or structured formats.</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="5-file-format-settings-if-not-binary-copy">5. <strong>File Format Settings</strong> (if not binary copy)</h3>
+<ul>
+<li>
+<p><strong>Delimited Text (CSV/TSV):</strong></p>
+<ul>
+<li>
+<p>Row delimiter, column delimiter</p>
+</li>
+<li>
+<p>Escape character, quote character</p>
+</li>
+<li>
+<p>First row as header (yes/no)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>JSON:</strong></p>
+<ul>
+<li>Single object or Array of objects</li>
+</ul>
+</li>
+<li>
+<p><strong>Parquet / ORC / Avro:</strong></p>
+<ul>
+<li>
+<p>Schema auto-detection</p>
+</li>
+<li>
+<p>Support for column projection</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="6-partition-options-for-performance">6. <strong>Partition Options</strong> (for performance)</h3>
+<ul>
+<li>
+<p><strong>Max concurrent connections</strong> → Number of parallel threads to read files.</p>
+</li>
+<li>
+<p><strong>Partition by folder/file</strong> → ADF can split work by file or by folder for faster ingestion.</p>
+</li>
+</ul>
+<hr>
+<h3 id="7-additional-options">7. <strong>Additional Options</strong></h3>
+<ul>
+<li>
+<p><strong>Preserve hierarchy</strong> → Decide how to keep folder structure when moving data:</p>
+<ul>
+<li>
+<p><em>PreserveHierarchy</em> → Keeps folder structure.</p>
+</li>
+<li>
+<p><em>FlattenHierarchy</em> → Drops folder paths, copies only files.</p>
+</li>
+<li>
+<p><em>MergeFiles</em> → Combines multiple files into a single output file.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Ignore empty files</strong> → Skip empty files instead of failing.</p>
+</li>
+<li>
+<p><strong>Max concurrent connections</strong> → Speed up large dataset ingestion.</p>
+</li>
+</ul>
+<hr>
+<p>✅ Example Scenarios:</p>
+<ul>
+<li>
+<p><strong>Incremental ingestion:</strong> Use <em>last modified filter</em> and wildcards (<code>2025-09-16*.csv</code>).</p>
+</li>
+<li>
+<p><strong>Big Data migration:</strong> Enable <em>recursive</em> + <em>parallel reads</em> + <em>PreserveHierarchy</em>.</p>
+</li>
+<li>
+<p><strong>Data Lake to Synapse pipeline:</strong> Use <em>Parquet/CSV reader</em> with schema mapping.</p>
+</li>
+</ul>
+<h2 id="-source-options-for-sql-server-in-copy-activity">🗄️ Source Options for SQL Server in Copy Activity</h2>
+<h3 id="1-data-retrieval-options">1. <strong>Data Retrieval Options</strong></h3>
+<ul>
+<li>
+<p><strong>Table</strong> → Pick a specific table from the connected database.</p>
+</li>
+<li>
+<p><strong>Query</strong> → Provide a custom SQL query (parameterized if needed).</p>
+</li>
+<li>
+<p><strong>Stored Procedure</strong> (only in some cases) → Call a stored procedure and use its result set as source.</p>
+</li>
+</ul>
+<hr>
+<h3 id="2-query-behavior">2. <strong>Query Behavior</strong></h3>
+<ul>
+<li>
+<p><strong>Use Query from Dataset or Inline</strong> → You can store SQL queries in the dataset definition or write inline queries in the activity.</p>
+</li>
+<li>
+<p><strong>Parameterization</strong> → Pass pipeline parameters into the query (e.g., <code>SELECT * FROM Sales WHERE OrderDate = '@{pipeline().parameters.Date}'</code>).</p>
+</li>
+</ul>
+<hr>
+<h3 id="3-batching--fetch-options">3. <strong>Batching &amp; Fetch Options</strong></h3>
+<ul>
+<li>
+<p><strong>Batch Size</strong> → Number of rows fetched in one go (default varies, typically ~10,000). Helps tune performance for large datasets.</p>
+</li>
+<li>
+<p><strong>Isolation Level</strong> → Read Uncommitted, Read Committed, Snapshot, etc. (controls concurrency &amp; locking).</p>
+</li>
+</ul>
+<hr>
+<h3 id="4-partition-options-for-parallel-reads">4. <strong>Partition Options (for parallel reads)</strong></h3>
+<ul>
+<li>
+<p><strong>Partition Option</strong> → Split source data into multiple partitions for faster reads. Options:</p>
+<ul>
+<li>
+<p><em>None</em> → Single-threaded copy.</p>
+</li>
+<li>
+<p><em>Physical Partitions</em> → Use table partitions (if available).</p>
+</li>
+<li>
+<p><em>Dynamic Range</em> → Partition data based on numeric/date column (e.g., <code>OrderID BETWEEN 1–10000</code>, etc.).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Partition Column</strong> → Column used for partitioning (usually numeric or date).</p>
+</li>
+<li>
+<p><strong>Number of Partitions</strong> → Controls parallelism (e.g., 4 partitions = 4 parallel queries).</p>
+</li>
+</ul>
+<hr>
+<h3 id="5-additional-options">5. <strong>Additional Options</strong></h3>
+<ul>
+<li>
+<p><strong>SQL Command Timeout</strong> → Maximum time allowed for query execution.</p>
+</li>
+<li>
+<p><strong>Detect Changes (Incremental Load)</strong> → Use watermark columns (like <code>LastModifiedDate</code>) for incremental copies.</p>
+</li>
+<li>
+<p><strong>Enable CDC (Change Data Capture)</strong> → If SQL Server has CDC enabled, ADF can use it to capture only changed rows.</p>
+</li>
+</ul>
+<hr>
+<h3 id="6-data-consistency--validation">6. <strong>Data Consistency &amp; Validation</strong></h3>
+<ul>
+<li>
+<p><strong>Table/Query Validation</strong> → Validate schema before copying.</p>
+</li>
+<li>
+<p><strong>Null Handling</strong> → How NULL values are handled when mapping.</p>
+</li>
+<li>
+<p><strong>String Handling</strong> → Options for trimming, padding, or encoding.</p>
+</li>
+</ul>
+<hr>
+<p>✅ <strong>Example Use Cases</strong></p>
+<ul>
+<li>
+<p>Full table load → Choose <em>Table</em> option.</p>
+</li>
+<li>
+<p>Incremental load → Use <em>Query</em> with a <code>WHERE LastModified &gt; @{pipeline().parameters.LastRunTime}</code> filter.</p>
+</li>
+<li>
+<p>High-volume migration → Use <em>Dynamic Range partitioning</em> on an indexed column for parallel ingestion</p>
+</li>
+</ul>
+<h1 id="1-sink-csv-delimited-text-in-blobadls">1️⃣ Sink: <strong>CSV (Delimited Text in Blob/ADLS)</strong></h1>
+<p>When you choose <strong>CSV</strong> as the <strong>sink format</strong>, you’ll see file-related settings.</p>
+<h3 id="file-path-options"><strong>File Path Options</strong></h3>
+<ul>
+<li>
+<p><strong>File name option</strong></p>
+<ul>
+<li>
+<p><em>Output to single file</em> → All data is written into one file.</p>
+</li>
+<li>
+<p><em>Per partition/file</em> → Each partition creates a separate file (e.g., <code>part-0001.csv</code>).</p>
+</li>
+<li>
+<p><em>Preserve source hierarchy</em> → Keeps folder/file structure from source.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>File naming pattern</strong> → Custom names like <code>data_{date}.csv</code>.</p>
+</li>
+<li>
+<p><strong>Folder path</strong> → Target container/folder in Blob/ADLS.</p>
+</li>
+</ul>
+<h3 id="file-format-settings"><strong>File Format Settings</strong></h3>
+<ul>
+<li>
+<p><strong>Row delimiter</strong> → <code>\n</code> (default), <code>\r\n</code>, or custom.</p>
+</li>
+<li>
+<p><strong>Column delimiter</strong> → <code>,</code> (default), <code>;</code>, <code>|</code>, <code>\t</code>, etc.</p>
+</li>
+<li>
+<p><strong>Quote character</strong> → Usually <code>&quot;</code>.</p>
+</li>
+<li>
+<p><strong>Escape character</strong> → Usually <code>\</code>.</p>
+</li>
+<li>
+<p><strong>Null value representation</strong> → For example, empty string, <code>\N</code>, or <code>&quot;NULL&quot;</code>.</p>
+</li>
+<li>
+<p><strong>Write headers</strong> → Yes/No (include column names as first row).</p>
+</li>
+</ul>
+<h3 id="compression"><strong>Compression</strong></h3>
+<ul>
+<li>None, Gzip, Bzip2, Deflate, Zip.</li>
+</ul>
+<h3 id="copy-behavior"><strong>Copy Behavior</strong></h3>
+<ul>
+<li>
+<p><em>Overwrite</em> (replace existing files).</p>
+</li>
+<li>
+<p><em>Append</em> (add new file without deleting old ones).</p>
+</li>
+<li>
+<p><em>Merge</em> (combine into existing file – limited scenarios).</p>
+</li>
+</ul>
+<hr>
+<h1 id="2-sink-sql-server">2️⃣ Sink: <strong>SQL Server</strong></h1>
+<p>When <strong>SQL Server</strong> is the <strong>sink</strong>, the options are more database-related.</p>
+<h3 id="table--write-options"><strong>Table &amp; Write Options</strong></h3>
+<ul>
+<li>
+<p><strong>Table name</strong> → Select or provide the target table.</p>
+</li>
+<li>
+<p><strong>Auto-create table</strong> → ADF can auto-generate the table if it doesn’t exist (based on source schema).</p>
+</li>
+<li>
+<p><strong>Pre-copy script</strong> → SQL script that runs before insert (e.g., <code>TRUNCATE TABLE TargetTable</code>).</p>
+</li>
+<li>
+<p><strong>Stored procedure sink</strong> → Instead of direct inserts, call a stored procedure with input parameters.</p>
+</li>
+</ul>
+<h3 id="write-behavior"><strong>Write Behavior</strong></h3>
+<ul>
+<li>
+<p><strong>Insert</strong> → Default (append new rows).</p>
+</li>
+<li>
+<p><strong>Upsert</strong> → Insert new + update existing (requires key column).</p>
+</li>
+<li>
+<p><strong>Update</strong> → Update only existing rows.</p>
+</li>
+<li>
+<p><strong>Stored procedure</strong> → Custom merge logic via proc.</p>
+</li>
+</ul>
+<h3 id="batching--performance"><strong>Batching &amp; Performance</strong></h3>
+<ul>
+<li>
+<p><strong>Batch size</strong> → Number of rows per batch insert.</p>
+</li>
+<li>
+<p><strong>Bulk insert (PolyBase/BCP)</strong> → Faster loading for large volumes.</p>
+</li>
+<li>
+<p><strong>Table lock</strong> → Lock the table during write (improves speed but reduces concurrency).</p>
+</li>
+</ul>
+<h3 id="additional-options"><strong>Additional Options</strong></h3>
+<ul>
+<li>
+<p><strong>Identity insert</strong> → Control whether identity columns are written or auto-generated.</p>
+</li>
+<li>
+<p><strong>Null handling</strong> → Define how nulls map to SQL columns.</p>
+</li>
+<li>
+<p><strong>Transaction settings</strong> → Commit mode (per batch or per entire load).</p>
+</li>
+<li>
+<p><strong>SQL command timeout</strong> → Max allowed time for inserts.</p>
+</li>
+</ul>
+<hr>
+<p>✅ <strong>When to use what?</strong></p>
+<ul>
+<li>
+<p><strong>CSV Sink</strong> → Good for <strong>data lake staging</strong>, archival, or feeding BI/ML pipelines.</p>
+</li>
+<li>
+<p><strong>SQL Server Sink</strong> → Good for <strong>operational databases, reporting, or direct analytics</strong>.</p>
+</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="" data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0"><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="parent " data-nav-id="/azure_data_factory/"><input type="checkbox" id="R-section-c1c884e4194f85ef98db8cc87f1e973a" aria-controls="R-subsections-c1c884e4194f85ef98db8cc87f1e973a" checked><label for="R-section-c1c884e4194f85ef98db8cc87f1e973a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADF</span></label><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-c1c884e4194f85ef98db8cc87f1e973a" class="collapsible-menu">
+            <li class="parent alwaysopen " data-nav-id="/azure_data_factory/activities/"><input type="checkbox" id="R-section-9a4edd8345cef5c530f46ba254125443" aria-controls="R-subsections-9a4edd8345cef5c530f46ba254125443" checked><label for="R-section-9a4edd8345cef5c530f46ba254125443"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Tasks</span></label><a class="padding" href="/azure_data_factory/activities/">Tasks<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-9a4edd8345cef5c530f46ba254125443" class="collapsible-menu">
+            <li class="active " data-nav-id="/azure_data_factory/activities/copy-activity/"><a class="padding" href="/azure_data_factory/activities/copy-activity/">Copy Activity<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/activities/copy-tasks/"><a class="padding" href="/azure_data_factory/activities/copy-tasks/">Copy Activity Tasks<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li></ul></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/azure_data_bricks/learn/"><input type="checkbox" id="R-section-377d1400f63bb26d363e5ccc43d91649" aria-controls="R-subsections-377d1400f63bb26d363e5ccc43d91649" checked><label for="R-section-377d1400f63bb26d363e5ccc43d91649"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Spark</span></label><a class="padding" href="/azure_data_bricks/learn/">Spark<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-377d1400f63bb26d363e5ccc43d91649" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/learn/intro/"><a class="padding" href="/azure_data_bricks/learn/intro/">Introduction<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a"><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
+            <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b"><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1759831580" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759831580" defer></script>
+    <script src="/js/theme.js?1759831580" defer></script>
+  </body>
+</html>

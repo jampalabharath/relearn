@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr PySpark Solution from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show()">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Pyspark 1 :: Data Engineering Notes">
+    <meta name="twitter:description" content="1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr PySpark Solution from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show()">
+    <meta property="og:url" content="http://localhost:1313/practice/pyspark1/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Pyspark 1 :: Data Engineering Notes">
+    <meta property="og:description" content="1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr PySpark Solution from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show()">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Practice Sets">
+    <meta itemprop="name" content="Pyspark 1 :: Data Engineering Notes">
+    <meta itemprop="description" content="1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr PySpark Solution from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show()">
+    <meta itemprop="wordCount" content="174">
+    <title>Pyspark 1 :: Data Engineering Notes</title>
+    <link href="/practice/pyspark1/index.md" rel="alternate" type="text/markdown" title="Pyspark 1 :: Data Engineering Notes">
+    <link href="/practice/pyspark1/index.print.html" rel="alternate" type="text/html" title="Pyspark 1 :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759832300" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759832300" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759832300" defer></script>
+    <script src="/js/search-lunr.js?1759832300" defer></script>
+    <script src="/js/search.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759832300";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832300" rel="stylesheet">
+    <link href="/css/theme.css?1759832300" rel="stylesheet">
+    <link href="/css/format-html.css?1759832300" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/practice\/pyspark1\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/practice/pyspark1/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#1-write-a-pyspark-query-using-below-input-to-get-below-output">1. Write a PySpark query using below input to get below output?</a>
+      <ul>
+        <li><a href="#input">Input</a></li>
+        <li><a href="#output">Output</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-write-a-pyspark-query-using-the-below-input-to-get-the-required-output">2. Write a PySpark query using the below input to get the required output.</a>
+      <ul>
+        <li><a href="#input-1">Input</a></li>
+        <li><a href="#expected-output">Expected Output</a></li>
+      </ul>
+    </li>
+    <li><a href="#pyspark-solution">PySpark Solution</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/practice/"><span itemprop="name">Practice Sets</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Pyspark 1</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Practice/Pyspark1.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/practice/pyspark1/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/practice/pyspark1/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/practice/leetcode-sql/" title="SQL LeetCode (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/" title="Interview Prep (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable practice" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="pyspark-1">Pyspark 1</h1>
+
+<h2 id="1-write-a-pyspark-query-using-below-input-to-get-below-output">1. Write a PySpark query using below input to get below output?</h2>
+<h3 id="input">Input</h3>
+<table>
+  <thead>
+      <tr>
+          <th>name</th>
+          <th>Hobbies</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Alice</td>
+          <td>Badminton, Tennis</td>
+      </tr>
+      <tr>
+          <td>Bob</td>
+          <td>Tennis, Cricket</td>
+      </tr>
+      <tr>
+          <td>Julie</td>
+          <td>Cricket, Carroms</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="output">Output</h3>
+<table>
+  <thead>
+      <tr>
+          <th>name</th>
+          <th>Hobbies</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Alice</td>
+          <td>Badminton</td>
+      </tr>
+      <tr>
+          <td>Alice</td>
+          <td>Tennis</td>
+      </tr>
+      <tr>
+          <td>Bob</td>
+          <td>Tennis</td>
+      </tr>
+      <tr>
+          <td>Bob</td>
+          <td>Cricket</td>
+      </tr>
+      <tr>
+          <td>Julie</td>
+          <td>Cricket</td>
+      </tr>
+      <tr>
+          <td>Julie</td>
+          <td>Carroms</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">split</span><span class="p">,</span> <span class="n">explode</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;HobbiesSplit&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="s2">&#34;Badminton, Tennis&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="s2">&#34;Tennis, Cricket&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Julie&#34;</span><span class="p">,</span> <span class="s2">&#34;Cricket, Carroms&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="s2">&#34;Hobbies&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Split and explode hobbies</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;Hobbies&#34;</span><span class="p">,</span> <span class="n">explode</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Hobbies&#34;</span><span class="p">],</span> <span class="s2">&#34;,\s*&#34;</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<h2 id="2-write-a-pyspark-query-using-the-below-input-to-get-the-required-output">2. Write a PySpark query using the below input to get the required output.</h2>
+<h3 id="input-1">Input</h3>
+<table>
+  <thead>
+      <tr>
+          <th>City1</th>
+          <th>City2</th>
+          <th>City3</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Goa</td>
+          <td>null</td>
+          <td>Ap</td>
+      </tr>
+      <tr>
+          <td>null</td>
+          <td>AP</td>
+          <td>null</td>
+      </tr>
+      <tr>
+          <td>null</td>
+          <td>null</td>
+          <td>Bglr</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="expected-output">Expected Output</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Result</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Goa</td>
+      </tr>
+      <tr>
+          <td>AP</td>
+      </tr>
+      <tr>
+          <td>Bglr</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="pyspark-solution">PySpark Solution</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample Input Data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Goa&#34;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&#34;Ap&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&#34;AP&#34;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&#34;Bglr&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;City1&#34;</span><span class="p">,</span> <span class="s2">&#34;City2&#34;</span><span class="p">,</span> <span class="s2">&#34;City3&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Use COALESCE to pick the first non-null city</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">F</span><span class="o">.</span><span class="n">coalesce</span><span class="p">(</span><span class="s2">&#34;City1&#34;</span><span class="p">,</span> <span class="s2">&#34;City2&#34;</span><span class="p">,</span> <span class="s2">&#34;City3&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Result&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">result_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="" data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0"><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/spark/"><a class="padding" href="/azure_data_bricks/spark/">Spark<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="parent " data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a" checked><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
+            <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b"><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1759832300" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832300" defer></script>
+    <script src="/js/theme.js?1759832300" defer></script>
+  </body>
+</html>

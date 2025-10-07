@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="when and otherwise The when and otherwise functions in PySpark provide a way to create conditional expressions within a DataFrame, allowing you to specify different values for new or existing columns based on specific conditions.
+when:
+The when function in PySpark is used to define a condition.
+If the condition is met, it returns the specified value.
+You can chain multiple when conditions to handle various cases.
+otherwise:
+The otherwise function specifies a default value to return if none of the conditions in the when statements are met.">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="When|Cast|Union :: Data Engineering Notes">
+    <meta name="twitter:description" content="when and otherwise The when and otherwise functions in PySpark provide a way to create conditional expressions within a DataFrame, allowing you to specify different values for new or existing columns based on specific conditions.
+when:
+The when function in PySpark is used to define a condition.
+If the condition is met, it returns the specified value.
+You can chain multiple when conditions to handle various cases.
+otherwise:
+The otherwise function specifies a default value to return if none of the conditions in the when statements are met.">
+    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/when/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="When|Cast|Union :: Data Engineering Notes">
+    <meta property="og:description" content="when and otherwise The when and otherwise functions in PySpark provide a way to create conditional expressions within a DataFrame, allowing you to specify different values for new or existing columns based on specific conditions.
+when:
+The when function in PySpark is used to define a condition.
+If the condition is met, it returns the specified value.
+You can chain multiple when conditions to handle various cases.
+otherwise:
+The otherwise function specifies a default value to return if none of the conditions in the when statements are met.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Bricks">
+    <meta itemprop="name" content="When|Cast|Union :: Data Engineering Notes">
+    <meta itemprop="description" content="when and otherwise The when and otherwise functions in PySpark provide a way to create conditional expressions within a DataFrame, allowing you to specify different values for new or existing columns based on specific conditions.
+when:
+The when function in PySpark is used to define a condition.
+If the condition is met, it returns the specified value.
+You can chain multiple when conditions to handle various cases.
+otherwise:
+The otherwise function specifies a default value to return if none of the conditions in the when statements are met.">
+    <meta itemprop="wordCount" content="1390">
+    <title>When|Cast|Union :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/azure_data_bricks/when/" rel="canonical" type="text/html" title="When|Cast|Union :: Data Engineering Notes">
+    <link href="/azure_data_bricks/when/index.md" rel="alternate" type="text/markdown" title="When|Cast|Union :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759820572" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759820572" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759820572" defer></script>
+    <script src="/js/search-lunr.js?1759820572" defer></script>
+    <script src="/js/search.js?1759820572" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759820572";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759820572" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759820572" rel="stylesheet">
+    <link href="/css/theme.css?1759820572" rel="stylesheet">
+    <link href="/css/format-print.css?1759820572" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_bricks\/when\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/azure_data_bricks/when/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#when-and-otherwise"><code>when</code> and <code>otherwise</code></a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#cast-and-printschema"><code>cast()</code> and <code>printSchema()</code></a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#union-and-unionall"><code>union</code> and <code>unionAll</code></a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/"><span itemprop="name">ADB</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">When|Cast|Union</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/When.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/when/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/when/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/joins/" title="Joins (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/window-functions/" title="Window Functions (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_bricks" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="whencastunion">When|Cast|Union</h1>
+
+<h2 id="when-and-otherwise"><code>when</code> and <code>otherwise</code></h2>
+<p>The <code>when</code> and <code>otherwise</code> functions in <strong>PySpark</strong> provide a way to create conditional expressions within a DataFrame, allowing you to specify different values for new or existing columns based on specific conditions.</p>
+<ul>
+<li>
+<p><strong><code>when</code></strong>:<br>
+The <code>when</code> function in PySpark is used to define a condition.<br>
+If the condition is met, it returns the specified value.<br>
+You can chain multiple <code>when</code> conditions to handle various cases.</p>
+</li>
+<li>
+<p><strong><code>otherwise</code></strong>:<br>
+The <code>otherwise</code> function specifies a default value to return if none of the conditions in the <code>when</code> statements are met.</p>
+</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">when</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">,</span> <span class="n">StringType</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Initialize Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;WhenOtherwiseExample&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define the schema for the dataset</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;age&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;salary&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create a sample dataset</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">3000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">4000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Charlie&#34;</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">5000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;David&#34;</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">4500</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Eve&#34;</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3500</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Apply &#39;when&#39; and &#39;otherwise&#39; to add new columns based on conditions</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;status&#34;</span><span class="p">,</span> <span class="n">when</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&#34;Young&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="s2">&#34;Adult&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;income_bracket&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">when</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">salary</span> <span class="o">&lt;</span> <span class="mi">4000</span><span class="p">,</span> <span class="s2">&#34;Low&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">.</span><span class="n">when</span><span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">salary</span> <span class="o">&gt;=</span> <span class="mi">4000</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">salary</span> <span class="o">&lt;=</span> <span class="mi">4500</span><span class="p">),</span> <span class="s2">&#34;Medium&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="s2">&#34;High&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the result</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<hr>
+<h4 id="explanation">Explanation</h4>
+<ol>
+<li>
+<p><strong><code>status</code> column</strong></p>
+<ul>
+<li>Assigns <code>&quot;Young&quot;</code> if <code>age &lt; 30</code>.</li>
+<li>Otherwise assigns <code>&quot;Adult&quot;</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>income_bracket</code> column</strong></p>
+<ul>
+<li>Assigns <code>&quot;Low&quot;</code> if <code>salary &lt; 4000</code>.</li>
+<li>Assigns <code>&quot;Medium&quot;</code> if <code>4000 &lt;= salary &lt;= 4500</code>.</li>
+<li>Assigns <code>&quot;High&quot;</code> for any other salary values.</li>
+</ul>
+</li>
+</ol>
+<p>This approach allows for flexible handling of multiple conditions in PySpark DataFrames using <code>when</code> and <code>otherwise</code>.</p>
+<h2 id="cast-and-printschema"><code>cast()</code> and <code>printSchema()</code></h2>
+<p>In PySpark, the <code>cast()</code> function is used to change the data type of a column within a DataFrame.<br>
+This is helpful when you need to standardize column data types for data processing, schema consistency, or compatibility with other operations.</p>
+<ul>
+<li>
+<p><strong>Purpose</strong>:<br>
+The <code>cast()</code> function allows you to change the data type of a column, useful in situations like standardizing formats (e.g., converting strings to dates or integers).</p>
+</li>
+<li>
+<p><strong>Syntax</strong>:<br>
+The <code>cast()</code> function is applied on individual columns and requires specifying the target data type in quotes.</p>
+</li>
+<li>
+<p><strong>Multiple Columns</strong>:<br>
+You can cast multiple columns at once by using a list of cast expressions and passing them to <code>select()</code>.</p>
+</li>
+<li>
+<p><strong>Supported Data Types</strong>:<br>
+PySpark supports various data types for casting, including:</p>
+<ul>
+<li><code>StringType</code></li>
+<li><code>IntegerType</code> (or <code>&quot;int&quot;</code>)</li>
+<li><code>DoubleType</code> (or <code>&quot;double&quot;</code>)</li>
+<li><code>DateType</code></li>
+<li><code>TimestampType</code></li>
+<li><code>BooleanType</code></li>
+<li>Others, based on the data types available in PySpark.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Single column cast</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;column_name&#34;</span><span class="p">,</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;column_name&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;target_data_type&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Multiple columns cast with select</span>
+</span></span><span class="line"><span class="cl"><span class="n">cast_expr</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;column1_name&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;target_data_type1&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;column2_name&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;target_data_type2&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># More columns and data types as needed</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">cast_expr</span><span class="p">)</span></span></span></code></pre></div>
+<h4 id="example">Example</h4>
+<p>Let&rsquo;s create a dataset and apply <code>cast()</code> to change the data types of multiple columns:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">,</span> <span class="n">FloatType</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Initialize Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;CastExample&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define the schema for the dataset</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;age&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>    <span class="c1"># Stored as StringType initially</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;height&#34;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># Stored as StringType initially</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create a sample dataset</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="s2">&#34;25&#34;</span><span class="p">,</span> <span class="s2">&#34;5.5&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="s2">&#34;35&#34;</span><span class="p">,</span> <span class="s2">&#34;6.1&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Charlie&#34;</span><span class="p">,</span> <span class="s2">&#34;40&#34;</span><span class="p">,</span> <span class="s2">&#34;5.8&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show schema and data before casting</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Define cast expressions for multiple columns</span>
+</span></span><span class="line"><span class="cl"><span class="n">cast_expr</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;string&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;age&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;int&#34;</span><span class="p">),</span>       <span class="c1"># Casting age to IntegerType</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;height&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;double&#34;</span><span class="p">)</span>  <span class="c1"># Casting height to DoubleType</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Apply the cast expressions to the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">cast_expr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the result</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h4 id="explanation-1">Explanation</h4>
+<ul>
+<li><strong><code>age</code> column</strong>: Initially stored as <code>StringType</code>, it’s cast to <code>IntegerType</code> (or <code>&quot;int&quot;</code>).</li>
+<li><strong><code>height</code> column</strong>: Initially stored as <code>StringType</code>, it’s cast to <code>DoubleType</code> (or <code>&quot;double&quot;</code>).</li>
+</ul>
+<hr>
+<h4 id="advantages-of-using-cast">Advantages of Using <code>cast()</code></h4>
+<ul>
+<li><strong>Schema Alignment</strong>: Ensures data types in different tables or DataFrames are compatible for joining or union operations.</li>
+<li><strong>Data Consistency</strong>: Ensures all columns conform to expected data types for downstream data processing.</li>
+<li><strong>Error Reduction</strong>: Minimizes issues arising from mismatched data types in computations or transformations.</li>
+</ul>
+<p>This approach using <code>cast()</code> provides a flexible and powerful way to manage data types in PySpark.</p>
+<hr>
+<h4 id="printschema-method-in-pyspark"><code>printSchema()</code> Method in PySpark</h4>
+<ul>
+<li>
+<p><strong>Purpose</strong>:</p>
+<ul>
+<li>To display the schema of a DataFrame, which includes the column names, data types, and nullability of each column.</li>
+</ul>
+</li>
+<li>
+<p><strong>Output Structure</strong>:<br>
+The schema is presented in a tree-like structure showing:</p>
+<ul>
+<li><strong>Column Name</strong>: The name of the column.</li>
+<li><strong>Data Type</strong>: The data type of the column (e.g., <code>string</code>, <code>integer</code>, <code>double</code>, <code>boolean</code>, etc.).</li>
+<li><strong>Nullability</strong>: Indicates whether the column can contain null values (e.g., <code>nullable = true</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li>Call <code>df.printSchema()</code> on a DataFrame <code>df</code> to see its structure.</li>
+<li>Useful for verifying the structure of the DataFrame after operations like <code>select()</code>, <code>withColumn()</code>, or <code>cast()</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="union-and-unionall"><code>union</code> and <code>unionAll</code></h2>
+<h4 id="overview">Overview</h4>
+<ul>
+<li><strong>Purpose</strong>: Both <code>union</code> and <code>unionAll</code> are used to combine two DataFrames into a single DataFrame.</li>
+<li><strong>DataFrame Compatibility</strong>: The two DataFrames must have the same schema (i.e., the same column names and data types) to perform the union operation.</li>
+</ul>
+<hr>
+<h4 id="union"><code>union()</code></h4>
+<ul>
+<li>
+<p><strong>Functionality</strong>:</p>
+<ul>
+<li>Combines two DataFrames and retains all rows, including duplicates.</li>
+</ul>
+</li>
+<li>
+<p><strong>Behavior</strong>:</p>
+<ul>
+<li>The <code>union()</code> method does not remove duplicate rows, resulting in a DataFrame that may contain duplicates.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="unionall"><code>unionAll()</code></h4>
+<ul>
+<li>
+<p><strong>Functionality</strong>:</p>
+<ul>
+<li>Combines two DataFrames and retains all rows, including duplicates.</li>
+</ul>
+</li>
+<li>
+<p><strong>Behavior</strong>:</p>
+<ul>
+<li>The <code>unionAll()</code> method performs the union operation but does not eliminate duplicate rows (similar to <code>union</code>).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="syntax">Syntax</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Using union to retain all rows including duplicates</span>
+</span></span><span class="line"><span class="cl"><span class="n">unioned_df</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Using unionAll to retain all rows including duplicates</span>
+</span></span><span class="line"><span class="cl"><span class="n">unionAll_df</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">unionAll</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span></span></span></code></pre></div>
+<h4 id="example-using-union-and-unionall-in-pyspark">Example: Using <code>union</code> and <code>unionAll</code> in PySpark</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Initialize Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;UnionExample&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample DataFrames</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Charlie&#34;</span><span class="p">,</span> <span class="mi">35</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">data2</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;David&#34;</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Eve&#34;</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="mi">25</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="s2">&#34;age&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Using union to retain all rows including duplicates</span>
+</span></span><span class="line"><span class="cl"><span class="n">unioned_df</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Using unionAll to retain all rows</span>
+</span></span><span class="line"><span class="cl"><span class="n">unionAll_df</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">unionAll</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the results</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;unioned_df (No duplicates removed):&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">unioned_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;unionAll_df (duplicates retained):&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">unionAll_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Removing Duplicate Rows in PySpark</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Remove duplicate rows and create a new DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span> <span class="o">=</span> <span class="n">unioned_df</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span> <span class="o">=</span> <span class="n">unioned_df</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;unique_df (after removing duplicates):&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">unique_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h4 id="union-and-unionbyname">Union and UnionByName</h4>
+<p>In PySpark, both <code>union</code> and <code>unionByName</code> are operations that allow you to combine two or more DataFrames. However, they do this in slightly different ways, particularly regarding how they handle column names.</p>
+<hr>
+<h5 id="1-union">1. <code>union</code></h5>
+<p><strong>Definition</strong>:<br>
+The <code>union()</code> function is used to combine two DataFrames with the same schema (i.e., the same number of columns with the same data types).<br>
+It appends the rows of one DataFrame to the other.</p>
+<p><strong>Key Characteristics</strong>:</p>
+<ul>
+<li>The DataFrames must have the same number of columns.</li>
+<li>The columns must have compatible data types.</li>
+<li>It does <strong>not</strong> automatically handle column names that differ between DataFrames.</li>
+</ul>
+<h4 id="syntax-1">Syntax</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">DataFrame</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">otherDataFrame</span><span class="p">)</span></span></span></code></pre></div>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create a Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;Union Example&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create two DataFrames with the same schema</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">data2</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;Cathy&#34;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;David&#34;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;Id&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Perform union</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_union</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the result</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_union</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h4 id="2-unionbyname">2. <code>unionByName</code></h4>
+<p><strong>Definition</strong>:<br>
+The <code>unionByName()</code> function allows you to combine two DataFrames by matching column names.<br>
+If the DataFrames do not have the same schema, it will fill in missing columns with <code>null</code>.</p>
+<p><strong>Key Characteristics</strong>:</p>
+<ul>
+<li>Matches DataFrames by <strong>column names</strong> rather than position.</li>
+<li>If the DataFrames have different columns, it will include all columns and fill in <code>null</code> for missing values in any DataFrame.</li>
+<li>You can specify <code>allowMissingColumns=True</code> to ignore missing columns.</li>
+</ul>
+<h4 id="syntax-2">Syntax</h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">DataFrame</span><span class="o">.</span><span class="n">unionByName</span><span class="p">(</span><span class="n">otherDataFrame</span><span class="p">,</span> <span class="n">allowMissingColumns</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Create two DataFrames with different schemas</span>
+</span></span><span class="line"><span class="cl"><span class="n">data3</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;Eve&#34;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Frank&#34;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">data4</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;Grace&#34;</span><span class="p">,</span> <span class="s2">&#34;New York&#34;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Hannah&#34;</span><span class="p">,</span> <span class="s2">&#34;Los Angeles&#34;</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">columns1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;Id&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;City&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df3</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data3</span><span class="p">,</span> <span class="n">columns1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df4</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data4</span><span class="p">,</span> <span class="n">columns2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Perform unionByName (with allowMissingColumns=True to handle schema differences)</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_union_by_name</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">unionByName</span><span class="p">(</span><span class="n">df4</span><span class="p">,</span> <span class="n">allowMissingColumns</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the result result_union_by_name.show()</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_union_by_name</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h4 id="summary-of-differences">Summary of Differences</h4>
+<ul>
+<li><strong><code>union()</code></strong>: Requires DataFrames to have the <strong>same schema</strong> (same number of columns and compatible data types). It combines rows without checking column names.</li>
+<li><strong><code>unionByName()</code></strong>: Matches DataFrames by <strong>column names</strong>. It can handle different schemas and fill missing columns with <code>null</code> (when <code>allowMissingColumns=True</code>).</li>
+</ul>
+<hr>
+<table>
+  <thead>
+      <tr>
+          <th>Feature</th>
+          <th>Union</th>
+          <th>UnionByName</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Column Matching</td>
+          <td>Positional</td>
+          <td>By Name</td>
+      </tr>
+      <tr>
+          <td>Missing Columns Handling</td>
+          <td>Does not allow</td>
+          <td>Allows with <code>null</code> for missing</td>
+      </tr>
+      <tr>
+          <td>Schema Requirement</td>
+          <td>Must be identical</td>
+          <td>Can differ</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="conclusion">Conclusion</h4>
+<p>In PySpark:</p>
+<ul>
+<li>Use <strong><code>union()</code></strong> when you have DataFrames with the <strong>same schema</strong> and need a straightforward concatenation.</li>
+<li>Use <strong><code>unionByName()</code></strong> when your DataFrames have <strong>different schemas</strong> and you want to combine them by matching column names while handling missing columns.</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1759820572" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759820572" defer></script>
+    <script src="/js/theme.js?1759820572" defer></script>
+  </body>
+</html>

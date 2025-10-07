@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Joins in PySpark In PySpark Joins are used to combine two DataFrames based on a common column or condition.
+Types of Joins in PySpark Inner Join: Matches rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) Left/Right Join: Keeps all rows from the left or right DataFrame and matches where possible. df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) Full Join: Keeps all rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) Left Semi: Filters df1 to rows that match df2 without including columns from df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) Left Anti: Filters df1 to rows that do not match df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) Cross Join: Returns the Cartesian product, combining all rows of both DataFrames. df1.crossJoin(df2) Explicit Condition Join: Allows complex join conditions, including columns with different names. df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) df1.crossJoin(df2) df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) Practice-1 from pyspark.sql import SparkSession from pyspark.sql import Row from pyspark.sql.functions import broadcast # Initialize Spark session spark = SparkSession.builder.appName(&#34;JoinsExample&#34;).getOrCreate() # Sample DataFrames data1 = [Row(id=0), Row(id=1), Row(id=1), Row(id=None), Row(id=None)] data2 = [Row(id=1), Row(id=0), Row(id=None)] df1 = spark.createDataFrame(data1) df2 = spark.createDataFrame(data2) # Inner Join inner_join = df1.join(df2, on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Inner Join:&#34;) inner_join.show() # Right Join right_join = df1.join(df2, on=&#34;id&#34;, how=&#34;right&#34;) print(&#34;Right Join:&#34;) right_join.show() # Full (Outer) Join full_join = df1.join(df2, on=&#34;id&#34;, how=&#34;outer&#34;) print(&#34;Full (Outer) Join:&#34;) full_join.show() # Left Anti Join left_anti_join = df1.join(df2, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Left Anti Join:&#34;) left_anti_join.show() # Right Anti Join (Equivalent to swapping DataFrames and performing Left Anti Join) right_anti_join = df2.join(df1, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Right Anti Join:&#34;) right_anti_join.show() # Broadcast Join (Optimizing a join with a smaller DataFrame) broadcast_join = df1.join(broadcast(df2), on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Broadcast Join:&#34;) broadcast_join.show() Practice 2 PySpark Coding Questions Find employees whose location matches the location of their department">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Joins :: Data Engineering Notes">
+    <meta name="twitter:description" content="Joins in PySpark In PySpark Joins are used to combine two DataFrames based on a common column or condition.
+Types of Joins in PySpark Inner Join: Matches rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) Left/Right Join: Keeps all rows from the left or right DataFrame and matches where possible. df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) Full Join: Keeps all rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) Left Semi: Filters df1 to rows that match df2 without including columns from df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) Left Anti: Filters df1 to rows that do not match df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) Cross Join: Returns the Cartesian product, combining all rows of both DataFrames. df1.crossJoin(df2) Explicit Condition Join: Allows complex join conditions, including columns with different names. df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) df1.crossJoin(df2) df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) Practice-1 from pyspark.sql import SparkSession from pyspark.sql import Row from pyspark.sql.functions import broadcast # Initialize Spark session spark = SparkSession.builder.appName(&#34;JoinsExample&#34;).getOrCreate() # Sample DataFrames data1 = [Row(id=0), Row(id=1), Row(id=1), Row(id=None), Row(id=None)] data2 = [Row(id=1), Row(id=0), Row(id=None)] df1 = spark.createDataFrame(data1) df2 = spark.createDataFrame(data2) # Inner Join inner_join = df1.join(df2, on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Inner Join:&#34;) inner_join.show() # Right Join right_join = df1.join(df2, on=&#34;id&#34;, how=&#34;right&#34;) print(&#34;Right Join:&#34;) right_join.show() # Full (Outer) Join full_join = df1.join(df2, on=&#34;id&#34;, how=&#34;outer&#34;) print(&#34;Full (Outer) Join:&#34;) full_join.show() # Left Anti Join left_anti_join = df1.join(df2, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Left Anti Join:&#34;) left_anti_join.show() # Right Anti Join (Equivalent to swapping DataFrames and performing Left Anti Join) right_anti_join = df2.join(df1, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Right Anti Join:&#34;) right_anti_join.show() # Broadcast Join (Optimizing a join with a smaller DataFrame) broadcast_join = df1.join(broadcast(df2), on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Broadcast Join:&#34;) broadcast_join.show() Practice 2 PySpark Coding Questions Find employees whose location matches the location of their department">
+    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/joins/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Joins :: Data Engineering Notes">
+    <meta property="og:description" content="Joins in PySpark In PySpark Joins are used to combine two DataFrames based on a common column or condition.
+Types of Joins in PySpark Inner Join: Matches rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) Left/Right Join: Keeps all rows from the left or right DataFrame and matches where possible. df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) Full Join: Keeps all rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) Left Semi: Filters df1 to rows that match df2 without including columns from df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) Left Anti: Filters df1 to rows that do not match df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) Cross Join: Returns the Cartesian product, combining all rows of both DataFrames. df1.crossJoin(df2) Explicit Condition Join: Allows complex join conditions, including columns with different names. df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) df1.crossJoin(df2) df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) Practice-1 from pyspark.sql import SparkSession from pyspark.sql import Row from pyspark.sql.functions import broadcast # Initialize Spark session spark = SparkSession.builder.appName(&#34;JoinsExample&#34;).getOrCreate() # Sample DataFrames data1 = [Row(id=0), Row(id=1), Row(id=1), Row(id=None), Row(id=None)] data2 = [Row(id=1), Row(id=0), Row(id=None)] df1 = spark.createDataFrame(data1) df2 = spark.createDataFrame(data2) # Inner Join inner_join = df1.join(df2, on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Inner Join:&#34;) inner_join.show() # Right Join right_join = df1.join(df2, on=&#34;id&#34;, how=&#34;right&#34;) print(&#34;Right Join:&#34;) right_join.show() # Full (Outer) Join full_join = df1.join(df2, on=&#34;id&#34;, how=&#34;outer&#34;) print(&#34;Full (Outer) Join:&#34;) full_join.show() # Left Anti Join left_anti_join = df1.join(df2, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Left Anti Join:&#34;) left_anti_join.show() # Right Anti Join (Equivalent to swapping DataFrames and performing Left Anti Join) right_anti_join = df2.join(df1, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Right Anti Join:&#34;) right_anti_join.show() # Broadcast Join (Optimizing a join with a smaller DataFrame) broadcast_join = df1.join(broadcast(df2), on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Broadcast Join:&#34;) broadcast_join.show() Practice 2 PySpark Coding Questions Find employees whose location matches the location of their department">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Bricks">
+    <meta itemprop="name" content="Joins :: Data Engineering Notes">
+    <meta itemprop="description" content="Joins in PySpark In PySpark Joins are used to combine two DataFrames based on a common column or condition.
+Types of Joins in PySpark Inner Join: Matches rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) Left/Right Join: Keeps all rows from the left or right DataFrame and matches where possible. df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) Full Join: Keeps all rows from both DataFrames. df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) Left Semi: Filters df1 to rows that match df2 without including columns from df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) Left Anti: Filters df1 to rows that do not match df2. df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) Cross Join: Returns the Cartesian product, combining all rows of both DataFrames. df1.crossJoin(df2) Explicit Condition Join: Allows complex join conditions, including columns with different names. df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;inner&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;right&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;outer&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_semi&#34;) df1.join(df2, df1.common_column == df2.common_column, &#34;left_anti&#34;) df1.crossJoin(df2) df1.join(df2, df1.columnA == df2.columnB, &#34;inner&#34;) Practice-1 from pyspark.sql import SparkSession from pyspark.sql import Row from pyspark.sql.functions import broadcast # Initialize Spark session spark = SparkSession.builder.appName(&#34;JoinsExample&#34;).getOrCreate() # Sample DataFrames data1 = [Row(id=0), Row(id=1), Row(id=1), Row(id=None), Row(id=None)] data2 = [Row(id=1), Row(id=0), Row(id=None)] df1 = spark.createDataFrame(data1) df2 = spark.createDataFrame(data2) # Inner Join inner_join = df1.join(df2, on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Inner Join:&#34;) inner_join.show() # Right Join right_join = df1.join(df2, on=&#34;id&#34;, how=&#34;right&#34;) print(&#34;Right Join:&#34;) right_join.show() # Full (Outer) Join full_join = df1.join(df2, on=&#34;id&#34;, how=&#34;outer&#34;) print(&#34;Full (Outer) Join:&#34;) full_join.show() # Left Anti Join left_anti_join = df1.join(df2, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Left Anti Join:&#34;) left_anti_join.show() # Right Anti Join (Equivalent to swapping DataFrames and performing Left Anti Join) right_anti_join = df2.join(df1, on=&#34;id&#34;, how=&#34;left_anti&#34;) print(&#34;Right Anti Join:&#34;) right_anti_join.show() # Broadcast Join (Optimizing a join with a smaller DataFrame) broadcast_join = df1.join(broadcast(df2), on=&#34;id&#34;, how=&#34;inner&#34;) print(&#34;Broadcast Join:&#34;) broadcast_join.show() Practice 2 PySpark Coding Questions Find employees whose location matches the location of their department">
+    <meta itemprop="wordCount" content="767">
+    <title>Joins :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/azure_data_bricks/joins/" rel="canonical" type="text/html" title="Joins :: Data Engineering Notes">
+    <link href="/azure_data_bricks/joins/index.md" rel="alternate" type="text/markdown" title="Joins :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759832300" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759832300" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759832300" defer></script>
+    <script src="/js/search-lunr.js?1759832300" defer></script>
+    <script src="/js/search.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759832300";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832300" rel="stylesheet">
+    <link href="/css/theme.css?1759832300" rel="stylesheet">
+    <link href="/css/format-print.css?1759832300" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_bricks\/joins\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/azure_data_bricks/joins/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#joins-in-pyspark">Joins in PySpark</a>
+      <ul>
+        <li><a href="#types-of-joins-in-pyspark">Types of Joins in PySpark</a></li>
+        <li><a href="#practice-1">Practice-1</a></li>
+        <li><a href="#practice-2">Practice 2</a></li>
+        <li><a href="#practice-3">Practice 3</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/"><span itemprop="name">ADB</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Joins</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/Joins.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/joins/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/joins/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/aggregations/" title="Aggregate functions (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/when/" title="When|Cast|Union (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_bricks" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="joins">Joins</h1>
+
+<h2 id="joins-in-pyspark">Joins in PySpark</h2>
+<p>In PySpark Joins are used to combine two DataFrames based on a common column or condition.</p>
+<hr>
+<h3 id="types-of-joins-in-pyspark">Types of Joins in PySpark</h3>
+<ul>
+<li><strong>Inner Join</strong>: Matches rows from both DataFrames.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;inner&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<ul>
+<li><strong>Left/Right Join</strong>: Keeps all rows from the left or right DataFrame and matches where possible.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;left&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;right&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<ul>
+<li><strong>Full Join</strong>: Keeps all rows from both DataFrames.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;outer&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<ul>
+<li><strong>Left Semi</strong>: Filters <code>df1</code> to rows that match <code>df2</code> without including columns from <code>df2</code>.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;left_semi&#34;</span><span class="p">)</span> </span></span></code></pre></div>
+<ul>
+<li><strong>Left Anti</strong>: Filters <code>df1</code> to rows that do not match <code>df2</code>.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;left_anti&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<ul>
+<li><strong>Cross Join</strong>: Returns the Cartesian product, combining all rows of both DataFrames.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">crossJoin</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span></span></span></code></pre></div>
+<ul>
+<li><strong>Explicit Condition Join</strong>: Allows complex join conditions, including columns with different names.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">columnA</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">columnB</span><span class="p">,</span> <span class="s2">&#34;inner&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;inner&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;left&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;right&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;outer&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;left_semi&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">common_column</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">common_column</span><span class="p">,</span> <span class="s2">&#34;left_anti&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">crossJoin</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">columnA</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">columnB</span><span class="p">,</span> <span class="s2">&#34;inner&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<hr>
+<h3 id="practice-1">Practice-1</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">broadcast</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Initialize Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;JoinsExample&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample DataFrames</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="p">[</span><span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">data2</span> <span class="o">=</span> <span class="p">[</span><span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Inner Join</span>
+</span></span><span class="line"><span class="cl"><span class="n">inner_join</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&#34;inner&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Inner Join:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">inner_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Right Join</span>
+</span></span><span class="line"><span class="cl"><span class="n">right_join</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&#34;right&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Right Join:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">right_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Full (Outer) Join</span>
+</span></span><span class="line"><span class="cl"><span class="n">full_join</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&#34;outer&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Full (Outer) Join:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">full_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Left Anti Join</span>
+</span></span><span class="line"><span class="cl"><span class="n">left_anti_join</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&#34;left_anti&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Left Anti Join:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">left_anti_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Right Anti Join (Equivalent to swapping DataFrames and performing Left Anti Join)</span>
+</span></span><span class="line"><span class="cl"><span class="n">right_anti_join</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&#34;left_anti&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Right Anti Join:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">right_anti_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Broadcast Join (Optimizing a join with a smaller DataFrame)</span>
+</span></span><span class="line"><span class="cl"><span class="n">broadcast_join</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">broadcast</span><span class="p">(</span><span class="n">df2</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&#34;inner&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Broadcast Join:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">broadcast_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<hr>
+<h3 id="practice-2">Practice 2</h3>
+<h4 id="pyspark-coding-questions">PySpark Coding Questions</h4>
+<ol>
+<li>
+<p><strong>Find employees whose location matches the location of their department</strong></p>
+<ul>
+<li>Display: <code>emp_id</code>, <code>emp_name</code>, <code>emp_location</code>, <code>dept_name</code>, <code>dept_location</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Find departments that have no employees assigned to them</strong></p>
+<ul>
+<li>Display: <code>dept_id</code>, <code>dept_name</code>, <code>dept_head</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Get the average salary of employees in each department</strong></p>
+<ul>
+<li>Display: <code>dept_name</code>, <code>average_salary</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>List the employees who earn more than the average salary of their department</strong></p>
+<ul>
+<li>Display: <code>emp_id</code>, <code>emp_name</code>, <code>emp_salary</code>, <code>dept_name</code>, <code>dept_location</code>.</li>
+</ul>
+</li>
+</ol>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Sample DataFrames</span>
+</span></span><span class="line"><span class="cl"><span class="n">emp_data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">emp_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">emp_name</span><span class="o">=</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="n">emp_salary</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">emp_dept_id</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">emp_location</span><span class="o">=</span><span class="s2">&#34;New York&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">emp_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">emp_name</span><span class="o">=</span><span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="n">emp_salary</span><span class="o">=</span><span class="mi">60000</span><span class="p">,</span> <span class="n">emp_dept_id</span><span class="o">=</span><span class="mi">102</span><span class="p">,</span> <span class="n">emp_location</span><span class="o">=</span><span class="s2">&#34;Los Angeles&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">emp_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">emp_name</span><span class="o">=</span><span class="s2">&#34;Charlie&#34;</span><span class="p">,</span> <span class="n">emp_salary</span><span class="o">=</span><span class="mi">55000</span><span class="p">,</span> <span class="n">emp_dept_id</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">emp_location</span><span class="o">=</span><span class="s2">&#34;Chicago&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">emp_id</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">emp_name</span><span class="o">=</span><span class="s2">&#34;David&#34;</span><span class="p">,</span> <span class="n">emp_salary</span><span class="o">=</span><span class="mi">70000</span><span class="p">,</span> <span class="n">emp_dept_id</span><span class="o">=</span><span class="mi">103</span><span class="p">,</span> <span class="n">emp_location</span><span class="o">=</span><span class="s2">&#34;San Francisco&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">emp_id</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">emp_name</span><span class="o">=</span><span class="s2">&#34;Eve&#34;</span><span class="p">,</span> <span class="n">emp_salary</span><span class="o">=</span><span class="mi">48000</span><span class="p">,</span> <span class="n">emp_dept_id</span><span class="o">=</span><span class="mi">102</span><span class="p">,</span> <span class="n">emp_location</span><span class="o">=</span><span class="s2">&#34;Houston&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dept_data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">dept_id</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">dept_name</span><span class="o">=</span><span class="s2">&#34;Engineering&#34;</span><span class="p">,</span> <span class="n">dept_head</span><span class="o">=</span><span class="s2">&#34;John&#34;</span><span class="p">,</span> <span class="n">dept_location</span><span class="o">=</span><span class="s2">&#34;New York&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">dept_id</span><span class="o">=</span><span class="mi">102</span><span class="p">,</span> <span class="n">dept_name</span><span class="o">=</span><span class="s2">&#34;Marketing&#34;</span><span class="p">,</span> <span class="n">dept_head</span><span class="o">=</span><span class="s2">&#34;Mary&#34;</span><span class="p">,</span> <span class="n">dept_location</span><span class="o">=</span><span class="s2">&#34;Los Angeles&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Row</span><span class="p">(</span><span class="n">dept_id</span><span class="o">=</span><span class="mi">103</span><span class="p">,</span> <span class="n">dept_name</span><span class="o">=</span><span class="s2">&#34;Finance&#34;</span><span class="p">,</span> <span class="n">dept_head</span><span class="o">=</span><span class="s2">&#34;Frank&#34;</span><span class="p">,</span> <span class="n">dept_location</span><span class="o">=</span><span class="s2">&#34;Chicago&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">emp_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;emp_id&#34;</span><span class="p">,</span> <span class="s2">&#34;emp_name&#34;</span><span class="p">,</span> <span class="s2">&#34;emp_salary&#34;</span><span class="p">,</span> <span class="s2">&#34;emp_dept_id&#34;</span><span class="p">,</span> <span class="s2">&#34;emp_location&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">dept_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;dept_id&#34;</span><span class="p">,</span> <span class="s2">&#34;dept_name&#34;</span><span class="p">,</span> <span class="s2">&#34;dept_head&#34;</span><span class="p">,</span> <span class="s2">&#34;dept_location&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">emp_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">emp_data</span><span class="p">,</span> <span class="n">emp_columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dept_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">dept_data</span><span class="p">,</span> <span class="n">dept_columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display emp data</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;emp_data:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">emp_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display dept data</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;dept_data:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dept_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Inner Join on emp_dept_id and dept_id</span>
+</span></span><span class="line"><span class="cl"><span class="n">inner_join</span> <span class="o">=</span> <span class="n">emp_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dept_df</span><span class="p">,</span> <span class="n">emp_df</span><span class="p">[</span><span class="s2">&#34;emp_dept_id&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dept_df</span><span class="p">[</span><span class="s2">&#34;dept_id&#34;</span><span class="p">],</span> <span class="s2">&#34;inner&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the result</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Inner Join Result:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">inner_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Inner Join with Filtering Columns and WHERE Condition</span>
+</span></span><span class="line"><span class="cl"><span class="n">inner_join</span> <span class="o">=</span> <span class="n">emp_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dept_df</span><span class="p">,</span> <span class="n">emp_df</span><span class="p">[</span><span class="s2">&#34;emp_dept_id&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dept_df</span><span class="p">[</span><span class="s2">&#34;dept_id&#34;</span><span class="p">],</span> <span class="s2">&#34;inner&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;emp_id&#34;</span><span class="p">,</span> <span class="s2">&#34;emp_name&#34;</span><span class="p">,</span> <span class="s2">&#34;emp_salary&#34;</span><span class="p">,</span> <span class="s2">&#34;dept_name&#34;</span><span class="p">,</span> <span class="s2">&#34;dept_location&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&#34;emp_salary &gt; 55000&#34;</span><span class="p">)</span>  <span class="c1"># Add a WHERE condition</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the result</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Inner Join with Filter and WHERE Condition:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">inner_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Left Join with Filtering Columns and WHERE Condition</span>
+</span></span><span class="line"><span class="cl"><span class="n">left_join_filtered</span> <span class="o">=</span> <span class="n">emp_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dept_df</span><span class="p">,</span> <span class="n">emp_df</span><span class="p">[</span><span class="s2">&#34;emp_dept_id&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dept_df</span><span class="p">[</span><span class="s2">&#34;dept_id&#34;</span><span class="p">],</span> <span class="s2">&#34;left&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;emp_id&#34;</span><span class="p">,</span> <span class="s2">&#34;emp_name&#34;</span><span class="p">,</span> <span class="s2">&#34;dept_name&#34;</span><span class="p">,</span> <span class="s2">&#34;dept_location&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&#34;emp_salary &gt; 55000&#34;</span><span class="p">)</span>  <span class="c1"># Add a WHERE condition</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the result</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Left Join with Filter and WHERE Condition:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">left_join_filtered</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Left Anti Join</span>
+</span></span><span class="line"><span class="cl"><span class="n">left_anti_join</span> <span class="o">=</span> <span class="n">emp_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dept_df</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">emp_df</span><span class="p">[</span><span class="s2">&#34;emp_dept_id&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dept_df</span><span class="p">[</span><span class="s2">&#34;dept_id&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;left_anti&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the result</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Left Anti Join Result:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">left_anti_join</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<hr>
+<h3 id="practice-3">Practice 3</h3>
+<h4 id="pyspark-coding-questions-1">PySpark Coding Questions</h4>
+<ol>
+<li>
+<p><strong>List each employee along with their manager&rsquo;s name</strong></p>
+<ul>
+<li>Display: <code>employee</code>, <code>manager</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Find employees who do not have a manager (CEO-level employees)</strong></p>
+<ul>
+<li>Display: <code>employee</code>, <code>manager</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Find all employees who directly report to &ldquo;Manager A&rdquo;</strong></p>
+<ul>
+<li>Display: <code>empid</code>, <code>ename</code>, <code>mrgid</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Determine the hierarchy level of each employee</strong></p>
+<ul>
+<li>CEO → Level 1, direct reports to CEO → Level 2, and so on.</li>
+<li>Display: <code>empid</code>, <code>ename</code>, <code>mrgid</code>, <code>level</code>.</li>
+</ul>
+</li>
+</ol>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">expr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create a Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;EmployeeHierarchy&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&#34;CEO&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;Manager A&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;Manager B&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;Employee X&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&#34;Employee Y&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;empid&#34;</span><span class="p">,</span> <span class="s2">&#34;mrgid&#34;</span><span class="p">,</span> <span class="s2">&#34;ename&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">employee_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the result</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;emp_data:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">employee_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Self-join to find the manager and CEO</span>
+</span></span><span class="line"><span class="cl"><span class="n">manager_df</span> <span class="o">=</span> <span class="n">employee_df</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;e&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">employee_df</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;m&#34;</span><span class="p">),</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;e.mrgid&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;m.empid&#34;</span><span class="p">),</span> <span class="s2">&#34;left&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;e.ename&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;employee&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;m.ename&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;manager&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the result</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;mgr:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">manager_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Filter for employees without a manager (CEO)</span>
+</span></span><span class="line"><span class="cl"><span class="n">manager_df2</span> <span class="o">=</span> <span class="n">employee_df</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;e1&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">employee_df</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;m1&#34;</span><span class="p">),</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;e1.mrgid&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;m1.empid&#34;</span><span class="p">),</span> <span class="s2">&#34;left&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;e1.ename&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;employee&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;m1.ename&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;manager&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;manager&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">isNull</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the result</span>
+</span></span><span class="line"><span class="cl"><span class="n">manager_df2</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1759832300" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832300" defer></script>
+    <script src="/js/theme.js?1759832300" defer></script>
+  </body>
+</html>

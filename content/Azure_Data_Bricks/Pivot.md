@@ -3,12 +3,13 @@ title = "Pivot"
 weight = 11
 +++
 
+## Pivot in PySpark
 The **pivot** operation in PySpark is used to **transpose rows into columns** based on a specified column's unique values.  
 It's particularly useful for creating **wide-format data**, where values in one column become new column headers, and corresponding values from another column fill those headers.
 
 ---
 
-## Key Concepts
+### Key Concepts
 
 1. **groupBy and pivot**
    - The `pivot` method is typically used in combination with `groupBy`.  
@@ -28,9 +29,9 @@ dataframe.groupBy("group_column").pivot("pivot_column").agg(aggregation_function
 ```
 
 
-## Example Code: Pivot in PySpark
+### Example Code: Pivot in PySpark
 
-### Sample Data
+#### Sample Data
 Imagine we have a DataFrame of sales data with the following schema:
 | Product | Region | Sales |
 |---------|--------|-------|
@@ -40,10 +41,6 @@ Imagine we have a DataFrame of sales data with the following schema:
 | B       | South  | 300   |
 
 We want to pivot the data so that regions (North, South) become columns and the sales values are aggregated.
-
-### Code Implementation
-
-# Example: Pivot in PySpark
 
 ```python
 from pyspark.sql import SparkSession
@@ -72,7 +69,7 @@ pivoted_df.show()
 ```
 
 
-## Output
+#### Output
 
 | Product | North | South |
 |---------|-------|-------|
@@ -80,7 +77,7 @@ pivoted_df.show()
 | B       | 150   | 300   |
 
 
-## Explanation of Code
+### Explanation of Code
 
 1. **groupBy("Product")**  
    - Groups the data by the `Product` column.
@@ -93,7 +90,7 @@ pivoted_df.show()
 
 ---
 
-## Notes
+### Notes
 
 - **Explicit Pivot Values**: To improve performance, you can specify the pivot values explicitly.  
 
@@ -112,32 +109,33 @@ The unpivot operation (also called melting) is used to transform a wide-format t
 
 ### Key Concepts
 
-### 1. Purpose of Unpivot:
+**1. Purpose of Unpivot:**
 
 - Simplifies data analysis by converting column headers into a single column (e.g., categorical variables).
     
 - Ideal for scenarios where you need to aggregate data further or visualize it in a long format.
     
 
-### 2. Syntax Overview:
+**2. Syntax Overview:**
 
 - Use the stack function inside a selectExpr to unpivot.
     
 - Stack reshapes the DataFrame by creating multiple rows for specified columns.
     
 
-### 3. Performance:
+**3. Performance:**
 
 - Unpivoting can generate many rows, especially if the original DataFrame is wide with numerous columns. Ensure your environment can handle the resulting data volume.
 
 
 ### Example: Unpivot in PySpark
-**Sample Data**
+#### Sample Data
 Suppose we have the following DataFrame:
 | Product | North | South | East | West |
 | ------- | ----- | ----- | ---- | ---- |
 | A       | 100   | 200   | 150  | 130  |
 | B       | 150   | 300   | 200  | 180  |
+
 
 ```python
 from pyspark.sql import SparkSession
@@ -165,7 +163,7 @@ unpivoted_df = df.selectExpr(
 unpivoted_df.show()
 ```
 
-## Explanation of Code
+### Explanation of Code
 
 1. **Input DataFrame**:  
    - Each column (North, South, East, West) represents a region's sales for each product.
@@ -181,7 +179,7 @@ unpivoted_df.show()
 
 ---
 
-## Alternative Methods
+### Alternative Methods
 
 **Using withColumn and union**:  
 If stack isn't flexible enough, you can manually combine rows for each column:
@@ -203,7 +201,7 @@ unpivoted_df.show()
 ```
 
 
-## Notes
+### Notes
 
 1. **Performance Considerations**  
    - `stack` is efficient for unpivoting a large number of columns.  

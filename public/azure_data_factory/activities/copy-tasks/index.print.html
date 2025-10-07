@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="📝 Copy Data Activity – Hands-on Task Checklist 1. Basics &amp; Setup Create a pipeline with Copy Activity to copy data from Azure Blob Storage → Azure SQL Database.
+Try copying structured (CSV), semi-structured (JSON), and binary files.
+2. Connectors Copy data from Azure Blob → ADLS Gen2.
+Copy data from On-prem SQL Server → Azure SQL DB using Self-hosted IR.
+Copy data from a REST API → ADLS.
+3. Integration Runtime Use Auto-resolve IR for cloud-to-cloud copy.">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Copy Activity Tasks :: Data Engineering Notes">
+    <meta name="twitter:description" content="📝 Copy Data Activity – Hands-on Task Checklist 1. Basics &amp; Setup Create a pipeline with Copy Activity to copy data from Azure Blob Storage → Azure SQL Database.
+Try copying structured (CSV), semi-structured (JSON), and binary files.
+2. Connectors Copy data from Azure Blob → ADLS Gen2.
+Copy data from On-prem SQL Server → Azure SQL DB using Self-hosted IR.
+Copy data from a REST API → ADLS.
+3. Integration Runtime Use Auto-resolve IR for cloud-to-cloud copy.">
+    <meta property="og:url" content="http://localhost:1313/azure_data_factory/activities/copy-tasks/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Copy Activity Tasks :: Data Engineering Notes">
+    <meta property="og:description" content="📝 Copy Data Activity – Hands-on Task Checklist 1. Basics &amp; Setup Create a pipeline with Copy Activity to copy data from Azure Blob Storage → Azure SQL Database.
+Try copying structured (CSV), semi-structured (JSON), and binary files.
+2. Connectors Copy data from Azure Blob → ADLS Gen2.
+Copy data from On-prem SQL Server → Azure SQL DB using Self-hosted IR.
+Copy data from a REST API → ADLS.
+3. Integration Runtime Use Auto-resolve IR for cloud-to-cloud copy.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Factory">
+    <meta itemprop="name" content="Copy Activity Tasks :: Data Engineering Notes">
+    <meta itemprop="description" content="📝 Copy Data Activity – Hands-on Task Checklist 1. Basics &amp; Setup Create a pipeline with Copy Activity to copy data from Azure Blob Storage → Azure SQL Database.
+Try copying structured (CSV), semi-structured (JSON), and binary files.
+2. Connectors Copy data from Azure Blob → ADLS Gen2.
+Copy data from On-prem SQL Server → Azure SQL DB using Self-hosted IR.
+Copy data from a REST API → ADLS.
+3. Integration Runtime Use Auto-resolve IR for cloud-to-cloud copy.">
+    <meta itemprop="wordCount" content="315">
+    <title>Copy Activity Tasks :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/azure_data_factory/activities/copy-tasks/" rel="canonical" type="text/html" title="Copy Activity Tasks :: Data Engineering Notes">
+    <link href="/azure_data_factory/activities/copy-tasks/index.md" rel="alternate" type="text/markdown" title="Copy Activity Tasks :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759831580" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759831580" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759831580" defer></script>
+    <script src="/js/search-lunr.js?1759831580" defer></script>
+    <script src="/js/search.js?1759831580" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759831580";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759831580" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759831580" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759831580" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759831580" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759831580" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759831580" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759831580" rel="stylesheet">
+    <link href="/css/theme.css?1759831580" rel="stylesheet">
+    <link href="/css/format-print.css?1759831580" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_factory\/activities\/copy-tasks\/';
+      window.relearn.relBasePath='..\/..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/azure_data_factory/activities/copy-tasks/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#-copy-data-activity--hands-on-task-checklist">📝 Copy Data Activity – Hands-on Task Checklist</a>
+      <ul>
+        <li><a href="#1-basics--setup">1. Basics &amp; Setup</a></li>
+        <li><a href="#2-connectors">2. Connectors</a></li>
+        <li><a href="#3-integration-runtime">3. Integration Runtime</a></li>
+        <li><a href="#4-mapping--schema-handling">4. Mapping &amp; Schema Handling</a></li>
+        <li><a href="#5-performance-optimization">5. Performance Optimization</a></li>
+        <li><a href="#6-transformations">6. Transformations</a></li>
+        <li><a href="#7-fault-tolerance--error-handling">7. Fault Tolerance &amp; Error Handling</a></li>
+        <li><a href="#8-security">8. Security</a></li>
+        <li><a href="#9-monitoring">9. Monitoring</a></li>
+        <li><a href="#10-cost--optimization">10. Cost &amp; Optimization</a></li>
+        <li><a href="#11-advanced-features">11. Advanced Features</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_factory/"><span itemprop="name">ADF</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_factory/activities/"><span itemprop="name">Tasks</span></a><meta itemprop="position" content="3">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Copy Activity Tasks</span><meta itemprop="position" content="4"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Factory/Activities/Copy-Tasks.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/activities/copy-tasks/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/activities/copy-tasks/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_factory/activities/copy-activity/" title="Copy Activity (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/" title="Azure Data Bricks (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_factory" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="copy-activity-tasks">Copy Activity Tasks</h1>
+
+<h2 id="-copy-data-activity--hands-on-task-checklist">📝 Copy Data Activity – Hands-on Task Checklist</h2>
+<h3 id="1-basics--setup">1. Basics &amp; Setup</h3>
+<p>Create a pipeline with Copy Activity to copy data from Azure Blob Storage → Azure SQL Database.</p>
+<p>Try copying structured (CSV), semi-structured (JSON), and binary files.</p>
+<h3 id="2-connectors">2. Connectors</h3>
+<p>Copy data from Azure Blob → ADLS Gen2.</p>
+<p>Copy data from On-prem SQL Server → Azure SQL DB using Self-hosted IR.</p>
+<p>Copy data from a REST API → ADLS.</p>
+<h3 id="3-integration-runtime">3. Integration Runtime</h3>
+<p>Use Auto-resolve IR for cloud-to-cloud copy.</p>
+<p>Set up a Self-hosted IR to copy on-prem SQL → Blob.</p>
+<h3 id="4-mapping--schema-handling">4. Mapping &amp; Schema Handling</h3>
+<p>Test auto-mapping (matching column names).</p>
+<p>Configure explicit mapping (manual mapping between different schemas).</p>
+<p>Try a scenario with schema drift (extra columns in source) and handle it.</p>
+<h3 id="5-performance-optimization">5. Performance Optimization</h3>
+<p>Enable parallel copy and observe throughput improvement.</p>
+<p>Implement partitioned copy (range partition on an integer/date column).</p>
+<p>Use staging (Blob/ADLS) when copying into Azure Synapse.</p>
+<h3 id="6-transformations">6. Transformations</h3>
+<p>Copy CSV → Parquet with compression (snappy).</p>
+<p>Perform data type conversion (string → int, float → decimal).</p>
+<p>Try copying compressed files (gzip, zip) and decompress during load.</p>
+<h3 id="7-fault-tolerance--error-handling">7. Fault Tolerance &amp; Error Handling</h3>
+<p>Configure retry policy for a failed copy.</p>
+<p>Use fault tolerance settings to skip bad rows and log errors to a file.</p>
+<h3 id="8-security">8. Security</h3>
+<p>Store connection strings in Azure Key Vault and link them in Copy Activity.</p>
+<p>Use Managed Identity authentication to access Azure Storage.</p>
+<p>Test with service principal authentication for an external system.</p>
+<h3 id="9-monitoring">9. Monitoring</h3>
+<p>Run the pipeline and review monitoring tab: throughput, data read/written, duration.</p>
+<p>Introduce an error (e.g., wrong column mapping) and analyze detailed error logs.</p>
+<p>Enable logging to Azure Monitor / Log Analytics.</p>
+<h3 id="10-cost--optimization">10. Cost &amp; Optimization</h3>
+<p>Compare runtime &amp; cost for:</p>
+<p>Single-threaded copy vs parallel copy.</p>
+<p>Direct copy vs staged copy into Synapse.</p>
+<h3 id="11-advanced-features">11. Advanced Features</h3>
+<p>Enable Preserve folder hierarchy when copying nested directories.</p>
+<p>Test binary copy for images or PDFs.</p>
+<p>Configure incremental copy using a watermark column (LastModifiedDate).</p>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1759831580" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759831580" defer></script>
+    <script src="/js/theme.js?1759831580" defer></script>
+  </body>
+</html>

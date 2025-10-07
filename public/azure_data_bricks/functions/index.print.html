@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Sorting and String Functions from pyspark.sql import SparkSession from pyspark.sql.functions import col, desc, asc, concat, concat_ws, initcap, lower, upper, instr, length, lit # Create a Spark session spark = SparkSession.builder.appName(&#34;SortingAndStringFunctions&#34;).getOrCreate() # Sample data data = [ (&#34;USA&#34;, &#34;North America&#34;, 100, 50.5), (&#34;India&#34;, &#34;Asia&#34;, 300, 20.0), (&#34;Germany&#34;, &#34;Europe&#34;, 200, 30.5), (&#34;Australia&#34;, &#34;Oceania&#34;, 150, 60.0), (&#34;Japan&#34;, &#34;Asia&#34;, 120, 45.0), (&#34;Brazil&#34;, &#34;South America&#34;, 180, 25.0) ] # Define the schema columns = [&#34;Country&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;UnitPrice&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Display the original DataFrame df.show() Sorting the DataFrame 1. Sort by a single column (ascending order) df.orderBy(&#34;Country&#34;).show(5)
+By default, sorting is ascending. This shows the first 5 countries alphabetically.">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functions :: Data Engineering Notes">
+    <meta name="twitter:description" content="Sorting and String Functions from pyspark.sql import SparkSession from pyspark.sql.functions import col, desc, asc, concat, concat_ws, initcap, lower, upper, instr, length, lit # Create a Spark session spark = SparkSession.builder.appName(&#34;SortingAndStringFunctions&#34;).getOrCreate() # Sample data data = [ (&#34;USA&#34;, &#34;North America&#34;, 100, 50.5), (&#34;India&#34;, &#34;Asia&#34;, 300, 20.0), (&#34;Germany&#34;, &#34;Europe&#34;, 200, 30.5), (&#34;Australia&#34;, &#34;Oceania&#34;, 150, 60.0), (&#34;Japan&#34;, &#34;Asia&#34;, 120, 45.0), (&#34;Brazil&#34;, &#34;South America&#34;, 180, 25.0) ] # Define the schema columns = [&#34;Country&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;UnitPrice&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Display the original DataFrame df.show() Sorting the DataFrame 1. Sort by a single column (ascending order) df.orderBy(&#34;Country&#34;).show(5)
+By default, sorting is ascending. This shows the first 5 countries alphabetically.">
+    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/functions/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Functions :: Data Engineering Notes">
+    <meta property="og:description" content="Sorting and String Functions from pyspark.sql import SparkSession from pyspark.sql.functions import col, desc, asc, concat, concat_ws, initcap, lower, upper, instr, length, lit # Create a Spark session spark = SparkSession.builder.appName(&#34;SortingAndStringFunctions&#34;).getOrCreate() # Sample data data = [ (&#34;USA&#34;, &#34;North America&#34;, 100, 50.5), (&#34;India&#34;, &#34;Asia&#34;, 300, 20.0), (&#34;Germany&#34;, &#34;Europe&#34;, 200, 30.5), (&#34;Australia&#34;, &#34;Oceania&#34;, 150, 60.0), (&#34;Japan&#34;, &#34;Asia&#34;, 120, 45.0), (&#34;Brazil&#34;, &#34;South America&#34;, 180, 25.0) ] # Define the schema columns = [&#34;Country&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;UnitPrice&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Display the original DataFrame df.show() Sorting the DataFrame 1. Sort by a single column (ascending order) df.orderBy(&#34;Country&#34;).show(5)
+By default, sorting is ascending. This shows the first 5 countries alphabetically.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Bricks">
+    <meta itemprop="name" content="Functions :: Data Engineering Notes">
+    <meta itemprop="description" content="Sorting and String Functions from pyspark.sql import SparkSession from pyspark.sql.functions import col, desc, asc, concat, concat_ws, initcap, lower, upper, instr, length, lit # Create a Spark session spark = SparkSession.builder.appName(&#34;SortingAndStringFunctions&#34;).getOrCreate() # Sample data data = [ (&#34;USA&#34;, &#34;North America&#34;, 100, 50.5), (&#34;India&#34;, &#34;Asia&#34;, 300, 20.0), (&#34;Germany&#34;, &#34;Europe&#34;, 200, 30.5), (&#34;Australia&#34;, &#34;Oceania&#34;, 150, 60.0), (&#34;Japan&#34;, &#34;Asia&#34;, 120, 45.0), (&#34;Brazil&#34;, &#34;South America&#34;, 180, 25.0) ] # Define the schema columns = [&#34;Country&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;UnitPrice&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Display the original DataFrame df.show() Sorting the DataFrame 1. Sort by a single column (ascending order) df.orderBy(&#34;Country&#34;).show(5)
+By default, sorting is ascending. This shows the first 5 countries alphabetically.">
+    <meta itemprop="wordCount" content="892">
+    <title>Functions :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/azure_data_bricks/functions/" rel="canonical" type="text/html" title="Functions :: Data Engineering Notes">
+    <link href="/azure_data_bricks/functions/index.md" rel="alternate" type="text/markdown" title="Functions :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759832300" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759832300" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759832300" defer></script>
+    <script src="/js/search-lunr.js?1759832300" defer></script>
+    <script src="/js/search.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759832300";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832300" rel="stylesheet">
+    <link href="/css/theme.css?1759832300" rel="stylesheet">
+    <link href="/css/format-print.css?1759832300" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_bricks\/functions\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/azure_data_bricks/functions/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#sorting-and-string-functions">Sorting and String Functions</a>
+      <ul>
+        <li><a href="#sorting-the-dataframe">Sorting the DataFrame</a></li>
+        <li><a href="#1-sort-by-a-single-column-ascending-order">1. Sort by a single column (ascending order)</a></li>
+        <li><a href="#2-sort-by-multiple-columns">2. Sort by multiple columns</a></li>
+        <li><a href="#3-sort-by-column-in-descending-order-and-limit">3. Sort by column in descending order and limit</a></li>
+        <li><a href="#4-sorting-with-null-values-last">4. Sorting with null values last</a></li>
+      </ul>
+    </li>
+    <li><a href="#string-functions">String Functions</a>
+      <ul>
+        <li><a href="#1-capitalize-first-letter-of-each-word">1. Capitalize first letter of each word</a></li>
+        <li><a href="#2-convert-all-text-to-lowercase">2. Convert all text to lowercase</a></li>
+        <li><a href="#3-convert-all-text-to-uppercase">3. Convert all text to uppercase</a></li>
+      </ul>
+    </li>
+    <li><a href="#concatenation-functions">Concatenation Functions</a>
+      <ul>
+        <li><a href="#1-concatenate-two-columns">1. Concatenate two columns</a></li>
+        <li><a href="#2-concatenate-with-a-separator">2. Concatenate with a separator</a></li>
+        <li><a href="#3-create-a-new-concatenated-column">3. Create a new concatenated column</a></li>
+        <li><a href="#-summary">📌 Summary</a></li>
+      </ul>
+    </li>
+    <li><a href="#split-function-in-dataframe">Split Function in DataFrame</a>
+      <ul>
+        <li><a href="#sample-data-creation-for-employee-data">Sample Data Creation for Employee Data</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#1-split-the-skills-column">1. Split the <code>Skills</code> column</a></li>
+        <li><a href="#2-select-the-first-skill-from-skills_array">2. Select the first skill from <code>Skills_Array</code></a></li>
+        <li><a href="#3-count-the-number-of-skills-per-employee">3. Count the number of skills per employee</a></li>
+        <li><a href="#4-check-if-the-employee-has-cloud-skill">4. Check if the employee has &ldquo;Cloud&rdquo; skill</a></li>
+        <li><a href="#5-explode-the-skills_array-into-multiple-rows">5. Explode the <code>Skills_Array</code> into multiple rows</a></li>
+        <li><a href="#-summary-of-key-functions">📌 Summary of Key Functions</a></li>
+      </ul>
+    </li>
+    <li><a href="#trim-function-in-dataframe">Trim Function in DataFrame</a>
+      <ul>
+        <li><a href="#sample-data-creation-for-employees">Sample Data Creation for Employees</a></li>
+        <li><a href="#applying-trimming-and-padding-functions">Applying Trimming and Padding Functions</a></li>
+        <li><a href="#1-trimming-functions">1. Trimming Functions</a></li>
+        <li><a href="#2-padding-functions">2. Padding Functions</a></li>
+        <li><a href="#example">Example</a></li>
+        <li><a href="#output-explanation">Output Explanation</a></li>
+        <li><a href="#-summary-1">📌 Summary</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/"><span itemprop="name">ADB</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Functions</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/Functions.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/functions/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/functions/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/df-operations/" title="DF Operations (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/date/" title="Date Functions (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_bricks" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="functions">Functions</h1>
+
+<h2 id="sorting-and-string-functions">Sorting and String Functions</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">asc</span><span class="p">,</span> <span class="n">concat</span><span class="p">,</span> <span class="n">concat_ws</span><span class="p">,</span> <span class="n">initcap</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">instr</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">lit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create a Spark session</span>
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;SortingAndStringFunctions&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="s2">&#34;USA&#34;</span><span class="p">,</span> <span class="s2">&#34;North America&#34;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">50.5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="s2">&#34;India&#34;</span><span class="p">,</span> <span class="s2">&#34;Asia&#34;</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="s2">&#34;Germany&#34;</span><span class="p">,</span> <span class="s2">&#34;Europe&#34;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mf">30.5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="s2">&#34;Australia&#34;</span><span class="p">,</span> <span class="s2">&#34;Oceania&#34;</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="s2">&#34;Japan&#34;</span><span class="p">,</span> <span class="s2">&#34;Asia&#34;</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="s2">&#34;Brazil&#34;</span><span class="p">,</span> <span class="s2">&#34;South America&#34;</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define the schema</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Country&#34;</span><span class="p">,</span> <span class="s2">&#34;Region&#34;</span><span class="p">,</span> <span class="s2">&#34;UnitsSold&#34;</span><span class="p">,</span> <span class="s2">&#34;UnitPrice&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the original DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="sorting-the-dataframe">Sorting the DataFrame</h3>
+<h3 id="1-sort-by-a-single-column-ascending-order">1. Sort by a single column (ascending order)</h3>
+<p><code>df.orderBy(&quot;Country&quot;).show(5)</code></p>
+<blockquote>
+<p>By default, sorting is ascending. This shows the first 5 countries alphabetically.</p></blockquote>
+<h3 id="2-sort-by-multiple-columns">2. Sort by multiple columns</h3>
+<p><code>df.orderBy(&quot;Country&quot;, &quot;UnitsSold&quot;).show(5)</code></p>
+<blockquote>
+<p>First sorts by <code>Country</code>, then within each country sorts by <code>UnitsSold</code>.</p></blockquote>
+<h3 id="3-sort-by-column-in-descending-order-and-limit">3. Sort by column in descending order and limit</h3>
+<p><code>df.orderBy(desc(&quot;Country&quot;)).limit(3).show(5)</code></p>
+<blockquote>
+<p>Sorts by <code>Country</code> in descending order and returns the top 3 rows.</p></blockquote>
+<h3 id="4-sorting-with-null-values-last">4. Sorting with null values last</h3>
+<p><code>df.orderBy(col(&quot;Country&quot;).desc(), nulls_last=True).show(5)</code></p>
+<blockquote>
+<p>Ensures null values appear at the end when sorting.</p></blockquote>
+<p><strong>Key Functions:</strong></p>
+<ul>
+<li>
+<p>Use <code>.orderBy()</code> or <code>.sort()</code> to sort DataFrames.</p>
+</li>
+<li>
+<p>Control order with <code>asc()</code> or <code>desc()</code>.</p>
+</li>
+</ul>
+<hr>
+<h2 id="string-functions">String Functions</h2>
+<h3 id="1-capitalize-first-letter-of-each-word">1. Capitalize first letter of each word</h3>
+<p><code>df.select(initcap(col(&quot;Country&quot;))).show()</code></p>
+<blockquote>
+<p>Converts <code>&quot;united states&quot;</code> → <code>&quot;United States&quot;</code>.</p></blockquote>
+<h3 id="2-convert-all-text-to-lowercase">2. Convert all text to lowercase</h3>
+<p><code>df.select(lower(col(&quot;Country&quot;))).show()</code></p>
+<h3 id="3-convert-all-text-to-uppercase">3. Convert all text to uppercase</h3>
+<p><code>df.select(upper(col(&quot;Country&quot;))).show()</code></p>
+<p><strong>Key Functions:</strong></p>
+<ul>
+<li>
+<p><code>initcap()</code> → Capitalize first letter of each word.</p>
+</li>
+<li>
+<p><code>lower()</code> → Convert to lowercase.</p>
+</li>
+<li>
+<p><code>upper()</code> → Convert to uppercase.</p>
+</li>
+</ul>
+<hr>
+<h2 id="concatenation-functions">Concatenation Functions</h2>
+<h3 id="1-concatenate-two-columns">1. Concatenate two columns</h3>
+<p><code>df.select(concat(col(&quot;Region&quot;), col(&quot;Country&quot;))).show()</code></p>
+<blockquote>
+<p>Joins <code>Region</code> and <code>Country</code> without separator.</p></blockquote>
+<h3 id="2-concatenate-with-a-separator">2. Concatenate with a separator</h3>
+<p><code>df.select(concat_ws(&quot; | &quot;, col(&quot;Region&quot;), col(&quot;Country&quot;))).show()</code></p>
+<blockquote>
+<p>Joins with <code>&quot; | &quot;</code> as separator.</p></blockquote>
+<h3 id="3-create-a-new-concatenated-column">3. Create a new concatenated column</h3>
+<p><code>df.withColumn(&quot;concatenated&quot;, concat(df[&quot;Region&quot;], lit(&quot; &quot;), df[&quot;Country&quot;])).show()</code></p>
+<blockquote>
+<p>Adds a new column combining <code>Region</code> and <code>Country</code>.</p></blockquote>
+<p><strong>Key Functions:</strong></p>
+<ul>
+<li>
+<p><code>concat()</code> → Join columns directly.</p>
+</li>
+<li>
+<p><code>concat_ws()</code> → Join columns with a separator.</p>
+</li>
+</ul>
+<hr>
+<h3 id="-summary">📌 Summary</h3>
+<ul>
+<li><strong>Sorting:</strong> Use <code>.orderBy()</code> or <code>.sort()</code> with <code>asc()</code> / <code>desc()</code>.</li>
+<li><strong>String Manipulation:</strong> Use <code>initcap()</code>, <code>lower()</code>, <code>upper()</code>.</li>
+<li><strong>Concatenation:</strong> Use <code>concat()</code> or <code>concat_ws()</code> for flexible joins.</li>
+</ul>
+<hr>
+<h2 id="split-function-in-dataframe">Split Function in DataFrame</h2>
+<p>Let’s create a PySpark DataFrame for employee data with columns such as <strong>EmployeeID, Name, Department, and Skills</strong>. We’ll explore <code>split</code>, <code>explode</code>, and other useful array functions.</p>
+<h3 id="sample-data-creation-for-employee-data">Sample Data Creation for Employee Data</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">split</span><span class="p">,</span> <span class="n">explode</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">array_contains</span><span class="p">,</span> <span class="n">col</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample employee data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="s2">&#34;HR&#34;</span><span class="p">,</span> <span class="s2">&#34;Communication Management&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="s2">&#34;IT&#34;</span><span class="p">,</span> <span class="s2">&#34;Programming Networking&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&#34;Charlie&#34;</span><span class="p">,</span> <span class="s2">&#34;Finance&#34;</span><span class="p">,</span> <span class="s2">&#34;Accounting Analysis&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&#34;David&#34;</span><span class="p">,</span> <span class="s2">&#34;HR&#34;</span><span class="p">,</span> <span class="s2">&#34;Recruiting Communication&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&#34;Eve&#34;</span><span class="p">,</span> <span class="s2">&#34;IT&#34;</span><span class="p">,</span> <span class="s2">&#34;Cloud DevOps&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define the schema</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;EmployeeID&#34;</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;Department&#34;</span><span class="p">,</span> <span class="s2">&#34;Skills&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display the original DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<h3 id="examples">Examples</h3>
+<h3 id="1-split-the-skills-column">1. Split the <code>Skills</code> column</h3>
+<p><code>df.select(col(&quot;EmployeeID&quot;), col(&quot;Name&quot;), split(col(&quot;Skills&quot;), &quot; &quot;).alias(&quot;Skills_Array&quot;)).show(truncate=False)</code></p>
+<blockquote>
+<p>Splits the <code>Skills</code> column into an array of skills using space as a delimiter.</p></blockquote>
+<hr>
+<h3 id="2-select-the-first-skill-from-skills_array">2. Select the first skill from <code>Skills_Array</code></h3>
+<p><code>df2.select(col(&quot;EmployeeID&quot;), col(&quot;Name&quot;), col(&quot;Skills_Array&quot;)[0].alias(&quot;First_Skill&quot;)).show(truncate=False)</code></p>
+<blockquote>
+<p>Uses index notation (<code>Skills_Array[0]</code>) to pick the first skill. Indexing starts from <strong>0</strong>.</p></blockquote>
+<hr>
+<h3 id="3-count-the-number-of-skills-per-employee">3. Count the number of skills per employee</h3>
+<p><code>df2.select(col(&quot;EmployeeID&quot;), col(&quot;Name&quot;), size(col(&quot;Skills_Array&quot;)).alias(&quot;Number_of_Skills&quot;)).show(truncate=False)</code></p>
+<blockquote>
+<p>The <code>size()</code> function returns the number of elements in the array.</p></blockquote>
+<hr>
+<h3 id="4-check-if-the-employee-has-cloud-skill">4. Check if the employee has &ldquo;Cloud&rdquo; skill</h3>
+<p><code>df.select(col(&quot;EmployeeID&quot;), col(&quot;Name&quot;), array_contains(split(col(&quot;Skills&quot;), &quot; &quot;), &quot;Cloud&quot;).alias(&quot;Has_Cloud_Skill&quot;)).show(truncate=False)</code>
+`</p>
+<blockquote>
+<p><code>array_contains()</code> returns <strong>True</strong> if <code>&quot;Cloud&quot;</code> exists in the skill set.</p></blockquote>
+<hr>
+<h3 id="5-explode-the-skills_array-into-multiple-rows">5. Explode the <code>Skills_Array</code> into multiple rows</h3>
+<p><code>df3 = df2.withColumn(&quot;Skill&quot;, explode(col(&quot;Skills_Array&quot;)))</code></p>
+<p><code>df3.select(&quot;EmployeeID&quot;, &quot;Name&quot;, &quot;Skill&quot;).show(truncate=False)</code></p>
+<blockquote>
+<p><code>explode()</code> flattens the array into rows, where each skill becomes a separate row for that employee.</p></blockquote>
+<hr>
+<h3 id="-summary-of-key-functions">📌 Summary of Key Functions</h3>
+<ul>
+<li><strong>split()</strong> → Splits a string into an array.</li>
+<li><strong>explode()</strong> → Converts an array into multiple rows.</li>
+<li><strong>size()</strong> → Counts elements in an array.</li>
+<li><strong>array_contains()</strong> → Checks if an array contains a value.</li>
+<li><strong>selectExpr()</strong> → Lets you query arrays using SQL expressions like <code>Skills_Array[0]</code>.</li>
+</ul>
+<hr>
+<hr>
+<h2 id="trim-function-in-dataframe">Trim Function in DataFrame</h2>
+<p>Let’s create a sample dataset for employees and demonstrate string trimming and padding functions in PySpark:</p>
+<ul>
+<li><code>ltrim()</code></li>
+<li><code>rtrim()</code></li>
+<li><code>trim()</code></li>
+<li><code>lpad()</code></li>
+<li><code>rpad()</code></li>
+</ul>
+<hr>
+<h3 id="sample-data-creation-for-employees">Sample Data Creation for Employees</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span><span class="p">,</span> <span class="n">ltrim</span><span class="p">,</span> <span class="n">rtrim</span><span class="p">,</span> <span class="n">rpad</span><span class="p">,</span> <span class="n">lpad</span><span class="p">,</span> <span class="n">trim</span><span class="p">,</span> <span class="n">col</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample employee data with leading and trailing spaces in the &#39;Name&#39; column</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34; Alice   &#34;</span><span class="p">,</span> <span class="s2">&#34;HR&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;  Bob&#34;</span><span class="p">,</span> <span class="s2">&#34;IT&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&#34;Charlie  &#34;</span><span class="p">,</span> <span class="s2">&#34;Finance&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&#34;  David &#34;</span><span class="p">,</span> <span class="s2">&#34;HR&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&#34;Eve  &#34;</span><span class="p">,</span> <span class="s2">&#34;IT&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define the schema for the DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;EmployeeID&#34;</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;Department&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the original DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<h3 id="applying-trimming-and-padding-functions">Applying Trimming and Padding Functions</h3>
+<h3 id="1-trimming-functions">1. Trimming Functions</h3>
+<ul>
+<li>
+<p><strong><code>ltrim()</code></strong> → Removes leading spaces.</p>
+</li>
+<li>
+<p><strong><code>rtrim()</code></strong> → Removes trailing spaces.</p>
+</li>
+<li>
+<p><strong><code>trim()</code></strong> → Removes both leading and trailing spaces.</p>
+</li>
+</ul>
+<h3 id="2-padding-functions">2. Padding Functions</h3>
+<ul>
+<li>
+<p><strong><code>lpad()</code></strong> → Pads the left side of a string with a character up to a given length.</p>
+</li>
+<li>
+<p><strong><code>rpad()</code></strong> → Pads the right side of a string with a character up to a given length.</p>
+</li>
+</ul>
+<hr>
+<h3 id="example">Example</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Apply trimming and padding functions</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;EmployeeID&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;Department&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ltrim</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;ltrim_Name&#34;</span><span class="p">),</span>   <span class="c1"># Remove leading spaces</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rtrim</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;rtrim_Name&#34;</span><span class="p">),</span>   <span class="c1"># Remove trailing spaces</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trim</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;trim_Name&#34;</span><span class="p">),</span>     <span class="c1"># Remove both leading &amp; trailing spaces</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lpad</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;X&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;lpad_Name&#34;</span><span class="p">),</span>  <span class="c1"># Left pad with &#34;X&#34; to length 10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rpad</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Name&#34;</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;Y&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;rpad_Name&#34;</span><span class="p">)</span>   <span class="c1"># Right pad with &#34;Y&#34; to length 10</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the resulting DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<hr>
+<h3 id="output-explanation">Output Explanation</h3>
+<ul>
+<li>
+<p><strong><code>ltrim_Name</code></strong> → Leading spaces removed.</p>
+</li>
+<li>
+<p><strong><code>rtrim_Name</code></strong> → Trailing spaces removed.</p>
+</li>
+<li>
+<p><strong><code>trim_Name</code></strong> → Both leading &amp; trailing spaces removed.</p>
+</li>
+<li>
+<p><strong><code>lpad_Name</code></strong> → Padded left with <code>&quot;X&quot;</code> until length = 10.</p>
+</li>
+<li>
+<p><strong><code>rpad_Name</code></strong> → Padded right with <code>&quot;Y&quot;</code> until length = 10.</p>
+</li>
+</ul>
+<hr>
+<h3 id="-summary-1">📌 Summary</h3>
+<ul>
+<li>Use <strong>trim functions</strong> (<code>ltrim</code>, <code>rtrim</code>, <code>trim</code>) to clean up unwanted spaces.</li>
+<li>Use <strong>padding functions</strong> (<code>lpad</code>, <code>rpad</code>) to format strings with fixed lengths.</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1759832300" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832300" defer></script>
+    <script src="/js/theme.js?1759832300" defer></script>
+  </body>
+</html>

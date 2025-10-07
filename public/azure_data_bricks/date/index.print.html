@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="In PySpark, you can use various date functions to manipulate and analyze date and timestamp columns.
+We’ll explore:
+current_date current_timestamp date_add date_sub datediff months_between Sample Code from pyspark.sql import SparkSession from pyspark.sql.functions import current_date, current_timestamp, date_add, date_sub, col, datediff, months_between, to_date, lit # Generate a DataFrame with 10 rows, adding &#34;today&#34; and &#34;now&#34; columns dateDF = spark.range(10).withColumn(&#34;today&#34;, current_date()).withColumn(&#34;now&#34;, current_timestamp()) # Show the DataFrame with today and now columns dateDF.show(truncate=False) Key Functions current_date() → Returns current date. current_timestamp() → Returns current timestamp (date &#43; time). date_sub(col(&#34;today&#34;), 5) → Subtracts 5 days. date_add(col(&#34;today&#34;), 5) → Adds 5 days. datediff(date1, date2) → Returns difference in days. months_between(date1, date2) → Returns difference in months. Working with dates and timestamps often requires converting formats and extracting components.
+We’ll explore:">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Date Functions :: Data Engineering Notes">
+    <meta name="twitter:description" content="In PySpark, you can use various date functions to manipulate and analyze date and timestamp columns.
+We’ll explore:
+current_date current_timestamp date_add date_sub datediff months_between Sample Code from pyspark.sql import SparkSession from pyspark.sql.functions import current_date, current_timestamp, date_add, date_sub, col, datediff, months_between, to_date, lit # Generate a DataFrame with 10 rows, adding &#34;today&#34; and &#34;now&#34; columns dateDF = spark.range(10).withColumn(&#34;today&#34;, current_date()).withColumn(&#34;now&#34;, current_timestamp()) # Show the DataFrame with today and now columns dateDF.show(truncate=False) Key Functions current_date() → Returns current date. current_timestamp() → Returns current timestamp (date &#43; time). date_sub(col(&#34;today&#34;), 5) → Subtracts 5 days. date_add(col(&#34;today&#34;), 5) → Adds 5 days. datediff(date1, date2) → Returns difference in days. months_between(date1, date2) → Returns difference in months. Working with dates and timestamps often requires converting formats and extracting components.
+We’ll explore:">
+    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/date/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Date Functions :: Data Engineering Notes">
+    <meta property="og:description" content="In PySpark, you can use various date functions to manipulate and analyze date and timestamp columns.
+We’ll explore:
+current_date current_timestamp date_add date_sub datediff months_between Sample Code from pyspark.sql import SparkSession from pyspark.sql.functions import current_date, current_timestamp, date_add, date_sub, col, datediff, months_between, to_date, lit # Generate a DataFrame with 10 rows, adding &#34;today&#34; and &#34;now&#34; columns dateDF = spark.range(10).withColumn(&#34;today&#34;, current_date()).withColumn(&#34;now&#34;, current_timestamp()) # Show the DataFrame with today and now columns dateDF.show(truncate=False) Key Functions current_date() → Returns current date. current_timestamp() → Returns current timestamp (date &#43; time). date_sub(col(&#34;today&#34;), 5) → Subtracts 5 days. date_add(col(&#34;today&#34;), 5) → Adds 5 days. datediff(date1, date2) → Returns difference in days. months_between(date1, date2) → Returns difference in months. Working with dates and timestamps often requires converting formats and extracting components.
+We’ll explore:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Bricks">
+    <meta itemprop="name" content="Date Functions :: Data Engineering Notes">
+    <meta itemprop="description" content="In PySpark, you can use various date functions to manipulate and analyze date and timestamp columns.
+We’ll explore:
+current_date current_timestamp date_add date_sub datediff months_between Sample Code from pyspark.sql import SparkSession from pyspark.sql.functions import current_date, current_timestamp, date_add, date_sub, col, datediff, months_between, to_date, lit # Generate a DataFrame with 10 rows, adding &#34;today&#34; and &#34;now&#34; columns dateDF = spark.range(10).withColumn(&#34;today&#34;, current_date()).withColumn(&#34;now&#34;, current_timestamp()) # Show the DataFrame with today and now columns dateDF.show(truncate=False) Key Functions current_date() → Returns current date. current_timestamp() → Returns current timestamp (date &#43; time). date_sub(col(&#34;today&#34;), 5) → Subtracts 5 days. date_add(col(&#34;today&#34;), 5) → Adds 5 days. datediff(date1, date2) → Returns difference in days. months_between(date1, date2) → Returns difference in months. Working with dates and timestamps often requires converting formats and extracting components.
+We’ll explore:">
+    <meta itemprop="wordCount" content="222">
+    <title>Date Functions :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/azure_data_bricks/date/" rel="canonical" type="text/html" title="Date Functions :: Data Engineering Notes">
+    <link href="/azure_data_bricks/date/index.md" rel="alternate" type="text/markdown" title="Date Functions :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759832300" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759832300" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759832300" defer></script>
+    <script src="/js/search-lunr.js?1759832300" defer></script>
+    <script src="/js/search.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759832300";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832300" rel="stylesheet">
+    <link href="/css/theme.css?1759832300" rel="stylesheet">
+    <link href="/css/format-print.css?1759832300" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_bricks\/date\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/azure_data_bricks/date/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#sample-code">Sample Code</a></li>
+        <li><a href="#key-functions">Key Functions</a></li>
+        <li><a href="#1-to_date">1. to_date</a></li>
+        <li><a href="#2-to_timestamp">2. to_timestamp</a></li>
+        <li><a href="#3-extracting-components">3. Extracting Components</a></li>
+        <li><a href="#example-output">Example Output</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/"><span itemprop="name">ADB</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Date Functions</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/Date.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/date/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/date/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/functions/" title="Functions (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/nulls/" title="Handling Nulls (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_bricks" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="date-functions">Date Functions</h1>
+
+<p>In PySpark, you can use various date functions to manipulate and analyze date and timestamp columns.<br>
+We’ll explore:</p>
+<ul>
+<li><code>current_date</code></li>
+<li><code>current_timestamp</code></li>
+<li><code>date_add</code></li>
+<li><code>date_sub</code></li>
+<li><code>datediff</code></li>
+<li><code>months_between</code></li>
+</ul>
+<hr>
+<h3 id="sample-code">Sample Code</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">current_date</span><span class="p">,</span> <span class="n">current_timestamp</span><span class="p">,</span> <span class="n">date_add</span><span class="p">,</span> <span class="n">date_sub</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">datediff</span><span class="p">,</span> <span class="n">months_between</span><span class="p">,</span> <span class="n">to_date</span><span class="p">,</span> <span class="n">lit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate a DataFrame with 10 rows, adding &#34;today&#34; and &#34;now&#34; columns</span>
+</span></span><span class="line"><span class="cl"><span class="n">dateDF</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;today&#34;</span><span class="p">,</span> <span class="n">current_date</span><span class="p">())</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;now&#34;</span><span class="p">,</span> <span class="n">current_timestamp</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show the DataFrame with today and now columns</span>
+</span></span><span class="line"><span class="cl"><span class="n">dateDF</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<h3 id="key-functions">Key Functions</h3>
+<ul>
+<li><strong><code>current_date()</code></strong> → Returns current date.</li>
+<li><strong><code>current_timestamp()</code></strong> → Returns current timestamp (date + time).</li>
+<li><strong><code>date_sub(col(&quot;today&quot;), 5)</code></strong> → Subtracts 5 days.</li>
+<li><strong><code>date_add(col(&quot;today&quot;), 5)</code></strong> → Adds 5 days.</li>
+<li><strong><code>datediff(date1, date2)</code></strong> → Returns difference in days.</li>
+<li><strong><code>months_between(date1, date2)</code></strong> → Returns difference in months.</li>
+</ul>
+<hr>
+<p>Working with dates and timestamps often requires converting formats and extracting components.<br>
+We’ll explore:</p>
+<ul>
+<li><code>to_date</code></li>
+<li><code>to_timestamp</code></li>
+<li><code>year</code>, <code>month</code>, <code>dayofmonth</code></li>
+<li><code>hour</code>, <code>minute</code>, <code>second</code></li>
+</ul>
+<hr>
+<h3 id="1-to_date">1. to_date</h3>
+<ul>
+<li>Converts a string to a date (default format: <code>yyyy-MM-dd</code>).</li>
+<li>If format doesn’t match, returns <strong>null</strong>.</li>
+<li>Example:
+<code>to_date(lit(&quot;2017-12-11&quot;), &quot;yyyy-dd-MM&quot;)</code></li>
+</ul>
+<h3 id="2-to_timestamp">2. to_timestamp</h3>
+<ul>
+<li>Converts a string with date &amp; time into a timestamp.</li>
+<li>Allows extraction of time components.</li>
+</ul>
+<h3 id="3-extracting-components">3. Extracting Components</h3>
+<ul>
+<li><strong>year()</strong> → Extracts year.</li>
+<li><strong>month()</strong> → Extracts month.</li>
+<li><strong>dayofmonth()</strong> → Extracts day.</li>
+<li><strong>hour()</strong> → Extracts hour.</li>
+<li><strong>minute()</strong> → Extracts minute.</li>
+<li><strong>second()</strong> → Extracts second.</li>
+</ul>
+<h3 id="example-output">Example Output</h3>
+<p>For input <code>&quot;2017-12-11&quot;</code> (format <code>yyyy-dd-MM</code>):</p>
+<ul>
+<li>Year: <strong>2017</strong></li>
+<li>Month: <strong>12</strong></li>
+<li>Day: <strong>11</strong></li>
+<li>Hour: <strong>0</strong></li>
+<li>Minute: <strong>0</strong></li>
+<li>Second: <strong>0</strong></li>
+</ul>
+<p>For invalid input (e.g., <code>&quot;2017-20-12&quot;</code>):</p>
+<ul>
+<li>Result: <strong>null</strong></li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1759832300" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832300" defer></script>
+    <script src="/js/theme.js?1759832300" defer></script>
+  </body>
+</html>

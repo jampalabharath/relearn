@@ -29,27 +29,29 @@ It covers result types, subqueries in the FROM clause, in SELECT, in JOIN clause
 Table of Contents SUBQUERY - RESULT TYPES SUBQUERY - FROM CLAUSE SUBQUERY - SELECT SUBQUERY - JOIN CLAUSE SUBQUERY - COMPARISON OPERATORS SUBQUERY - IN OPERATOR SUBQUERY - ANY OPERATOR SUBQUERY - CORRELATED SUBQUERY - EXISTS OPERATOR SUBQUERY | RESULT TYPES Scalar Query SELECT AVG(Sales) FROM Sales.Orders; Row Query SELECT CustomerID FROM Sales.Orders; Table Query SELECT OrderID, OrderDate FROM Sales.Orders; SUBQUERY | FROM CLAUSE Task 1: Products with Price Higher than Average Price SELECT * FROM ( SELECT ProductID, Price, AVG(Price) OVER () AS AvgPrice FROM Sales.Products ) AS t WHERE Price &gt; AvgPrice; Task 2: Rank Customers by Total Sales SELECT *, RANK() OVER (ORDER BY TotalSales DESC) AS CustomerRank FROM ( SELECT CustomerID, SUM(Sales) AS TotalSales FROM Sales.Orders GROUP BY CustomerID ) AS t; SUBQUERY | SELECT Task 3: Product Details with Total Number of Orders SELECT ProductID, Product, Price, (SELECT COUNT(*) FROM Sales.Orders) AS TotalOrders FROM Sales.Products; SUBQUERY | JOIN CLAUSE Task 4: Customer Details with Total Sales SELECT c.*, t.TotalSales FROM Sales.Customers AS c LEFT JOIN ( SELECT CustomerID, SUM(Sales) AS TotalSales FROM Sales.Orders GROUP BY CustomerID ) AS t ON c.CustomerID = t.CustomerID; Task 5: Customer Details with Total Orders SELECT c.*, o.TotalOrders FROM Sales.Customers AS c LEFT JOIN ( SELECT CustomerID, COUNT(*) AS TotalOrders FROM Sales.Orders GROUP BY CustomerID ) AS o ON c.CustomerID = o.CustomerID; SUBQUERY | COMPARISON OPERATORS Task 6: Products with Price Higher than Average Price SELECT ProductID, Price, (SELECT AVG(Price) FROM Sales.Products) AS AvgPrice FROM Sales.Products WHERE Price &gt; (SELECT AVG(Price) FROM Sales.Products); SUBQUERY | IN OPERATOR Task 7: Orders Made by Customers in Germany SELECT * FROM Sales.Orders WHERE CustomerID IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;Germany&#39; ); Task 8: Orders Made by Customers Not in Germany SELECT * FROM Sales.Orders WHERE CustomerID NOT IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;Germany&#39; ); SUBQUERY | ANY OPERATOR Task 9: Female Employees with Salaries Greater than Any Male Employee SELECT EmployeeID, FirstName, Salary FROM Sales.Employees WHERE Gender = &#39;F&#39; AND Salary &gt; ANY ( SELECT Salary FROM Sales.Employees WHERE Gender = &#39;M&#39; ); CORRELATED SUBQUERY Task 10: Customer Details with Total Orders (Correlated) SELECT *, (SELECT COUNT(*) FROM Sales.Orders o WHERE o.CustomerID = c.CustomerID) AS TotalSales FROM Sales.Customers AS c; SUBQUERY | EXISTS OPERATOR Task 11: Orders Made by Customers in Germany SELECT * FROM Sales.Orders AS o WHERE EXISTS ( SELECT 1 FROM Sales.Customers AS c WHERE Country = &#39;Germany&#39; AND o.CustomerID = c.CustomerID ); Task 12: Orders Made by Customers Not in Germany SELECT * FROM Sales.Orders AS o WHERE NOT EXISTS ( SELECT 1 FROM Sales.Customers AS c WHERE Country = &#39;Germany&#39; AND o.CustomerID = c.CustomerID );">
     <meta itemprop="wordCount" content="476">
     <title>Subquery Functions :: Data Engineering Notes</title>
-    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
-    <script src="/js/search-lunr.js?1757910108" defer></script>
-    <script src="/js/search.js?1757910108" defer></script>
+    <link href="/sql/subqueries/index.md" rel="alternate" type="text/markdown" title="Subquery Functions :: Data Engineering Notes">
+    <link href="/sql/subqueries/index.print.html" rel="alternate" type="text/html" title="Subquery Functions :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759820572" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759820572" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759820572" defer></script>
+    <script src="/js/search-lunr.js?1759820572" defer></script>
+    <script src="/js/search.js?1759820572" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1757910108";
+      window.relearn.index_js_url="/searchindex.en.js?1759820572";
     </script>
-    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759820572" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
-    <link href="/css/theme.css?1757910108" rel="stylesheet">
-    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759820572" rel="stylesheet">
+    <link href="/css/theme.css?1759820572" rel="stylesheet">
+    <link href="/css/format-html.css?1759820572" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -187,6 +189,10 @@ Table of Contents SUBQUERY - RESULT TYPES SUBQUERY - FROM CLAUSE SUBQUERY - SELE
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Subqueries.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/subqueries/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/subqueries/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
             </div>
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window-value-functions/" title="Window Value Functions (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
@@ -479,9 +485,14 @@ It covers result types, subqueries in the <code>FROM</code> clause, in <code>SEL
             <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
-            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/"><input type="checkbox" id="R-section-c1c884e4194f85ef98db8cc87f1e973a" aria-controls="R-subsections-c1c884e4194f85ef98db8cc87f1e973a"><label for="R-section-c1c884e4194f85ef98db8cc87f1e973a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADF</span></label><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-c1c884e4194f85ef98db8cc87f1e973a" class="collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/azure_data_factory/activities/"><input type="checkbox" id="R-section-9a4edd8345cef5c530f46ba254125443" aria-controls="R-subsections-9a4edd8345cef5c530f46ba254125443" checked><label for="R-section-9a4edd8345cef5c530f46ba254125443"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Tasks</span></label><a class="padding" href="/azure_data_factory/activities/">Tasks<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-9a4edd8345cef5c530f46ba254125443" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_factory/activities/copy-activity/"><a class="padding" href="/azure_data_factory/activities/copy-activity/">Copy Activity<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/activities/copy-tasks/"><a class="padding" href="/azure_data_factory/activities/copy-tasks/">Copy Activity Tasks<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li></ul></li>
             <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
             <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="alwaysopen " data-nav-id="/azure_data_bricks/learn/"><input type="checkbox" id="R-section-377d1400f63bb26d363e5ccc43d91649" aria-controls="R-subsections-377d1400f63bb26d363e5ccc43d91649" checked><label for="R-section-377d1400f63bb26d363e5ccc43d91649"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Spark</span></label><a class="padding" href="/azure_data_bricks/learn/">Spark<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-377d1400f63bb26d363e5ccc43d91649" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/learn/intro/"><a class="padding" href="/azure_data_bricks/learn/intro/">Introduction<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
@@ -493,6 +504,11 @@ It covers result types, subqueries in the <code>FROM</code> clause, in <code>SEL
             <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a"><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
+            <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b"><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -536,8 +552,8 @@ It covers result types, subqueries in the <code>FROM</code> clause, in <code>SEL
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
-    <script src="/js/theme.js?1757910108" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759820572" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759820572" defer></script>
+    <script src="/js/theme.js?1759820572" defer></script>
   </body>
 </html>

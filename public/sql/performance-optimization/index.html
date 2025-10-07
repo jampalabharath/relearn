@@ -29,27 +29,29 @@ Fetching data Filtering Joins UNION Aggregations Subqueries/CTE DDL Indexing It 
 Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sales.Customers; -- Good Practice SELECT CustomerID, FirstName, LastName FROM Sales.Customers; Tip 2: Avoid unnecessary DISTINCT &amp; ORDER BY -- Bad Practice SELECT DISTINCT FirstName FROM Sales.Customers ORDER BY FirstName; -- Good Practice SELECT FirstName FROM Sales.Customers; Tip 3: For Exploration Purpose, Limit Rows! -- Bad Practice SELECT OrderID, Sales FROM Sales.Orders; -- Good Practice SELECT TOP 10 OrderID, Sales FROM Sales.Orders; Filtering Tip 4: Create nonclustered index on frequently used columns SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; CREATE NONCLUSTERED INDEX Idx_Orders_OrderStatus ON Sales.Orders(OrderStatus); Tip 5: Avoid applying functions in WHERE -- Bad SELECT * FROM Sales.Orders WHERE LOWER(OrderStatus) = &#39;delivered&#39;; -- Good SELECT * FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39;; -- Bad SELECT * FROM Sales.Customers WHERE SUBSTRING(FirstName, 1, 1) = &#39;A&#39;; -- Good SELECT * FROM Sales.Customers WHERE FirstName LIKE &#39;A%&#39;; -- Bad SELECT * FROM Sales.Orders WHERE YEAR(OrderDate) = 2025; -- Good SELECT * FROM Sales.Orders WHERE OrderDate BETWEEN &#39;2025-01-01&#39; AND &#39;2025-12-31&#39;; Tip 6: Avoid leading wildcards -- Bad SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;%Gold%&#39;; -- Good SELECT * FROM Sales.Customers WHERE LastName LIKE &#39;Gold%&#39;; Tip 7: Use IN instead of multiple OR -- Bad SELECT * FROM Sales.Orders WHERE CustomerID = 1 OR CustomerID = 2 OR CustomerID = 3; -- Good SELECT * FROM Sales.Orders WHERE CustomerID IN (1, 2, 3); Joins Tip 8: Use INNER JOIN when possible -- Best SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Slower SELECT c.FirstName, o.OrderID FROM Sales.Customers c LEFT JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; -- Worst SELECT c.FirstName, o.OrderID FROM Sales.Customers c OUTER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 9: Use explicit (ANSI) joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c, Sales.Orders o WHERE c.CustomerID = o.CustomerID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID; Tip 10: Index columns used in ON clause SELECT c.FirstName, o.OrderID FROM Sales.Orders o INNER JOIN Sales.Customers c ON c.CustomerID = o.CustomerID; CREATE NONCLUSTERED INDEX IX_Orders_CustomerID ON Sales.Orders(CustomerID); Tip 11: Filter before joining big tables -- Best for big tables SELECT c.FirstName, o.OrderID FROM Sales.Customers c INNER JOIN ( SELECT OrderID, CustomerID FROM Sales.Orders WHERE OrderStatus = &#39;Delivered&#39; ) o ON c.CustomerID = o.CustomerID; Tip 12: Aggregate before joining -- Best for big tables SELECT c.CustomerID, c.FirstName, o.OrderCount FROM Sales.Customers c INNER JOIN ( SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID ) o ON c.CustomerID = o.CustomerID; Tip 13: Use UNION instead of OR in joins -- Bad SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OR c.CustomerID = o.SalesPersonID; -- Good SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID UNION SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.SalesPersonID; Tip 14: Use SQL hints for optimization SELECT o.OrderID, c.FirstName FROM Sales.Customers c INNER JOIN Sales.Orders o ON c.CustomerID = o.CustomerID OPTION (HASH JOIN); Union Tip 15: Use UNION ALL when duplicates are acceptable -- Bad SELECT CustomerID FROM Sales.Orders UNION SELECT CustomerID FROM Sales.OrdersArchive; -- Good SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive; Tip 16: Use UNION ALL &#43; DISTINCT when duplicates not allowed SELECT DISTINCT CustomerID FROM ( SELECT CustomerID FROM Sales.Orders UNION ALL SELECT CustomerID FROM Sales.OrdersArchive ) CombinedData; Aggregations Tip 17: Use columnstore indexes SELECT CustomerID, COUNT(OrderID) AS OrderCount FROM Sales.Orders GROUP BY CustomerID; CREATE CLUSTERED COLUMNSTORE INDEX Idx_Orders_Columnstore ON Sales.Orders; Tip 18: Pre-aggregate data SELECT MONTH(OrderDate) AS OrderYear, SUM(Sales) AS TotalSales INTO Sales.SalesSummary FROM Sales.Orders GROUP BY MONTH(OrderDate); SELECT OrderYear, TotalSales FROM Sales.SalesSummary; Subqueries &amp; CTE Tip 19: Prefer JOIN or EXISTS over IN -- Good SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE EXISTS ( SELECT 1 FROM Sales.Customers c WHERE c.CustomerID = o.CustomerID AND c.Country = &#39;USA&#39; ); -- Bad SELECT o.OrderID, o.Sales FROM Sales.Orders o WHERE o.CustomerID IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;USA&#39; ); Tip 20: Avoid redundant logic -- Good SELECT EmployeeID, FirstName, CASE WHEN Salary &gt; AVG(Salary) OVER () THEN &#39;Above Average&#39; WHEN Salary &lt; AVG(Salary) OVER () THEN &#39;Below Average&#39; ELSE &#39;Average&#39; END AS Status FROM Sales.Employees; DDL Tip 21: Avoid VARCHAR(MAX) unless necessary. Tip 22: Avoid overly large lengths. Tip 23: Use NOT NULL when possible. Tip 24: All tables should have a clustered primary key. Tip 25: Create nonclustered indexes on foreign keys when frequently used. -- Good Practice CREATE TABLE CustomersInfo ( CustomerID INT PRIMARY KEY CLUSTERED, FirstName VARCHAR(50) NOT NULL, LastName VARCHAR(50) NOT NULL, Country VARCHAR(50) NOT NULL, TotalPurchases FLOAT, Score INT, BirthDate DATE, EmployeeID INT, CONSTRAINT FK_CustomersInfo_EmployeeID FOREIGN KEY (EmployeeID) REFERENCES Sales.Employees(EmployeeID) ); CREATE NONCLUSTERED INDEX IX_CustomersInfo_EmployeeID ON CustomersInfo(EmployeeID); Indexing Tip 26: Avoid over-indexing (slows down writes). Tip 27: Drop unused indexes regularly. Tip 28: Update table statistics weekly. Tip 29: Reorganize/rebuild fragmented indexes weekly. Tip 30: For very large tables, partition &#43; columnstore index.">
     <meta itemprop="wordCount" content="869">
     <title>Performance Tips :: Data Engineering Notes</title>
-    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
-    <script src="/js/search-lunr.js?1757910108" defer></script>
-    <script src="/js/search.js?1757910108" defer></script>
+    <link href="/sql/performance-optimization/index.md" rel="alternate" type="text/markdown" title="Performance Tips :: Data Engineering Notes">
+    <link href="/sql/performance-optimization/index.print.html" rel="alternate" type="text/html" title="Performance Tips :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759820572" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759820572" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759820572" defer></script>
+    <script src="/js/search-lunr.js?1759820572" defer></script>
+    <script src="/js/search.js?1759820572" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1757910108";
+      window.relearn.index_js_url="/searchindex.en.js?1759820572";
     </script>
-    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759820572" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
-    <link href="/css/theme.css?1757910108" rel="stylesheet">
-    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759820572" rel="stylesheet">
+    <link href="/css/theme.css?1759820572" rel="stylesheet">
+    <link href="/css/format-html.css?1759820572" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -197,6 +199,10 @@ Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sal
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Performance-Optimization.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/performance-optimization/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/performance-optimization/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
             </div>
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/partitions/" title="Partitioning (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
@@ -577,9 +583,14 @@ Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sal
             <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="active " data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
-            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/"><input type="checkbox" id="R-section-c1c884e4194f85ef98db8cc87f1e973a" aria-controls="R-subsections-c1c884e4194f85ef98db8cc87f1e973a"><label for="R-section-c1c884e4194f85ef98db8cc87f1e973a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADF</span></label><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-c1c884e4194f85ef98db8cc87f1e973a" class="collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/azure_data_factory/activities/"><input type="checkbox" id="R-section-9a4edd8345cef5c530f46ba254125443" aria-controls="R-subsections-9a4edd8345cef5c530f46ba254125443" checked><label for="R-section-9a4edd8345cef5c530f46ba254125443"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Tasks</span></label><a class="padding" href="/azure_data_factory/activities/">Tasks<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-9a4edd8345cef5c530f46ba254125443" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_factory/activities/copy-activity/"><a class="padding" href="/azure_data_factory/activities/copy-activity/">Copy Activity<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_factory/activities/copy-tasks/"><a class="padding" href="/azure_data_factory/activities/copy-tasks/">Copy Activity Tasks<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li></ul></li>
             <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
             <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="alwaysopen " data-nav-id="/azure_data_bricks/learn/"><input type="checkbox" id="R-section-377d1400f63bb26d363e5ccc43d91649" aria-controls="R-subsections-377d1400f63bb26d363e5ccc43d91649" checked><label for="R-section-377d1400f63bb26d363e5ccc43d91649"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Spark</span></label><a class="padding" href="/azure_data_bricks/learn/">Spark<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-377d1400f63bb26d363e5ccc43d91649" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/learn/intro/"><a class="padding" href="/azure_data_bricks/learn/intro/">Introduction<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
@@ -591,6 +602,11 @@ Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sal
             <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a"><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
+            <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b"><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -634,8 +650,8 @@ Fetching Data Tip 1: Select Only What You Need -- Bad Practice SELECT * FROM Sal
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
-    <script src="/js/theme.js?1757910108" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759820572" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759820572" defer></script>
+    <script src="/js/theme.js?1759820572" defer></script>
   </body>
 </html>

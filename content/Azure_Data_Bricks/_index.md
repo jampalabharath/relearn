@@ -5,8 +5,7 @@ type = "chapter"
 weight = 3
 +++
 
-## PySpark
-- [Basics](/Azure_Data_Bricks/DF-Creation.md)
+{{% children depth="999" %}}
 
 
 ## 1. Introduction

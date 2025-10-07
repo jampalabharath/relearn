@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="What is Spark? Spark is an open source unified computing engine with a set of libraries for parallel data processing on a computer cluster.
+It supports widely used programming languages such as:
+Scala Python Java R It processes data in memory (RAM), which makes it 100 times faster than traditional Hadoop MapReduce.
+flowchart TDsubgraph DriverProgram[Driver Program]SS[SparkSession]SC[SparkContext]SS --&gt; SCendCM[Cluster Manager]subgraph Worker1[Worker Node]subgraph Executor1[Executor]T1[Task]T2[Task]C1[Cache]endendsubgraph Worker2[Worker Node]subgraph Executor2[Executor]T3[Task]T4[Task]C2[Cache]endendSC --&gt; CMCM --&gt; Executor1CM --&gt; Executor2SC --&gt; Executor1SC --&gt; Executor2Executor1 --&gt; T1Executor1 --&gt; T2Executor1 --&gt; C1Executor2 --&gt; T3Executor2 --&gt; T4Executor2 --&gt; C2 Spark Components Following represents Spark components at a high level:">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Introduction :: Data Engineering Notes">
+    <meta name="twitter:description" content="What is Spark? Spark is an open source unified computing engine with a set of libraries for parallel data processing on a computer cluster.
+It supports widely used programming languages such as:
+Scala Python Java R It processes data in memory (RAM), which makes it 100 times faster than traditional Hadoop MapReduce.
+flowchart TDsubgraph DriverProgram[Driver Program]SS[SparkSession]SC[SparkContext]SS --&gt; SCendCM[Cluster Manager]subgraph Worker1[Worker Node]subgraph Executor1[Executor]T1[Task]T2[Task]C1[Cache]endendsubgraph Worker2[Worker Node]subgraph Executor2[Executor]T3[Task]T4[Task]C2[Cache]endendSC --&gt; CMCM --&gt; Executor1CM --&gt; Executor2SC --&gt; Executor1SC --&gt; Executor2Executor1 --&gt; T1Executor1 --&gt; T2Executor1 --&gt; C1Executor2 --&gt; T3Executor2 --&gt; T4Executor2 --&gt; C2 Spark Components Following represents Spark components at a high level:">
+    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/learn/intro/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Introduction :: Data Engineering Notes">
+    <meta property="og:description" content="What is Spark? Spark is an open source unified computing engine with a set of libraries for parallel data processing on a computer cluster.
+It supports widely used programming languages such as:
+Scala Python Java R It processes data in memory (RAM), which makes it 100 times faster than traditional Hadoop MapReduce.
+flowchart TDsubgraph DriverProgram[Driver Program]SS[SparkSession]SC[SparkContext]SS --&gt; SCendCM[Cluster Manager]subgraph Worker1[Worker Node]subgraph Executor1[Executor]T1[Task]T2[Task]C1[Cache]endendsubgraph Worker2[Worker Node]subgraph Executor2[Executor]T3[Task]T4[Task]C2[Cache]endendSC --&gt; CMCM --&gt; Executor1CM --&gt; Executor2SC --&gt; Executor1SC --&gt; Executor2Executor1 --&gt; T1Executor1 --&gt; T2Executor1 --&gt; C1Executor2 --&gt; T3Executor2 --&gt; T4Executor2 --&gt; C2 Spark Components Following represents Spark components at a high level:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Azure Data Bricks">
+    <meta itemprop="name" content="Introduction :: Data Engineering Notes">
+    <meta itemprop="description" content="What is Spark? Spark is an open source unified computing engine with a set of libraries for parallel data processing on a computer cluster.
+It supports widely used programming languages such as:
+Scala Python Java R It processes data in memory (RAM), which makes it 100 times faster than traditional Hadoop MapReduce.
+flowchart TDsubgraph DriverProgram[Driver Program]SS[SparkSession]SC[SparkContext]SS --&gt; SCendCM[Cluster Manager]subgraph Worker1[Worker Node]subgraph Executor1[Executor]T1[Task]T2[Task]C1[Cache]endendsubgraph Worker2[Worker Node]subgraph Executor2[Executor]T3[Task]T4[Task]C2[Cache]endendSC --&gt; CMCM --&gt; Executor1CM --&gt; Executor2SC --&gt; Executor1SC --&gt; Executor2Executor1 --&gt; T1Executor1 --&gt; T2Executor1 --&gt; C1Executor2 --&gt; T3Executor2 --&gt; T4Executor2 --&gt; C2 Spark Components Following represents Spark components at a high level:">
+    <meta itemprop="wordCount" content="989">
+    <title>Introduction :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/azure_data_bricks/learn/intro/" rel="canonical" type="text/html" title="Introduction :: Data Engineering Notes">
+    <link href="/azure_data_bricks/learn/intro/index.md" rel="alternate" type="text/markdown" title="Introduction :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759832198" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759832198" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759832198" defer></script>
+    <script src="/js/search-lunr.js?1759832198" defer></script>
+    <script src="/js/search.js?1759832198" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759832198";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759832198" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832198" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759832198" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759832198" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832198" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832198" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832198" rel="stylesheet">
+    <link href="/css/theme.css?1759832198" rel="stylesheet">
+    <link href="/css/format-print.css?1759832198" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/azure_data_bricks\/learn\/intro\/';
+      window.relearn.relBasePath='..\/..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/azure_data_bricks/learn/intro/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#what-is-spark">What is Spark?</a>
+      <ul>
+        <li><a href="#spark-components">Spark Components</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-spark-works">How Spark Works</a>
+      <ul>
+        <li><a href="#1-drivers-and-executors">1. Drivers and Executors</a></li>
+        <li><a href="#2-jobs-stages-and-tasks">2. Jobs, Stages, and Tasks</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-is-partition">What is Partition?</a></li>
+    <li><a href="#what-is-transformation">What is Transformation?</a></li>
+    <li><a href="#what-are-actions">What are Actions?</a>
+      <ul>
+        <li><a href="#spark-prefers-lazy-evaluation">Spark prefers Lazy Evaluation</a></li>
+        <li><a href="#shuffle-in-spark">Shuffle in Spark</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-is-spark-session">What is Spark Session?</a>
+      <ul>
+        <li><a href="#structured-api---dataframes">Structured API - DataFrames</a></li>
+        <li><a href="#structured-api-execution-plan">Structured API Execution Plan</a></li>
+        <li><a href="#1-logial-planning">1. <strong>Logial Planning</strong></a></li>
+        <li><a href="#2-physical-planning">2. <strong>Physical Planning</strong></a></li>
+        <li><a href="#3-dag-directed-acyclic-graph">3. DAG (Directed Acyclic Graph)</a></li>
+        <li><a href="#summary-flow">Summary Flow</a></li>
+      </ul>
+    </li>
+    <li><a href="#creating-a-spark-session-in-pyspark">Creating a Spark Session in PySpark</a>
+      <ul>
+        <li><a href="#example">Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#creating-dataframes-in-pyspark">Creating DataFrames in PySpark</a>
+      <ul>
+        <li><a href="#1-from-in-memory-data">1. From In-Memory Data</a></li>
+        <li><a href="#2-from-file">2. From File</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/"><span itemprop="name">ADB</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/azure_data_bricks/learn/"><span itemprop="name">Spark</span></a><meta itemprop="position" content="3">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Introduction</span><meta itemprop="position" content="4"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/Learn/Intro.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/learn/intro/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/learn/intro/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/learn/" title="Spark (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/df-creation/" title="DF Basics (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable azure_data_bricks" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="introduction">Introduction</h1>
+
+<h2 id="what-is-spark">What is Spark?</h2>
+<p><strong>Spark</strong> is an open source unified computing engine with a set of libraries for <strong>parallel data processing</strong> on a computer cluster.</p>
+<p>It supports widely used programming languages such as:</p>
+<ul>
+<li><strong>Scala</strong></li>
+<li><strong>Python</strong></li>
+<li><strong>Java</strong></li>
+<li><strong>R</strong></li>
+</ul>
+<p>It processes data in <strong>memory (RAM)</strong>, which makes it 100 times faster than traditional Hadoop MapReduce.</p>
+<pre class="mermaid align-center ">flowchart TD
+    subgraph DriverProgram[Driver Program]
+        SS[SparkSession]
+        SC[SparkContext]
+        SS --&gt; SC
+    end
+
+    CM[Cluster Manager]
+
+    subgraph Worker1[Worker Node]
+        subgraph Executor1[Executor]
+            T1[Task]
+            T2[Task]
+            C1[Cache]
+        end
+    end
+
+    subgraph Worker2[Worker Node]
+        subgraph Executor2[Executor]
+            T3[Task]
+            T4[Task]
+            C2[Cache]
+        end
+    end
+
+    SC --&gt; CM
+    CM --&gt; Executor1
+    CM --&gt; Executor2
+    SC --&gt; Executor1
+    SC --&gt; Executor2
+    Executor1 --&gt; T1
+    Executor1 --&gt; T2
+    Executor1 --&gt; C1
+    Executor2 --&gt; T3
+    Executor2 --&gt; T4
+    Executor2 --&gt; C2</pre>
+<h3 id="spark-components">Spark Components</h3>
+<p>Following represents Spark components at a high level:</p>
+<ul>
+<li>Low Level API – RDD &amp; Distributed Variables</li>
+<li>Structured API – DataFrames, Datasets, and SQL</li>
+<li>Libraries and Ecosystem – Structured Streaming and Advanced Analytics</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">LAYER STRUCTURE</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">Libraries &amp; Ecosystem</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">Structured API</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">Low Level API</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="how-spark-works">How Spark Works</h2>
+<h3 id="1-drivers-and-executors">1. Drivers and Executors</h3>
+<ul>
+<li><strong>Driver</strong>: The brain of a Spark application. It translates your code into a logical execution plan and coordinates work.</li>
+<li><strong>Executors</strong>: The workers. They run on cluster nodes, do the actual computation, and store data in memory/disk.</li>
+</ul>
+<p>Think of the <strong>Driver as a manager</strong> and <strong>Executors as employees</strong> doing the tasks.</p>
+<hr>
+<h3 id="2-jobs-stages-and-tasks">2. Jobs, Stages, and Tasks</h3>
+<ul>
+<li><strong>Job</strong>: Triggered when you call an action (like <code>.collect()</code> or <code>.save()</code>). A job = big unit of work.</li>
+<li><strong>Stage</strong>: Spark splits the job into smaller parts based on shuffle boundaries (data movement points).</li>
+<li><strong>Task</strong>: The smallest unit. Each stage is broken into many tasks, one per partition of data.</li>
+</ul>
+<p>👉 Flow: <strong>Job → Stages → Tasks → Results</strong></p>
+<pre class="mermaid align-center ">  flowchart LR
+    JOB[JOB]
+    STAGE1[STAGE]
+    STAGE2[STAGE]
+    TASK1[TASK]
+    TASK2[TASK]
+    TASK3[TASK]
+    
+    JOB --&gt; STAGE1
+    JOB --&gt; STAGE2
+    STAGE1 --&gt; TASK1
+    STAGE1 --&gt; TASK2
+    STAGE2 --&gt; TASK3</pre>
+<h2 id="what-is-partition">What is Partition?</h2>
+<p>To allow every executor to work in parallel, Spark breaks down the data into chunks called partitions.</p>
+<h2 id="what-is-transformation">What is Transformation?</h2>
+<p>The <strong>instruction</strong> or <strong>code</strong> to modify and transform data is known as Transformation.</p>
+<p><strong>Examples</strong>: select,where,groupBy etc.</p>
+<p>Transformation helps in building the <strong>logical plan</strong>.</p>
+<p>Two Types:</p>
+<ul>
+<li><strong>Narrow Transformation</strong></li>
+<li><strong>Wide Transformation</strong></li>
+</ul>
+<h2 id="what-are-actions">What are Actions?</h2>
+<p>To <strong>trigger the execution</strong> we need to call an <strong>Action</strong>.</p>
+<p>This basically executes the plan created by Transformation.</p>
+<p>Actions are of three types:</p>
+<ul>
+<li><strong>View data</strong> in console</li>
+<li><strong>Collect data</strong> to native language</li>
+<li><strong>Write data</strong> to output data sources</li>
+</ul>
+<h3 id="spark-prefers-lazy-evaluation">Spark prefers Lazy Evaluation</h3>
+<p><strong>Transformations are lazy</strong> → Spark doesn’t execute them immediately; it just builds a logical plan (DAG).
+<strong>Execution happens only on actions</strong> → When an action (collect, count, save) is called, Spark optimizes the DAG and runs it.</p>
+<h3 id="shuffle-in-spark">Shuffle in Spark</h3>
+<ul>
+<li><strong>When</strong>: Happens during <strong>wide transformations</strong> (<code>groupByKey</code>, <code>reduceByKey</code>, <code>join</code>, etc.).</li>
+<li><strong>What</strong>: Data is <strong>redistributed across the cluster</strong> so records with the same key end up in the same partition.</li>
+<li><strong>Impact</strong>: A <strong>new stage</strong> is created in the DAG because shuffle requires data movement across executors.</li>
+</ul>
+<blockquote>
+<p>Shuffling occurs because wide transformations require <strong>related data (e.g., same keys)</strong> to be co-located in the <strong>same partition</strong>, which necessitates <strong>repartitioning</strong> and <strong>redistributing</strong> data across nodes.</p></blockquote>
+
+<details open class=" box cstyle notices note">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-circle"></i> 
+    Note
+  </summary>
+  <div class="box-content">
+<p>In Spark, <strong>actions (like count, collect, saveAsTextFile) create a job and trigger its execution, wide transformations (such as groupByKey, reduceByKey, join) introduce shuffle boundaries by redistributing data across partitions, and these boundaries split the job into stages, where tasks are scheduled and executed in parallel on cluster nodes.</strong></p>
+  </div>
+</details>
+<h2 id="what-is-spark-session">What is Spark Session?</h2>
+<ul>
+<li>The Driver Process is known as Spark Session.</li>
+<li>It is the entry point for a Spark execution.</li>
+<li>The Spark Session instance executes the code in the cluster.</li>
+<li>The relation is one-to-one, i.e., for one Spark Application, there will be one Spark Session instance.</li>
+</ul>
+<h3 id="structured-api---dataframes">Structured API - DataFrames</h3>
+<ul>
+<li>DataFrame is the most common Structured API, represented like a table.</li>
+<li>The table is represented in form of Rows and Columns.</li>
+<li>DataFrame has schema, which is the metadata for the columns.</li>
+<li>Data in DataFrames are in partitions.</li>
+<li>DataFrames are immutable.</li>
+</ul>
+
+<details open class=" box cstyle notices note">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-circle"></i> 
+    Note
+  </summary>
+  <div class="box-content">
+<p>DataFrames are <strong>immutable</strong>, meaning every transformation creates a <strong>new DataFrame</strong> without altering the original one.</p>
+  </div>
+</details>
+<h3 id="structured-api-execution-plan">Structured API Execution Plan</h3>
+<h3 id="1-logial-planning">1. <strong>Logial Planning</strong></h3>
+<p>The Spark <strong>Driver</strong> first converts your code (Transformations/Actions) into a <strong>logical plan</strong>.
+Represents <strong>what</strong> needs to be done without worrying about <strong>how</strong> it will be executed.</p>
+<pre class="mermaid align-center ">flowchart LR
+    A[Unresolved Logical Plan] --&gt; B[Resolved Logical Plan]
+    B --&gt; C[Catalyst Optimizer]
+    C --&gt; D[Optimized Logical Plan]</pre>
+<h3 id="2-physical-planning">2. <strong>Physical Planning</strong></h3>
+<p>Spark converts the <strong>logical plan</strong> into a <strong>physical plan</strong>, deciding <strong>how</strong> to execute it (which operations run where, partitioning, joins, etc.).
+Optimizes for performance (e.g., choosing sort merge join vs broadcast join).</p>
+<pre class="mermaid align-center ">flowchart LR
+    A[Optimized Logical Plan] --&gt; B[Multiple Physical Plans]
+    B --&gt; C[Cost Optimizer]
+    C --&gt; D[Best Physical Plan]
+    D --&gt; E[Sent to Cluster for Execution]</pre>
+<h3 id="3-dag-directed-acyclic-graph">3. DAG (Directed Acyclic Graph)</h3>
+<p>Spark breaks the physical plan into a <strong>DAG of stages</strong>.
+Shows <strong>dependencies between stages</strong> and ensures tasks are executed in the correct order.</p>
+<p><strong>Flow</strong>: DAG → Stages → Tasks → Execution</p>
+<hr>
+<h3 id="summary-flow">Summary Flow</h3>
+<pre class="mermaid align-center ">flowchart LR
+    A[User Code] --&gt; B[Logical Plan] --&gt; C[Physical Plan] --&gt; D[DAG of Stages] --&gt; E[Tasks executed by Executors]</pre>
+<h2 id="creating-a-spark-session-in-pyspark">Creating a Spark Session in PySpark</h2>
+<p>A <strong>SparkSession</strong> is the entry point to using PySpark. It allows interaction with Spark’s functionalities (DataFrame, SQL, etc.).</p>
+<h3 id="example">Example</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">builder</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;Spark Introduction&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">&#34;local[*]&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+<ul>
+<li><code>SparkSession.builder</code>: used to configure the session.</li>
+<li><code>.appName(&quot;...&quot;)</code>: sets the application name.</li>
+<li><code>.master(&quot;local[*]&quot;)</code>: runs Spark locally using all CPU cores.</li>
+<li><code>.getOrCreate()</code>: returns an existing session or creates a new one.</li>
+</ul>
+<p><strong>Note</strong>:In Databricks, you don’t need to create a SparkSession manually. A spark session is already available by default, so you can directly use spark.read, spark.sql, etc.</p>
+<h2 id="creating-dataframes-in-pyspark">Creating DataFrames in PySpark</h2>
+<h3 id="1-from-in-memory-data">1. From In-Memory Data</h3>
+<p>You can create a DataFrame directly from Python objects (lists, tuples, dicts).</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Bob&#34;</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Charlie&#34;</span><span class="p">,</span> <span class="mi">35</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;Age&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+<h3 id="2-from-file">2. From File</h3>
+<p>You can load data from CSV, JSON, Parquet, etc.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&#34;path/to/file.csv&#34;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&#34;path/to/file.json&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/js-yaml/js-yaml.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-color.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-dispatch.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-drag.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-ease.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-interpolate.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-selection.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-timer.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-transition.min.js?1759832198" defer></script>
+    <script src="/js/d3/d3-zoom.min.js?1759832198" defer></script>
+    <script src="/js/mermaid/mermaid.min.js?1759832198" defer></script>
+    <script>
+      window.relearn.themeUseMermaid = JSON.parse("{}");
+    </script>
+    <script src="/js/clipboard/clipboard.min.js?1759832198" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832198" defer></script>
+    <script src="/js/theme.js?1759832198" defer></script>
+  </body>
+</html>

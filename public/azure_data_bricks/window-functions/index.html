@@ -27,29 +27,31 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
     <meta itemprop="description" content="Windows Function in PySpark 1. Introduction to Window Functions Window functions allow you to perform calculations across a set of rows related to the current row within a specified partition.
 Unlike groupBy functions, window functions do not reduce the number of rows in the result; instead, they calculate a value for each row based on the specified window.
 2. Importing Required Libraries To use window functions, import the necessary modules from PySpark:">
-    <meta itemprop="wordCount" content="841">
+    <meta itemprop="wordCount" content="852">
     <title>Window Functions :: Data Engineering Notes</title>
-    <link href="/images/favicon.ico?1757910108" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1757910108" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1757910108" defer></script>
-    <script src="/js/search-lunr.js?1757910108" defer></script>
-    <script src="/js/search.js?1757910108" defer></script>
+    <link href="/azure_data_bricks/window-functions/index.md" rel="alternate" type="text/markdown" title="Window Functions :: Data Engineering Notes">
+    <link href="/azure_data_bricks/window-functions/index.print.html" rel="alternate" type="text/html" title="Window Functions :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759832300" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759832300" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759832300" defer></script>
+    <script src="/js/search-lunr.js?1759832300" defer></script>
+    <script src="/js/search.js?1759832300" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1757910108";
+      window.relearn.index_js_url="/searchindex.en.js?1759832300";
     </script>
-    <script src="/js/lunr/lunr.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1757910108" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1757910108" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759832300" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1757910108" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1757910108" rel="stylesheet">
-    <link href="/css/theme.css?1757910108" rel="stylesheet">
-    <link href="/css/format-html.css?1757910108" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832300" rel="stylesheet">
+    <link href="/css/theme.css?1759832300" rel="stylesheet">
+    <link href="/css/format-html.css?1759832300" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -131,11 +133,13 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
         <li><a href="#2-importing-required-libraries">2. Importing Required Libraries</a></li>
         <li><a href="#3-creating-a-window-specification">3. Creating a Window Specification</a></li>
         <li><a href="#4-common-window-functions">4. Common Window Functions</a></li>
-        <li><a href="#a-row-number">a. Row Number</a></li>
         <li><a href="#5-putting-it-all-together--example">5. Putting It All Together – Example</a></li>
-        <li><a href="#windows-function-in-pyspark--part-4-highest-salary-per-department">Windows Function in PySpark – Part 4 (Highest Salary per Department)</a></li>
+        <li><a href="#6-conclusion">6. Conclusion</a></li>
       </ul>
     </li>
+    <li><a href="#windows-function-in-pyspark--part-2">Windows Function in PySpark – Part 2</a></li>
+    <li><a href="#windows-function-in-pyspark--part-3-student-marks-analysis">Windows Function in PySpark – Part 3 (Student Marks Analysis)</a></li>
+    <li><a href="#windows-function-in-pyspark--part-4-highest-salary-per-department">Windows Function in PySpark – Part 4 (Highest Salary per Department)</a></li>
   </ul>
 </nav>
                 </div>
@@ -146,6 +150,10 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Azure_Data_Bricks/Window-Functions.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/window-functions/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/window-functions/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
             </div>
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/azure_data_bricks/when/" title="When|Cast|Union (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
@@ -182,37 +190,37 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span></span></span></code></pre></div>
 <h3 id="3-creating-a-window-specification">3. Creating a Window Specification</h3>
 <p>A window specification defines how rows will be grouped (partitioned) and ordered within each group.</p>
-<p>Example – Basic Window Specification:</p>
+<p><strong>Example – Basic Window Specification:</strong></p>
 <p><code>window_spec = Window.partitionBy(&quot;category&quot;).orderBy(&quot;timestamp&quot;)</code></p>
 <p><strong>Example – Advanced Window Specification:</strong></p>
 <p><code>window_spec = Window.partitionBy(&quot;category&quot;, &quot;sub_category&quot;).orderBy(F.col(&quot;timestamp&quot;), F.col(&quot;score&quot;))</code></p>
 <h3 id="4-common-window-functions">4. Common Window Functions</h3>
-<h3 id="a-row-number">a. Row Number</h3>
-<p>Function: <code>row_number()</code></p>
-<p>Description: Assigns a unique integer to each row within the partition (starting from 1).</p>
+<h4 id="a-row-number">a. Row Number</h4>
+<p><strong>Function:</strong> <code>row_number()</code></p>
+<p><strong>Description:</strong> Assigns a unique integer to each row within the partition (starting from 1).</p>
 <p><code>df = df.withColumn(&quot;row_number&quot;, F.row_number().over(window_spec))</code></p>
-<p>b. Rank</p>
-<p>Function: <code>rank()</code></p>
-<p>Description: Assigns the same rank to rows with the same values in the order criteria. The next rank has a gap.</p>
+<h4 id="b-rank">b. Rank</h4>
+<p><strong>Function:</strong> <code>rank()</code></p>
+<p><strong>Description:</strong> Assigns the same rank to rows with the same values in the order criteria. The next rank has a gap.</p>
 <p><code>df = df.withColumn(&quot;rank&quot;, F.rank().over(window_spec))</code></p>
-<p>c. Dense Rank</p>
-<p>Function: <code>dense_rank()</code></p>
-<p>Description: Similar to rank, but does not leave gaps in ranking.</p>
+<h4 id="c-dense-rank">c. Dense Rank</h4>
+<p><strong>Function:</strong> <code>dense_rank()</code></p>
+<p><strong>Description:</strong> Similar to rank, but does not leave gaps in ranking.</p>
 <p><code>df = df.withColumn(&quot;dense_rank&quot;, F.dense_rank().over(window_spec))</code></p>
-<p>d. Lead and Lag</p>
-<p>Functions: <code>lead()</code>, <code>lag()</code></p>
-<p>Description:</p>
+<h4 id="d-lead-and-lag">d. Lead and Lag</h4>
+<p><strong>Functions:</strong> <code>lead()</code>, <code>lag()</code></p>
+<p><strong>Description:</strong></p>
 <p><code>lead()</code> → value of the next row within the window.</p>
 <p><code>lag()</code> → value of the previous row within the window.</p>
 <p><code>df = df.withColumn(&quot;next_value&quot;, F.lead(&quot;value&quot;).over(window_spec))</code>
 <code>df = df.withColumn(&quot;previous_value&quot;, F.lag(&quot;value&quot;).over(window_spec))</code></p>
-<p>e. Aggregation Functions</p>
+<h4 id="e-aggregation-functions">e. Aggregation Functions</h4>
 <p>Window functions can also compute aggregated values across the specified window.</p>
 <p><code>df = df.withColumn(&quot;avg_value&quot;, F.avg(&quot;value&quot;).over(window_spec))</code></p>
 <p>Other common aggregations:</p>
-<p>Sum: <code>F.sum(&quot;column_name&quot;).over(window_spec)</code></p>
-<p>Min: <code>F.min(&quot;column_name&quot;).over(window_spec)</code></p>
-<p>Max: <code>F.max(&quot;column_name&quot;).over(window_spec)</code></p>
+<p><strong>Sum:</strong> <code>F.sum(&quot;column_name&quot;).over(window_spec)</code></p>
+<p><strong>Min:</strong> <code>F.min(&quot;column_name&quot;).over(window_spec)</code></p>
+<p><strong>Max:</strong> <code>F.max(&quot;column_name&quot;).over(window_spec)</code></p>
 <h3 id="5-putting-it-all-together--example">5. Putting It All Together – Example</h3>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
@@ -246,12 +254,10 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
 </span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;avg_value&#34;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">avg</span><span class="p">(</span><span class="s2">&#34;value&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">window_spec</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
-<ol start="6">
-<li>Conclusion</li>
-</ol>
+<h3 id="6-conclusion">6. Conclusion</h3>
 <p>Window functions in PySpark are powerful tools for analyzing data within groups while retaining row-level details.</p>
 <p>By defining window specifications and applying functions like rank, dense_rank, lead, lag, and aggregations, you can perform complex analytics efficiently.</p>
-<p>🔹 Windows Function in PySpark – Part 2</p>
+<h2 id="windows-function-in-pyspark--part-2">Windows Function in PySpark – Part 2</h2>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="nn">F</span>
@@ -283,8 +289,12 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
 </span></span><span class="line"><span class="cl"><span class="c1"># Lead &amp; Lag</span>
 </span></span><span class="line"><span class="cl"><span class="n">df4</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;ScoreDifferenceWithNext&#34;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">lead</span><span class="p">(</span><span class="s2">&#34;Score&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">window_spec</span><span class="p">)</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;Score&#34;</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl"><span class="n">df5</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;ScoreDifferenceWithPrevious&#34;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;Score&#34;</span><span class="p">]</span> <span class="o">-</span> <span class="n">F</span><span class="o">.</span><span class="n">lag</span><span class="p">(</span><span class="s2">&#34;Score&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">window_spec</span><span class="p">))</span></span></span></code></pre></div>
-<p>🔹 Windows Function in PySpark – Part 3 (Student Marks Analysis)</p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Updated sample data</span>
+<h2 id="windows-function-in-pyspark--part-3-student-marks-analysis">Windows Function in PySpark – Part 3 (Student Marks Analysis)</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="nn">F</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Updated sample data</span>
 </span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="s2">&#34;Math&#34;</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="s2">&#34;Science&#34;</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -338,7 +348,7 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
 </span></span><span class="line"><span class="cl"><span class="n">window_spec_max_subject_marks</span> <span class="o">=</span> <span class="n">Window</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s2">&#34;Semester&#34;</span><span class="p">,</span><span class="s2">&#34;Subject&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">desc</span><span class="p">(</span><span class="s2">&#34;Marks&#34;</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="n">max_subject_marks_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;Rank&#34;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">window_spec_max_subject_marks</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="n">max_subject_scorer</span> <span class="o">=</span> <span class="n">max_subject_marks_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">max_subject_marks_df</span><span class="p">[</span><span class="s2">&#34;Rank&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span></span></span></code></pre></div>
-<h3 id="windows-function-in-pyspark--part-4-highest-salary-per-department">Windows Function in PySpark – Part 4 (Highest Salary per Department)</h3>
+<h2 id="windows-function-in-pyspark--part-4-highest-salary-per-department">Windows Function in PySpark – Part 4 (Highest Salary per Department)</h2>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span>
 </span></span><span class="line"><span class="cl">
@@ -484,6 +494,7 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
             <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="parent " data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e" checked><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/spark/"><a class="padding" href="/azure_data_bricks/spark/">Spark<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
@@ -496,6 +507,11 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
             <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a"><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
+            <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b"><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -539,8 +555,8 @@ Unlike groupBy functions, window functions do not reduce the number of rows in t
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1757910108" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1757910108" defer></script>
-    <script src="/js/theme.js?1757910108" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759832300" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832300" defer></script>
+    <script src="/js/theme.js?1759832300" defer></script>
   </body>
 </html>

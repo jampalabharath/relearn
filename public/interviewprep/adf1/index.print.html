@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="1. What are the different types of Integration runtimes(IR) in ADF, and when should you use each? Integration runtime (IR) is a compute engine that provides computational resources to perform data movement, transformation, and orchestration in ADF.
+Types of Integration Runtimes Azure IR
+Use when performing data movement, transformation, and orchestration entirely within the cloud. Self-Hosted IR
+Use when any source or destination is an on-premises system. Required to pull data from on-prem systems. Azure SSIS IR">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="ADF 1 :: Data Engineering Notes">
+    <meta name="twitter:description" content="1. What are the different types of Integration runtimes(IR) in ADF, and when should you use each? Integration runtime (IR) is a compute engine that provides computational resources to perform data movement, transformation, and orchestration in ADF.
+Types of Integration Runtimes Azure IR
+Use when performing data movement, transformation, and orchestration entirely within the cloud. Self-Hosted IR
+Use when any source or destination is an on-premises system. Required to pull data from on-prem systems. Azure SSIS IR">
+    <meta property="og:url" content="http://localhost:1313/interviewprep/adf1/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="ADF 1 :: Data Engineering Notes">
+    <meta property="og:description" content="1. What are the different types of Integration runtimes(IR) in ADF, and when should you use each? Integration runtime (IR) is a compute engine that provides computational resources to perform data movement, transformation, and orchestration in ADF.
+Types of Integration Runtimes Azure IR
+Use when performing data movement, transformation, and orchestration entirely within the cloud. Self-Hosted IR
+Use when any source or destination is an on-premises system. Required to pull data from on-prem systems. Azure SSIS IR">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Interview Prep">
+    <meta itemprop="name" content="ADF 1 :: Data Engineering Notes">
+    <meta itemprop="description" content="1. What are the different types of Integration runtimes(IR) in ADF, and when should you use each? Integration runtime (IR) is a compute engine that provides computational resources to perform data movement, transformation, and orchestration in ADF.
+Types of Integration Runtimes Azure IR
+Use when performing data movement, transformation, and orchestration entirely within the cloud. Self-Hosted IR
+Use when any source or destination is an on-premises system. Required to pull data from on-prem systems. Azure SSIS IR">
+    <meta itemprop="wordCount" content="2963">
+    <title>ADF 1 :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/interviewprep/adf1/" rel="canonical" type="text/html" title="ADF 1 :: Data Engineering Notes">
+    <link href="/interviewprep/adf1/index.md" rel="alternate" type="text/markdown" title="ADF 1 :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759832300" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759832300" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759832300" defer></script>
+    <script src="/js/search-lunr.js?1759832300" defer></script>
+    <script src="/js/search.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759832300";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759832300" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832300" rel="stylesheet">
+    <link href="/css/theme.css?1759832300" rel="stylesheet">
+    <link href="/css/format-print.css?1759832300" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/interviewprep\/adf1\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/interviewprep/adf1/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#1-what-are-the-different-types-of-integration-runtimesir-in-adf-and-when-should-you-use-each">1. What are the different types of Integration runtimes(IR) in ADF, and when should you use each?</a>
+      <ul>
+        <li><a href="#types-of-integration-runtimes">Types of Integration Runtimes</a></li>
+        <li><a href="#managing-integration-runtimes-in-adf">Managing Integration Runtimes in ADF</a></li>
+        <li><a href="#creating-a-new-ir">Creating a New IR</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-platform-for-creating-azure-self-hosted-ir">2. Platform for Creating Azure Self-Hosted IR</a></li>
+    <li><a href="#3-handling-schema-drift-in-adf">3. Handling Schema Drift in ADF</a>
+      <ul>
+        <li><a href="#options-in-mapping-dataflows">Options in Mapping Dataflows</a></li>
+        <li><a href="#recommended-approach">Recommended Approach</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-how-would-you-load-multiple-data-files-from-rest-apis-using-single-copy-activity">4. How would you load multiple data files from REST APIs using SINGLE copy activity?</a>
+      <ul>
+        <li><a href="#steps">Steps</a></li>
+        <li><a href="#source-configuration">Source Configuration</a></li>
+        <li><a href="#sink-configuration">Sink Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-how-would-you-design-a-fault-tolerant-adf-pipeline-to-process-billions-of-records-daily">5. How would you design a fault tolerant ADF pipeline to process billions of records daily?</a>
+      <ul>
+        <li><a href="#a-retry-policy">a. Retry Policy</a></li>
+        <li><a href="#b-parallelism-in-mapping-data-flows">b. Parallelism in Mapping Data Flows</a></li>
+        <li><a href="#c-failure-notification-and-alerts">c. Failure Notification and Alerts</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-your-adf-pipeline-is-running-slow--how-to-identify-and-fix-performance-bottlenecks">6. Your ADF Pipeline is Running Slow — How to Identify and Fix Performance Bottlenecks</a>
+      <ul>
+        <li><a href="#a-initial-step-monitor-and-identify">a. Initial Step: Monitor and Identify</a></li>
+        <li><a href="#b-common-root-causes-and-fixes">b. Common Root Causes and Fixes</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-implementing-incremental-data-load-in-adf-for-large-transactional-databases">7. Implementing Incremental Data Load in ADF for Large Transactional Databases</a>
+      <ul>
+        <li><a href="#a-watermark-approach--step-by-step">a. Watermark Approach — Step-by-Step</a></li>
+        <li><a href="#b-cdc-change-data-capture-approach">b. CDC (Change Data Capture) Approach</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-processing-a-json-file-with-unknown-structure-in-adf">8. Processing a JSON File with Unknown Structure in ADF</a></li>
+    <li><a href="#9-implementing-real-time-streaming-pipeline-in-adf">9. Implementing Real-Time Streaming Pipeline in ADF</a>
+      <ul>
+        <li><a href="#scenario">Scenario</a></li>
+        <li><a href="#solution-event-based-trigger">Solution: Event-Based Trigger</a></li>
+        <li><a href="#configuration-steps">Configuration Steps</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-how-would-you-load-data-to-different-locations-based-on-file-name-in-adf">10. How Would You Load Data to Different Locations Based on File Name in ADF</a>
+      <ul>
+        <li><a href="#a-get-file-list-get-metadata-activity">a. Get File List (Get Metadata Activity)</a></li>
+        <li><a href="#b-iterate-over-files-for-each-activity">b. Iterate Over Files (For Each Activity)</a></li>
+        <li><a href="#c-conditional-routing-if-condition-activity">c. Conditional Routing (If Condition Activity)</a></li>
+        <li><a href="#d-load-data-copy-data-activity">d. Load Data (Copy Data Activity)</a></li>
+        <li><a href="#example-pipeline-flow">Example Pipeline Flow</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-storing-all-file-names-in-a-variable--counting-files-in-a-folder">11. Storing All File Names in a Variable &amp; Counting Files in a Folder</a>
+      <ul>
+        <li><a href="#a-get-file-list">a. Get File List</a></li>
+        <li><a href="#b-iterate-over-files">b. Iterate Over Files</a></li>
+        <li><a href="#c-store-file-names">c. Store File Names</a></li>
+        <li><a href="#d-count-the-files">d. Count the Files</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-pipeline-design-in-adf-to-copy-only-files-not-present-in-destination">12. Pipeline Design in ADF to Copy Only Files Not Present in Destination</a>
+      <ul>
+        <li><a href="#a-get-source-file-list">a. Get Source File List</a></li>
+        <li><a href="#b-get-destination-file-list">b. Get Destination File List</a></li>
+        <li><a href="#c-iterate-and-compare">c. Iterate and Compare</a></li>
+        <li><a href="#d-implement-the-condition">d. Implement the Condition</a></li>
+        <li><a href="#e-copy-the-file">e. Copy the File</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-calling-secrets-stored-in-key-vault-in-adf">13. Calling Secrets Stored in Key Vault in ADF</a>
+      <ul>
+        <li><a href="#creation-of-secret-in-key-vault">Creation of Secret in Key Vault</a></li>
+        <li><a href="#calling-the-secret-in-adf">Calling the Secret in ADF</a></li>
+      </ul>
+    </li>
+    <li><a href="#14-avoiding-out-of-memory-oom-errors-in-adf-pipelines-processing-large-datasets">14. Avoiding Out-of-Memory (OOM) Errors in ADF Pipelines Processing Large Datasets</a>
+      <ul>
+        <li><a href="#a-optimize-your-integration-runtime-ir">a. Optimize Your Integration Runtime (IR)</a></li>
+        <li><a href="#b-partition-large-datasets">b. Partition Large Datasets</a></li>
+        <li><a href="#c-tune-activity-specific-settings">c. Tune Activity-Specific Settings</a></li>
+      </ul>
+    </li>
+    <li><a href="#15-ensuring-idempotency-in-adf-pipelines">15. Ensuring Idempotency in ADF Pipelines</a>
+      <ul>
+        <li><a href="#a-source-transformations">a. Source Transformations</a></li>
+        <li><a href="#b-exists-transformation">b. Exists Transformation</a></li>
+        <li><a href="#c-conditional-split">c. Conditional Split</a></li>
+        <li><a href="#d-alter-row--sink">d. Alter Row &amp; Sink</a></li>
+      </ul>
+    </li>
+    <li><a href="#16-enforcing-file-processing-order-in-adf">16. Enforcing File Processing Order in ADF</a></li>
+    <li><a href="#17-processing-two-files-with-different-schemas-using-a-single-copy-data-activity">17. Processing Two Files with Different Schemas Using a Single Copy Data Activity</a>
+      <ul>
+        <li><a href="#a-source-dataset">a. Source Dataset</a></li>
+        <li><a href="#b-dynamic-mapping">b. Dynamic Mapping</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/interviewprep/"><span itemprop="name">Interview Prep</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">ADF 1</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/InterviewPrep/ADF1.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/adf1/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/adf1/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/" title="Interview Prep (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><span class="topbar-control"><i class="fa-fw fas fa-chevron-right"></i></span>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable interviewprep" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="adf-1">ADF 1</h1>
+
+<h2 id="1-what-are-the-different-types-of-integration-runtimesir-in-adf-and-when-should-you-use-each">1. What are the different types of Integration runtimes(IR) in ADF, and when should you use each?</h2>
+<p><strong>Integration runtime (IR)</strong> is a compute engine that provides computational resources to perform <strong>data movement, transformation, and orchestration</strong> in ADF.</p>
+<h3 id="types-of-integration-runtimes">Types of Integration Runtimes</h3>
+<ol>
+<li>
+<p><strong>Azure IR</strong></p>
+<ul>
+<li>Use when performing <strong>data movement, transformation, and orchestration entirely within the cloud</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Self-Hosted IR</strong></p>
+<ul>
+<li>Use when <strong>any source or destination is an on-premises system</strong>.</li>
+<li>Required to <strong>pull data from on-prem systems</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Azure SSIS IR</strong></p>
+<ul>
+<li>Specifically built to <strong>lift and shift Microsoft SSIS packages</strong>.</li>
+</ul>
+</li>
+</ol>
+<h3 id="managing-integration-runtimes-in-adf">Managing Integration Runtimes in ADF</h3>
+<ul>
+<li>Navigate to <strong>ADF -&gt; Manage tab -&gt; Integration Runtimes</strong>.</li>
+<li><strong>AutoResolveIntegrationRuntime</strong> is present by default.</li>
+</ul>
+<h3 id="creating-a-new-ir">Creating a New IR</h3>
+<ol>
+<li>Click on <strong>Add</strong>.</li>
+<li>Choose the type of IR: <strong>Self-Hosted</strong>, <strong>SSIS</strong>, or <strong>Airflow</strong>.</li>
+</ol>
+<h2 id="2-platform-for-creating-azure-self-hosted-ir">2. Platform for Creating Azure Self-Hosted IR</h2>
+<ul>
+<li><strong>Self-Hosted IR</strong> requires compute <strong>outside of Azure</strong>, so you can use:
+<ul>
+<li>A <strong>local machine</strong></li>
+<li>A <strong>hosted virtual machine</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="3-handling-schema-drift-in-adf">3. Handling Schema Drift in ADF</h2>
+<p>When dealing with <strong>evolving datasets</strong>, e.g., a new column appears in the source not present in the destination:</p>
+<ul>
+<li>Use <strong>Mapping Dataflows</strong> to apply transformations.</li>
+</ul>
+<h3 id="options-in-mapping-dataflows">Options in Mapping Dataflows</h3>
+<ol>
+<li>
+<p><strong>Schema Drift</strong></p>
+<ul>
+<li>Available when creating the <strong>source dataset</strong> in Mapping Dataflows.</li>
+<li>Allows handling evolving schemas without errors.</li>
+<li>Example: If a 5th column appears in the source, it will be written to the destination, with <strong>NULL for existing records</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Auto Mapping</strong></p>
+<ul>
+<li>Automatically maps columns between source and destination, eliminating manual schema mapping.</li>
+</ul>
+</li>
+</ol>
+<h3 id="recommended-approach">Recommended Approach</h3>
+<ul>
+<li><strong>Combine Schema Drift and Auto Mapping</strong> to handle evolving datasets seamlessly.</li>
+</ul>
+<h2 id="4-how-would-you-load-multiple-data-files-from-rest-apis-using-single-copy-activity">4. How would you load multiple data files from REST APIs using SINGLE copy activity?</h2>
+<h3 id="steps">Steps</h3>
+<ol>
+<li>
+<p><strong>Create a new pipeline</strong></p>
+<ul>
+<li>Go to <strong>Author tab → Create a new pipeline</strong> (name it <code>pipAPI</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Add a ForEach activity</strong></p>
+<ul>
+<li>Drag a <strong>ForEach</strong> activity into the pipeline.</li>
+</ul>
+</li>
+<li>
+<p><strong>Configure ForEach parameters</strong></p>
+<ul>
+<li>In the <strong>Parameters</strong> tab of the ForEach activity, create a parameter:
+<ul>
+<li><strong>Name:</strong> <code>loop_value</code></li>
+<li><strong>Type:</strong> <code>Array</code></li>
+<li><strong>Default Value:</strong>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="nt">&#34;fname&#34;</span><span class="p">:</span> <span class="s2">&#34;x.csv&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="nt">&#34;fname&#34;</span><span class="p">:</span> <span class="s2">&#34;y.csv&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="nt">&#34;fname&#34;</span><span class="p">:</span> <span class="s2">&#34;z.csv&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span></span></span></code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Set the ForEach items</strong></p>
+<ul>
+<li>Go to the <strong>Settings</strong> tab → under <strong>Items</strong>, add dynamic content:
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">@pipeline().parameters.loop_value</span></span></code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Add a Copy Data activity inside ForEach</strong></p>
+<ul>
+<li>Drag a <strong>Copy Data</strong> activity inside the ForEach loop.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="source-configuration">Source Configuration</h3>
+<ol start="6">
+<li>
+<p><strong>Create Source Dataset</strong></p>
+<ul>
+<li>Create a dataset <code>ds_api</code> with:
+<ul>
+<li><strong>Datastore:</strong> HTTP</li>
+<li><strong>Data format:</strong> CSV</li>
+</ul>
+</li>
+<li>Choose or create a linked service <code>ls_api</code>:
+<ul>
+<li><strong>Integration Runtime:</strong> AutoResolveIR</li>
+<li><strong>Base URL:</strong> <code>https://raw.githubuserdata.com/</code></li>
+<li><strong>Authentication type:</strong> Anonymous</li>
+<li>Test and create the connection.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameterize the Source Dataset</strong></p>
+<ul>
+<li>Go to the <strong>Parameters</strong> tab:
+<ul>
+<li>Add parameter:
+<ul>
+<li><strong>Name:</strong> <code>p_filenm</code></li>
+<li><strong>Type:</strong> String</li>
+<li><strong>Default value:</strong> <code>@item().fname</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Go to the <strong>Connection</strong> tab → under <strong>Relative URL</strong>, add dynamic content:
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">anshikagit/ADF/refs/heads/main/Data/@{dataset().p_filenm}</span></span></code></pre></div>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="sink-configuration">Sink Configuration</h3>
+<ol start="8">
+<li>
+<p><strong>Create Sink Dataset</strong></p>
+<ul>
+<li>Create a dataset <code>ds_adls</code> with:
+<ul>
+<li><strong>Datastore:</strong> ADLS Gen2</li>
+<li><strong>Data format:</strong> CSV</li>
+</ul>
+</li>
+<li>Choose or create a linked service <code>ls_adls</code>:
+<ul>
+<li><strong>Integration Runtime:</strong> AutoResolveIR</li>
+<li><strong>Storage account name:</strong> ansadfstrg11</li>
+<li>Test and create the connection.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameterize the Sink Dataset</strong></p>
+<ul>
+<li>Go to the <strong>Parameters</strong> tab:
+<ul>
+<li>Add parameters:
+<ul>
+<li><strong>p_folder:</strong> string</li>
+<li><strong>p_file:</strong> string</li>
+</ul>
+</li>
+<li>Default values:
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">@item().fname</span></span></code></pre></div>
+</li>
+</ul>
+</li>
+<li>In the <strong>Connection</strong> tab, under <strong>File path</strong>, add dynamic content:
+<ul>
+<li><strong>Directory:</strong> <code>@dataset().p_folder</code></li>
+<li><strong>Filename:</strong> <code>@dataset().p_file.csv</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="10">
+<li><strong>Run the Pipeline</strong>
+<ul>
+<li>Click <strong>Debug</strong> to execute the pipeline and verify multiple file copies from REST API to ADLS Gen2.</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-how-would-you-design-a-fault-tolerant-adf-pipeline-to-process-billions-of-records-daily">5. How would you design a fault tolerant ADF pipeline to process billions of records daily?</h2>
+<p>To handle large-scale data processing (billions of records per day) in <strong>Azure Data Factory (ADF)</strong> efficiently and reliably, the following mechanisms can be leveraged:</p>
+<hr>
+<h3 id="a-retry-policy">a. Retry Policy</h3>
+<ul>
+<li>ADF provides built-in <strong>Retry Policy</strong> for all activities.</li>
+<li>You can specify:
+<ul>
+<li><strong>Number of retries</strong> — how many times an activity should retry upon failure.</li>
+<li><strong>Retry interval</strong> — time gap between retries.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Example:</strong><br>
+If a Copy Activity fails due to transient network issues, setting:</p>
+<ul>
+<li><strong>Retry count:</strong> <code>3</code></li>
+<li><strong>Retry interval:</strong> <code>30 seconds</code><br>
+ensures ADF automatically retries before marking the activity as failed.</li>
+</ul>
+<hr>
+<h3 id="b-parallelism-in-mapping-data-flows">b. Parallelism in Mapping Data Flows</h3>
+<h4 id="i-parallelism-within-a-single-mapping-data-flow">i. Parallelism within a Single Mapping Data Flow</h4>
+<ul>
+<li>Enables <strong>multiple sink operations</strong> to run <strong>simultaneously</strong> within the same data flow.</li>
+<li>Example:<br>
+Processing customer data and writing to both:
+<ul>
+<li>A <strong>SQL database</strong> (for analytics)</li>
+<li>A <strong>Data Lake</strong> (for archival)</li>
+</ul>
+</li>
+</ul>
+<p>By enabling <strong>&ldquo;Run in parallel&rdquo;</strong> in <strong>Sink Properties</strong>, both sinks execute concurrently instead of sequentially — improving overall performance.</p>
+<hr>
+<h4 id="ii-parallelism-across-multiple-data-flow-activities-in-a-pipeline">ii. Parallelism Across Multiple Data Flow Activities in a Pipeline</h4>
+<p><strong>1. Independent Data Sources</strong></p>
+<ul>
+<li>If two datasets (e.g., <strong>Sales</strong> and <strong>Inventory</strong>) are independent:
+<ul>
+<li>Create two Data Flow activities — one for each dataset.</li>
+<li>Place them in <strong>parallel branches</strong> within the pipeline.</li>
+<li>ADF executes both simultaneously, reducing total runtime.</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. Parallel ForEach Processing</strong></p>
+<ul>
+<li>When processing multiple files (e.g., CSVs in a folder) with identical transformation logic:
+<ul>
+<li>Use a <strong>ForEach</strong> activity to iterate through the files.</li>
+<li>Enable <strong>parallel execution</strong> inside ForEach.</li>
+<li>ADF will process multiple files concurrently, greatly accelerating throughput.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="c-failure-notification-and-alerts">c. Failure Notification and Alerts</h3>
+<p>To ensure quick response to failures:</p>
+<ol>
+<li>Go to the <strong>Monitor</strong> tab in ADF.</li>
+<li>Click <strong>New Alert Rule</strong>.</li>
+<li>Provide details:
+<ul>
+<li><strong>Name:</strong> <code>failAlert1</code></li>
+<li><strong>Severity:</strong> Choose appropriate level.</li>
+</ul>
+</li>
+<li>In <strong>Target criteria</strong>:
+<ul>
+<li>Add metrics such as:
+<ul>
+<li><strong>Activity type(s)</strong></li>
+<li><strong>Name(s)</strong></li>
+<li><strong>Pipeline name(s)</strong></li>
+<li><strong>Failure type(s)</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Define <strong>condition</strong>, <strong>threshold</strong>, <strong>period</strong>, and <strong>frequency</strong> for triggering alerts.</li>
+<li>Configure <strong>Notifications</strong>:
+<ul>
+<li>Add Email, SMS, or both.</li>
+<li>Provide recipient details.</li>
+<li>Save to activate the alert.</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>Example:<br>
+For the Copy Activity inside the ForEach (as in Question 4), include the <strong>ForEach activity</strong> itself in alert criteria since a child failure causes the parent to fail as well.</p></blockquote>
+<hr>
+<p>By combining <strong>Retry Policies</strong>, <strong>Parallelism</strong>, and <strong>Automated Failure Alerts</strong>, you can design a highly <strong>fault-tolerant</strong>, <strong>scalable</strong>, and <strong>resilient</strong> ADF pipeline capable of processing billions of records daily.</p>
+<h2 id="6-your-adf-pipeline-is-running-slow--how-to-identify-and-fix-performance-bottlenecks">6. Your ADF Pipeline is Running Slow — How to Identify and Fix Performance Bottlenecks</h2>
+<h3 id="a-initial-step-monitor-and-identify">a. Initial Step: Monitor and Identify</h3>
+<ul>
+<li>As a Data Engineer, the <strong>first step</strong> is to monitor the pipeline and <strong>identify which activity</strong> is causing delays.</li>
+<li>Use the <strong>Monitor</strong> tab in ADF to review activity runtimes and pinpoint the bottleneck.</li>
+</ul>
+<h3 id="b-common-root-causes-and-fixes">b. Common Root Causes and Fixes</h3>
+<ol>
+<li>
+<p><strong>Slow Data Flows</strong></p>
+<ul>
+<li>Issue: Data flow execution takes longer than expected.</li>
+<li>Fix: <strong>Prune the data</strong> in the early stages (apply filters or reduce columns before transformation).</li>
+</ul>
+</li>
+<li>
+<p><strong>Slow Copy Activity</strong></p>
+<ul>
+<li>Issue: Copying data from <strong>on-premises to Azure</strong> takes too long due to <strong>Self-Hosted Integration Runtime (IR)</strong> throttling.</li>
+<li>Fix: Scale up the IR VM, allocate more CPU/memory, or distribute load across multiple IR nodes.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="7-implementing-incremental-data-load-in-adf-for-large-transactional-databases">7. Implementing Incremental Data Load in ADF for Large Transactional Databases</h2>
+<h3 id="a-watermark-approach--step-by-step">a. Watermark Approach — Step-by-Step</h3>
+<ol>
+<li>
+<p><strong>Identify a Watermark Column</strong><br>
+Choose a column that updates with each new or modified record, e.g., <code>lastModifiedDate</code> or an increasing <code>ID</code>.</p>
+</li>
+<li>
+<p><strong>Store the Watermark Value</strong><br>
+Maintain the last processed watermark value in a <strong>control table</strong> or <strong>pipeline variable</strong>.</p>
+</li>
+<li>
+<p><strong>Filter Data</strong></p>
+<ul>
+<li>Use a <strong>Lookup Activity</strong> to fetch the last watermark from the control table.</li>
+<li>Use a <strong>Copy Activity</strong> with a dynamic query:
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">SourceTable</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">lastModifiedDate</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">@</span><span class="err">{</span><span class="n">activity</span><span class="p">(</span><span class="s1">&#39;Lookup&#39;</span><span class="p">).</span><span class="k">output</span><span class="p">.</span><span class="n">firstRow</span><span class="p">.</span><span class="n">LastWatermark</span><span class="err">}</span></span></span></code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Update the Watermark</strong><br>
+After the successful copy, use a <strong>Stored Procedure</strong> or <strong>Script Activity</strong> to update the watermark table with the new maximum watermark value.</p>
+</li>
+</ol>
+<hr>
+<h3 id="b-cdc-change-data-capture-approach">b. CDC (Change Data Capture) Approach</h3>
+<ol>
+<li>
+<p><strong>Enable CDC on Source</strong><br>
+Activate CDC on the source database and required tables — this tracks inserts, updates, and deletes in system tables.</p>
+</li>
+<li>
+<p><strong>Use ADF’s Built-in CDC Feature</strong><br>
+ADF can directly read from CDC system tables to identify changed data automatically.</p>
+</li>
+<li>
+<p><strong>Extract and Apply Changes</strong></p>
+<ul>
+<li>Use the <code>__$operation</code> field to determine change type:
+<ul>
+<li><code>1</code>: Delete</li>
+<li><code>2</code>: Insert</li>
+<li><code>3</code>/<code>4</code>: Update</li>
+</ul>
+</li>
+<li>Apply logic accordingly in your sink.</li>
+</ul>
+</li>
+<li>
+<p><strong>Manage Checkpoints Automatically</strong><br>
+ADF maintains <strong>checkpoints</strong> (like LSN) to ensure only new changes since the last run are processed.</p>
+</li>
+</ol>
+<hr>
+<h2 id="8-processing-a-json-file-with-unknown-structure-in-adf">8. Processing a JSON File with Unknown Structure in ADF</h2>
+<ul>
+<li>Enable <strong>Schema Drift</strong> to handle schema evolution dynamically.</li>
+<li>In a <strong>Mapping Data Flow</strong>:
+<ol>
+<li>Turn on <strong>Debug Mode</strong> to preview the schema.</li>
+<li>Apply <strong>Flatten Transformation</strong> to denormalize nested JSON structures for processing.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="9-implementing-real-time-streaming-pipeline-in-adf">9. Implementing Real-Time Streaming Pipeline in ADF</h2>
+<h3 id="scenario">Scenario</h3>
+<p>A new file arrives in an ADLS container, and you need to <strong>copy it automatically</strong> to another container.</p>
+<h3 id="solution-event-based-trigger">Solution: Event-Based Trigger</h3>
+<ul>
+<li>Use an <strong>Event-Based Trigger</strong> to automatically start the pipeline whenever a new file arrives.</li>
+</ul>
+<h3 id="configuration-steps">Configuration Steps</h3>
+<ol>
+<li>Register <strong>Event Grid Services</strong> under <strong>Subscriptions</strong>.</li>
+<li>Create a new <strong>Event-Based Trigger</strong> in ADF:
+<ul>
+<li>Trigger type: <strong>Blob Created</strong></li>
+<li>Linked service: Connect to the ADLS container.</li>
+<li>Action: Launch the desired pipeline (e.g., Copy Activity).</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Registration of <strong>Event Grid Services</strong> is mandatory before using Event-Based Triggers.</p></blockquote>
+<h2 id="10-how-would-you-load-data-to-different-locations-based-on-file-name-in-adf">10. How Would You Load Data to Different Locations Based on File Name in ADF</h2>
+<h3 id="a-get-file-list-get-metadata-activity">a. Get File List (Get Metadata Activity)</h3>
+<ul>
+<li>Start the pipeline with a <strong>Get Metadata</strong> activity.</li>
+<li>Configure it to retrieve <strong>Child Items</strong> from the source folder in your storage account.</li>
+<li>This activity outputs a list of all files present in the specified source location.</li>
+</ul>
+<h3 id="b-iterate-over-files-for-each-activity">b. Iterate Over Files (For Each Activity)</h3>
+<ul>
+<li>Pass the output of the <strong>Get Metadata</strong> activity to a <strong>For Each</strong> activity.</li>
+<li>This allows the pipeline to <strong>loop through each file</strong> found in the source folder and process them one by one.</li>
+</ul>
+<h3 id="c-conditional-routing-if-condition-activity">c. Conditional Routing (If Condition Activity)</h3>
+<ul>
+<li>Inside the <strong>For Each</strong> loop, add an <strong>If Condition</strong> activity.</li>
+<li>Use expressions to check the file name for specific patterns or keywords to determine where each file should go.</li>
+<li>Example expressions:</li>
+</ul>
+<p><code>@contains(item().name, 'sales')</code>
+or
+<code>@startsWith(item().name, 'marketing')</code></p>
+<p><strong>Based on the Condition</strong></p>
+<ul>
+<li>If the file name contains <strong>&ldquo;sales&rdquo;</strong>, route it to a <strong>Sales</strong> destination folder.</li>
+<li>If it contains <strong>&ldquo;marketing&rdquo;</strong>, route it to a <strong>Marketing</strong> destination folder.</li>
+</ul>
+<hr>
+<h3 id="d-load-data-copy-data-activity">d. Load Data (Copy Data Activity)</h3>
+<ul>
+<li>Each branch of the <strong>If Condition</strong> activity will contain a <strong>Copy Data</strong> activity.</li>
+<li>Configure as follows:
+<ul>
+<li><strong>Source Dataset:</strong> The current file being processed (<code>@item().name</code>)</li>
+<li><strong>Sink Dataset:</strong> The target destination based on the file name (e.g., Sales or Marketing folder)</li>
+</ul>
+</li>
+<li>The <strong>Copy Data</strong> activity will copy files to their respective destinations according to the defined condition logic.</li>
+</ul>
+<hr>
+<h3 id="example-pipeline-flow">Example Pipeline Flow</h3>
+<ol>
+<li><strong>Get Metadata Activity</strong> → Retrieve list of files from the source folder.</li>
+<li><strong>For Each Activity</strong> → Iterate through each file.</li>
+<li><strong>If Condition Activity</strong> → Check the file name for keywords like “sales” or “marketing.”</li>
+<li><strong>Copy Data Activity</strong> → Load the file into the corresponding destination folder based on the condition.</li>
+</ol>
+<h2 id="11-storing-all-file-names-in-a-variable--counting-files-in-a-folder">11. Storing All File Names in a Variable &amp; Counting Files in a Folder</h2>
+<h3 id="a-get-file-list">a. Get File List</h3>
+<ul>
+<li>Use a <strong>Get Metadata</strong> activity configured with <strong>Child Items</strong>.</li>
+<li>This returns a single array containing the names of all files and subfolders in the specified location.</li>
+</ul>
+<h3 id="b-iterate-over-files">b. Iterate Over Files</h3>
+<ul>
+<li>Use a <strong>For Each</strong> activity to loop through the array returned by Get Metadata.</li>
+<li>Inside the loop, you can process each file individually.</li>
+</ul>
+<h3 id="c-store-file-names">c. Store File Names</h3>
+<ul>
+<li>Use <strong>Set Variable</strong> and <strong>Append Variable</strong> activities to store and manipulate the list of file names:
+<ul>
+<li><strong>Set Variable:</strong> Assign an entire list of file names to a pipeline variable (e.g., <code>fileNamesArray</code>).</li>
+<li><strong>Append Variable:</strong> When building the list dynamically within a loop, add one filename at a time.
+<ul>
+<li>Useful if looping through multiple folders and combining all filenames into a single list.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="d-count-the-files">d. Count the Files</h3>
+<ul>
+<li>Use a second <strong>Set Variable</strong> activity to store the count of files.</li>
+<li>Create a variable of type <strong>Integer</strong> (e.g., <code>fileCount</code>).</li>
+<li>Use the following expression in the <strong>Value</strong> field:</li>
+</ul>
+<p><code>@length(variables('fileNamesArray'))</code></p>
+<h2 id="12-pipeline-design-in-adf-to-copy-only-files-not-present-in-destination">12. Pipeline Design in ADF to Copy Only Files Not Present in Destination</h2>
+<h3 id="a-get-source-file-list">a. Get Source File List</h3>
+<ul>
+<li>Use a <strong>Get Metadata</strong> activity to retrieve a list of all files from the <strong>source folder</strong>.</li>
+</ul>
+<h3 id="b-get-destination-file-list">b. Get Destination File List</h3>
+<ul>
+<li>Use a second <strong>Get Metadata</strong> activity to retrieve all files from the <strong>destination folder</strong>.</li>
+<li>Store this list in a <strong>pipeline variable</strong> (e.g., <code>destinationFiles</code>).</li>
+</ul>
+<h3 id="c-iterate-and-compare">c. Iterate and Compare</h3>
+<ul>
+<li>Use a <strong>For Each</strong> activity to loop through the array of source files obtained from the first <strong>Get Metadata</strong> activity.</li>
+</ul>
+<h3 id="d-implement-the-condition">d. Implement the Condition</h3>
+<ul>
+<li>Inside the loop, add an <strong>If Condition</strong> activity to check if the current file from the source exists in the destination variable.</li>
+<li>Expression example:</li>
+</ul>
+<p><code>@not(contains(string(variables('destinationFiles')), item().name))</code></p>
+<h3 id="e-copy-the-file">e. Copy the File</h3>
+<ul>
+<li>Place a <strong>Copy Data</strong> activity inside the <strong>True</strong> block of the <strong>If Condition</strong>.</li>
+<li>This ensures that only files <strong>not present in the destination</strong> are copied from the source.</li>
+</ul>
+<h2 id="13-calling-secrets-stored-in-key-vault-in-adf">13. Calling Secrets Stored in Key Vault in ADF</h2>
+<h3 id="creation-of-secret-in-key-vault">Creation of Secret in Key Vault</h3>
+<ol>
+<li>
+<p><strong>Create Key Vault</strong></p>
+<ul>
+<li>In the Azure Portal, search for <strong>&ldquo;Key Vaults&rdquo;</strong> and click <strong>Create</strong>.</li>
+<li>Fill in the basic details: Subscription, Resource Group, Name (globally unique), and Region.</li>
+</ul>
+</li>
+<li>
+<p><strong>Assign Key Vault Administrator Role</strong></p>
+<ul>
+<li>Navigate to <strong>IAM</strong> and assign the <strong>Key Vault Administrator</strong> role to the ID authorized to create secrets.</li>
+</ul>
+</li>
+<li>
+<p><strong>Create a Secret</strong></p>
+<ul>
+<li>Go to <strong>Secrets</strong> inside the Key Vault and create a new secret.</li>
+</ul>
+</li>
+<li>
+<p><strong>(Optional) Provide 3rd Party Access</strong></p>
+<ul>
+<li>To allow access to external services like Databricks:
+<ul>
+<li>Key Vault → <strong>Access Configuration</strong> → Choose <strong>Vault Access Policy</strong> to grant data plane access.</li>
+</ul>
+</li>
+<li>By default, <strong>Azure RBAC</strong> is used. This step can also be configured during Key Vault creation.</li>
+</ul>
+</li>
+<li>
+<p><strong>Set Access Policies for ADF</strong></p>
+<ul>
+<li>Navigate to <strong>Access Policies</strong> or <strong>Access Control (IAM)</strong> in the Key Vault.</li>
+<li>Grant your <strong>Azure Data Factory</strong> <strong>Get</strong> and <strong>List</strong> permissions for secrets via its <strong>Managed Identity</strong>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="calling-the-secret-in-adf">Calling the Secret in ADF</h3>
+<h4 id="1-standard-method-recommended">1. Standard Method (Recommended)</h4>
+<ul>
+<li>
+<p><strong>Create a Key Vault Linked Service</strong></p>
+<ul>
+<li>Go to <strong>Manage → Linked Services → New</strong> in your ADF instance.</li>
+<li>Choose <strong>Azure Key Vault</strong> and point it to your Key Vault.</li>
+</ul>
+</li>
+<li>
+<p><strong>Reference the Secret in Another Linked Service</strong></p>
+<ul>
+<li>When creating a linked service for a data store (e.g., SQL Database), select the option to <strong>Reference a Secret</strong> for sensitive fields like passwords.</li>
+<li>Choose the Key Vault Linked Service created above and provide the <strong>secret name</strong> (e.g., <code>MyDatabasePassword</code>).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="2-advanced-method-using-web-activity">2. Advanced Method (Using Web Activity)</h4>
+<ul>
+<li>
+<p><strong>Use Web Activity to Retrieve Secret Dynamically</strong></p>
+<ol>
+<li>Add a <strong>Web Activity</strong> to your pipeline.</li>
+<li>Configure REST API call to Key Vault:
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>https://&lt;your_key_vault_name&gt;.vault.azure.net/secrets/&lt;your_secret_name&gt;?api-version=7.4</code></pre></div>
+</li>
+<li><strong>Authentication:</strong> Managed Identity<br>
+<strong>Resource:</strong> <code>https://vault.azure.net</code></li>
+<li><strong>Method:</strong> GET</li>
+</ol>
+</li>
+<li>
+<p><strong>Use the Secret in Subsequent Activities</strong></p>
+<ul>
+<li>The secret value will be in the Web Activity output.</li>
+<li>Reference it using an expression:
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">@activity(&#39;Web1&#39;).output.value</span></span></code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="14-avoiding-out-of-memory-oom-errors-in-adf-pipelines-processing-large-datasets">14. Avoiding Out-of-Memory (OOM) Errors in ADF Pipelines Processing Large Datasets</h2>
+<h3 id="a-optimize-your-integration-runtime-ir">a. Optimize Your Integration Runtime (IR)</h3>
+<ul>
+<li>The <strong>IR</strong> is the compute engine for your pipeline. Proper configuration ensures enough memory for large workloads.</li>
+</ul>
+<h4 id="mapping-data-flows">Mapping Data Flows</h4>
+<ul>
+<li>Scale up the <strong>Azure IR</strong> used by your data flow.</li>
+<li>Increase <strong>Core Count</strong> and choose <strong>Memory Optimized</strong> compute type.</li>
+<li>This provides more resources to the underlying Spark cluster for large transformations.</li>
+</ul>
+<h4 id="self-hosted-ir">Self-Hosted IR</h4>
+<ul>
+<li>For on-premises data processing, add more nodes to your <strong>Self-Hosted IR</strong>.</li>
+<li>Distributes workload across machines to prevent a single node from running out of memory.</li>
+</ul>
+<hr>
+<h3 id="b-partition-large-datasets">b. Partition Large Datasets</h3>
+<ul>
+<li>Breaking data into smaller chunks prevents OOM issues.</li>
+</ul>
+<h4 id="files">Files</h4>
+<ul>
+<li>Use <strong>Get Metadata</strong> to retrieve all files in a folder.</li>
+<li>Use a <strong>For Each</strong> loop to process files individually via <strong>Copy Data</strong> or <strong>Mapping Data Flow</strong>.</li>
+<li>In <strong>Data Flow source options</strong>, set partitioning (single, multiple, or none) to enable parallel processing.</li>
+</ul>
+<h4 id="database-tables">Database Tables</h4>
+<ul>
+<li>Implement <strong>iterative range copy</strong> for large tables:
+<ul>
+<li>Use a <strong>Lookup</strong> activity to find min and max values of a key column (e.g., ID or date).</li>
+<li>Use a <strong>For Each</strong> loop to copy smaller chunks (e.g., 100,000 rows at a time) with a <strong>parameterized query</strong>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="c-tune-activity-specific-settings">c. Tune Activity-Specific Settings</h3>
+<h4 id="mapping-data-flow">Mapping Data Flow</h4>
+<ul>
+<li>Be cautious with <strong>Broadcast joins or lookups</strong>:
+<ul>
+<li>Broadcasting improves performance but can cause OOM if the dataset is too large.</li>
+<li>Turn off broadcasting for large streams if necessary.</li>
+</ul>
+</li>
+<li>Prune or filter data early in the flow to reduce memory usage.</li>
+</ul>
+<h4 id="copy-data-activity">Copy Data Activity</h4>
+<ul>
+<li>For extremely large single files (XML, JSON, Excel), OOM can occur.</li>
+<li>Use the <strong>Binary Copy</strong> feature to move files without loading content into memory.</li>
+</ul>
+<h2 id="15-ensuring-idempotency-in-adf-pipelines">15. Ensuring Idempotency in ADF Pipelines</h2>
+<p><strong>Idempotency</strong> ensures that running the same process multiple times with the same input produces the <strong>same result</strong> as running it once, preventing duplicate processing of records. This can be achieved using <strong>UPSERT</strong> on file data, often with <strong>inline datasets</strong> (e.g., Delta Lake) in Mapping Data Flows.</p>
+<hr>
+<h3 id="a-source-transformations">a. Source Transformations</h3>
+<ul>
+<li>Configure <strong>at least two source transformations</strong>:
+<ol>
+<li><strong>Incoming Data Source</strong> – your new data.</li>
+<li><strong>Destination Data Source</strong> – existing data in the target.</li>
+</ol>
+</li>
+<li>Use <strong>inline datasets</strong> to define connection details and schema directly in the data flow.</li>
+</ul>
+<hr>
+<h3 id="b-exists-transformation">b. Exists Transformation</h3>
+<ul>
+<li>Use an <strong>Exists transformation</strong> to implement idempotency.</li>
+<li>It acts like a <code>WHERE EXISTS</code> clause in SQL:
+<ul>
+<li>Checks if rows from the <strong>incoming data stream</strong> (left stream) exist in the <strong>destination stream</strong> (right stream) based on a key (e.g., primary key).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="c-conditional-split">c. Conditional Split</h3>
+<ul>
+<li>Chain a <strong>Conditional Split</strong> transformation after the Exists transformation.</li>
+<li>Split the data into two streams:
+<ol>
+<li><strong>New Records</strong> – rows where the key does <strong>not exist</strong> in the destination; these will be inserted.</li>
+<li><strong>Existing Records</strong> – rows where the key <strong>does exist</strong>; these will be updated.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="d-alter-row--sink">d. Alter Row &amp; Sink</h3>
+<ul>
+<li>Connect an <strong>Alter Row</strong> transformation to each stream from the Conditional Split:
+<ul>
+<li><strong>New Records</strong> → set <strong>Insert</strong> policy.</li>
+<li><strong>Existing Records</strong> → set <strong>Upsert</strong> or <strong>Update</strong> policy.</li>
+</ul>
+</li>
+<li>Connect both Alter Row outputs to a single <strong>Sink</strong> transformation.
+<ul>
+<li>Configure the sink to allow <strong>Insert</strong> and <strong>Upsert/Update</strong> policies.</li>
+<li>Define the <strong>key columns</strong> for correct record matching.</li>
+</ul>
+</li>
+</ul>
+<p>This approach ensures that <strong>duplicate processing of the same records does not occur</strong>, maintaining idempotency in your ADF pipeline.</p>
+<h2 id="16-enforcing-file-processing-order-in-adf">16. Enforcing File Processing Order in ADF</h2>
+<ul>
+<li>To process files in a <strong>specific order</strong> (e.g., <code>sales.csv</code> → <code>product.csv</code> → <code>cust.csv</code>), use the <strong>Sequential</strong> option in the <strong>For Each</strong> activity.</li>
+<li>This ensures that files are processed <strong>one after another</strong> rather than in parallel.</li>
+</ul>
+<hr>
+<h2 id="17-processing-two-files-with-different-schemas-using-a-single-copy-data-activity">17. Processing Two Files with Different Schemas Using a Single Copy Data Activity</h2>
+<h3 id="a-source-dataset">a. Source Dataset</h3>
+<ul>
+<li>Create a <strong>source dataset</strong> that takes the <strong>file name as a parameter</strong>.</li>
+<li>In the <strong>file path settings</strong>, use a dynamic expression:
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">@item().name</span></span></code></pre></div>
+</li>
+</ul>
+<p>This passes the current file name from the For Each loop to the Copy Data activity.</p>
+<h3 id="b-dynamic-mapping">b. Dynamic Mapping</h3>
+<h4 id="delete-static-mapping">Delete Static Mapping</h4>
+<ul>
+<li>In the <strong>Mapping</strong> tab of the Copy Data activity, remove existing column mappings.</li>
+<li>You can either delete the entire mapping table or remove columns manually.</li>
+</ul>
+<h4 id="enable-schema-drift">Enable Schema Drift</h4>
+<ul>
+<li>In the <strong>source settings</strong> of the Copy Data activity, enable <strong>Schema Drift</strong>.</li>
+<li>This allows the activity to <strong>dynamically handle different schemas</strong> at runtime.</li>
+</ul>
+<h4 id="map-dynamically">Map Dynamically</h4>
+<p><strong>Option 1: Auto-Mapping</strong></p>
+<ul>
+<li>Leave the <strong>Mapping</strong> tab blank.</li>
+<li>ADF will automatically map columns from source to sink based on matching names.</li>
+</ul>
+<p><strong>Option 2: Explicit Dynamic Mapping</strong></p>
+<ul>
+<li>If column transformation or renaming is required, define <strong>dynamic mappings</strong> using expressions.</li>
+<li>For simple copy scenarios, leaving the mapping blank is the most efficient approach.</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1759832300" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832300" defer></script>
+    <script src="/js/theme.js?1759832300" defer></script>
+  </body>
+</html>

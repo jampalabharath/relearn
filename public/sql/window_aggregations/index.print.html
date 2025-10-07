@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="These functions allow you to perform aggregate calculations over a set of rows without the need for complex subqueries. They enable you to compute counts, sums, averages, minimums, and maximums while still retaining access to individual row details.
+Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COUNT Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer SELECT OrderID, OrderDate, CustomerID, COUNT(*) OVER() AS TotalOrders, COUNT(*) OVER(PARTITION BY CustomerID) AS OrdersByCustomers FROM Sales.Orders Task 2: Find the Total Number of Customers, Scores, and Countries SELECT *, COUNT(*) OVER () AS TotalCustomersStar, COUNT(1) OVER () AS TotalCustomersOne, COUNT(Score) OVER() AS TotalScores, COUNT(Country) OVER() AS TotalCountries FROM Sales.Customers Task 3: Check whether the table ‘OrdersArchive’ contains any duplicate rows SELECT * FROM ( SELECT *, COUNT(*) OVER(PARTITION BY OrderID) AS CheckDuplicates FROM Sales.OrdersArchive ) t WHERE CheckDuplicates &gt; 1 SUM Task 4: Find the Total Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, SUM(Sales) OVER () AS TotalSales, SUM(Sales) OVER (PARTITION BY ProductID) AS SalesByProduct FROM Sales.Orders Task 5: Find the Percentage Contribution of Each Product’s Sales to the Total Sales SELECT OrderID, ProductID, Sales, SUM(Sales) OVER () AS TotalSales, ROUND(CAST(Sales AS FLOAT) / SUM(Sales) OVER () * 100, 2) AS PercentageOfTotal FROM Sales.Orders AVG Task 6: Find the Average Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, AVG(Sales) OVER () AS AvgSales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgSalesByProduct FROM Sales.Orders Task 7: Find the Average Scores of Customers SELECT CustomerID, LastName, Score, COALESCE(Score, 0) AS CustomerScore, AVG(Score) OVER () AS AvgScore, AVG(COALESCE(Score, 0)) OVER () AS AvgScoreWithoutNull FROM Sales.Customers Task 8: Find all orders where Sales exceed the average Sales across all orders SELECT * FROM ( SELECT OrderID, ProductID, Sales, AVG(Sales) OVER () AS Avg_Sales FROM Sales.Orders ) t WHERE Sales &gt; Avg_Sales MAX / MIN Task 9: Find the Highest and Lowest Sales across all orders SELECT MIN(Sales) AS MinSales, MAX(Sales) AS MaxSales FROM Sales.Orders Task 10: Find the Lowest Sales across all orders and by Product SELECT OrderID, ProductID, OrderDate, Sales, MIN(Sales) OVER () AS LowestSales, MIN(Sales) OVER (PARTITION BY ProductID) AS LowestSalesByProduct FROM Sales.Orders Task 11: Show the employees who have the highest salaries SELECT * FROM ( SELECT *, MAX(Salary) OVER() AS HighestSalary FROM Sales.Employees ) t WHERE Salary = HighestSalary Task 12: Find the deviation of each Sale from the minimum and maximum Sales SELECT OrderID, OrderDate, ProductID, Sales, MAX(Sales) OVER () AS HighestSales, MIN(Sales) OVER () AS LowestSales, Sales - MIN(Sales) OVER () AS DeviationFromMin, MAX(Sales) OVER () - Sales AS DeviationFromMax FROM Sales.Orders ROLLING SUM &amp; AVERAGE Use Case Task 13: Calculate the moving average of Sales for each Product over time SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgByProduct, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS MovingAvg FROM Sales.Orders Task 14: Calculate the moving average of Sales for each Product over time, including only the next order SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) AS RollingAvg FROM Sales.Orders">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Window Aggregate Functions :: Data Engineering Notes">
+    <meta name="twitter:description" content="These functions allow you to perform aggregate calculations over a set of rows without the need for complex subqueries. They enable you to compute counts, sums, averages, minimums, and maximums while still retaining access to individual row details.
+Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COUNT Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer SELECT OrderID, OrderDate, CustomerID, COUNT(*) OVER() AS TotalOrders, COUNT(*) OVER(PARTITION BY CustomerID) AS OrdersByCustomers FROM Sales.Orders Task 2: Find the Total Number of Customers, Scores, and Countries SELECT *, COUNT(*) OVER () AS TotalCustomersStar, COUNT(1) OVER () AS TotalCustomersOne, COUNT(Score) OVER() AS TotalScores, COUNT(Country) OVER() AS TotalCountries FROM Sales.Customers Task 3: Check whether the table ‘OrdersArchive’ contains any duplicate rows SELECT * FROM ( SELECT *, COUNT(*) OVER(PARTITION BY OrderID) AS CheckDuplicates FROM Sales.OrdersArchive ) t WHERE CheckDuplicates &gt; 1 SUM Task 4: Find the Total Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, SUM(Sales) OVER () AS TotalSales, SUM(Sales) OVER (PARTITION BY ProductID) AS SalesByProduct FROM Sales.Orders Task 5: Find the Percentage Contribution of Each Product’s Sales to the Total Sales SELECT OrderID, ProductID, Sales, SUM(Sales) OVER () AS TotalSales, ROUND(CAST(Sales AS FLOAT) / SUM(Sales) OVER () * 100, 2) AS PercentageOfTotal FROM Sales.Orders AVG Task 6: Find the Average Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, AVG(Sales) OVER () AS AvgSales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgSalesByProduct FROM Sales.Orders Task 7: Find the Average Scores of Customers SELECT CustomerID, LastName, Score, COALESCE(Score, 0) AS CustomerScore, AVG(Score) OVER () AS AvgScore, AVG(COALESCE(Score, 0)) OVER () AS AvgScoreWithoutNull FROM Sales.Customers Task 8: Find all orders where Sales exceed the average Sales across all orders SELECT * FROM ( SELECT OrderID, ProductID, Sales, AVG(Sales) OVER () AS Avg_Sales FROM Sales.Orders ) t WHERE Sales &gt; Avg_Sales MAX / MIN Task 9: Find the Highest and Lowest Sales across all orders SELECT MIN(Sales) AS MinSales, MAX(Sales) AS MaxSales FROM Sales.Orders Task 10: Find the Lowest Sales across all orders and by Product SELECT OrderID, ProductID, OrderDate, Sales, MIN(Sales) OVER () AS LowestSales, MIN(Sales) OVER (PARTITION BY ProductID) AS LowestSalesByProduct FROM Sales.Orders Task 11: Show the employees who have the highest salaries SELECT * FROM ( SELECT *, MAX(Salary) OVER() AS HighestSalary FROM Sales.Employees ) t WHERE Salary = HighestSalary Task 12: Find the deviation of each Sale from the minimum and maximum Sales SELECT OrderID, OrderDate, ProductID, Sales, MAX(Sales) OVER () AS HighestSales, MIN(Sales) OVER () AS LowestSales, Sales - MIN(Sales) OVER () AS DeviationFromMin, MAX(Sales) OVER () - Sales AS DeviationFromMax FROM Sales.Orders ROLLING SUM &amp; AVERAGE Use Case Task 13: Calculate the moving average of Sales for each Product over time SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgByProduct, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS MovingAvg FROM Sales.Orders Task 14: Calculate the moving average of Sales for each Product over time, including only the next order SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) AS RollingAvg FROM Sales.Orders">
+    <meta property="og:url" content="http://localhost:1313/sql/window_aggregations/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Window Aggregate Functions :: Data Engineering Notes">
+    <meta property="og:description" content="These functions allow you to perform aggregate calculations over a set of rows without the need for complex subqueries. They enable you to compute counts, sums, averages, minimums, and maximums while still retaining access to individual row details.
+Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COUNT Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer SELECT OrderID, OrderDate, CustomerID, COUNT(*) OVER() AS TotalOrders, COUNT(*) OVER(PARTITION BY CustomerID) AS OrdersByCustomers FROM Sales.Orders Task 2: Find the Total Number of Customers, Scores, and Countries SELECT *, COUNT(*) OVER () AS TotalCustomersStar, COUNT(1) OVER () AS TotalCustomersOne, COUNT(Score) OVER() AS TotalScores, COUNT(Country) OVER() AS TotalCountries FROM Sales.Customers Task 3: Check whether the table ‘OrdersArchive’ contains any duplicate rows SELECT * FROM ( SELECT *, COUNT(*) OVER(PARTITION BY OrderID) AS CheckDuplicates FROM Sales.OrdersArchive ) t WHERE CheckDuplicates &gt; 1 SUM Task 4: Find the Total Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, SUM(Sales) OVER () AS TotalSales, SUM(Sales) OVER (PARTITION BY ProductID) AS SalesByProduct FROM Sales.Orders Task 5: Find the Percentage Contribution of Each Product’s Sales to the Total Sales SELECT OrderID, ProductID, Sales, SUM(Sales) OVER () AS TotalSales, ROUND(CAST(Sales AS FLOAT) / SUM(Sales) OVER () * 100, 2) AS PercentageOfTotal FROM Sales.Orders AVG Task 6: Find the Average Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, AVG(Sales) OVER () AS AvgSales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgSalesByProduct FROM Sales.Orders Task 7: Find the Average Scores of Customers SELECT CustomerID, LastName, Score, COALESCE(Score, 0) AS CustomerScore, AVG(Score) OVER () AS AvgScore, AVG(COALESCE(Score, 0)) OVER () AS AvgScoreWithoutNull FROM Sales.Customers Task 8: Find all orders where Sales exceed the average Sales across all orders SELECT * FROM ( SELECT OrderID, ProductID, Sales, AVG(Sales) OVER () AS Avg_Sales FROM Sales.Orders ) t WHERE Sales &gt; Avg_Sales MAX / MIN Task 9: Find the Highest and Lowest Sales across all orders SELECT MIN(Sales) AS MinSales, MAX(Sales) AS MaxSales FROM Sales.Orders Task 10: Find the Lowest Sales across all orders and by Product SELECT OrderID, ProductID, OrderDate, Sales, MIN(Sales) OVER () AS LowestSales, MIN(Sales) OVER (PARTITION BY ProductID) AS LowestSalesByProduct FROM Sales.Orders Task 11: Show the employees who have the highest salaries SELECT * FROM ( SELECT *, MAX(Salary) OVER() AS HighestSalary FROM Sales.Employees ) t WHERE Salary = HighestSalary Task 12: Find the deviation of each Sale from the minimum and maximum Sales SELECT OrderID, OrderDate, ProductID, Sales, MAX(Sales) OVER () AS HighestSales, MIN(Sales) OVER () AS LowestSales, Sales - MIN(Sales) OVER () AS DeviationFromMin, MAX(Sales) OVER () - Sales AS DeviationFromMax FROM Sales.Orders ROLLING SUM &amp; AVERAGE Use Case Task 13: Calculate the moving average of Sales for each Product over time SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgByProduct, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS MovingAvg FROM Sales.Orders Task 14: Calculate the moving average of Sales for each Product over time, including only the next order SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) AS RollingAvg FROM Sales.Orders">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="SQL">
+    <meta itemprop="name" content="Window Aggregate Functions :: Data Engineering Notes">
+    <meta itemprop="description" content="These functions allow you to perform aggregate calculations over a set of rows without the need for complex subqueries. They enable you to compute counts, sums, averages, minimums, and maximums while still retaining access to individual row details.
+Table of Contents COUNT SUM AVG MAX / MIN ROLLING SUM &amp; AVERAGE Use Case COUNT Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer SELECT OrderID, OrderDate, CustomerID, COUNT(*) OVER() AS TotalOrders, COUNT(*) OVER(PARTITION BY CustomerID) AS OrdersByCustomers FROM Sales.Orders Task 2: Find the Total Number of Customers, Scores, and Countries SELECT *, COUNT(*) OVER () AS TotalCustomersStar, COUNT(1) OVER () AS TotalCustomersOne, COUNT(Score) OVER() AS TotalScores, COUNT(Country) OVER() AS TotalCountries FROM Sales.Customers Task 3: Check whether the table ‘OrdersArchive’ contains any duplicate rows SELECT * FROM ( SELECT *, COUNT(*) OVER(PARTITION BY OrderID) AS CheckDuplicates FROM Sales.OrdersArchive ) t WHERE CheckDuplicates &gt; 1 SUM Task 4: Find the Total Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, SUM(Sales) OVER () AS TotalSales, SUM(Sales) OVER (PARTITION BY ProductID) AS SalesByProduct FROM Sales.Orders Task 5: Find the Percentage Contribution of Each Product’s Sales to the Total Sales SELECT OrderID, ProductID, Sales, SUM(Sales) OVER () AS TotalSales, ROUND(CAST(Sales AS FLOAT) / SUM(Sales) OVER () * 100, 2) AS PercentageOfTotal FROM Sales.Orders AVG Task 6: Find the Average Sales Across All Orders and per Product SELECT OrderID, OrderDate, Sales, ProductID, AVG(Sales) OVER () AS AvgSales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgSalesByProduct FROM Sales.Orders Task 7: Find the Average Scores of Customers SELECT CustomerID, LastName, Score, COALESCE(Score, 0) AS CustomerScore, AVG(Score) OVER () AS AvgScore, AVG(COALESCE(Score, 0)) OVER () AS AvgScoreWithoutNull FROM Sales.Customers Task 8: Find all orders where Sales exceed the average Sales across all orders SELECT * FROM ( SELECT OrderID, ProductID, Sales, AVG(Sales) OVER () AS Avg_Sales FROM Sales.Orders ) t WHERE Sales &gt; Avg_Sales MAX / MIN Task 9: Find the Highest and Lowest Sales across all orders SELECT MIN(Sales) AS MinSales, MAX(Sales) AS MaxSales FROM Sales.Orders Task 10: Find the Lowest Sales across all orders and by Product SELECT OrderID, ProductID, OrderDate, Sales, MIN(Sales) OVER () AS LowestSales, MIN(Sales) OVER (PARTITION BY ProductID) AS LowestSalesByProduct FROM Sales.Orders Task 11: Show the employees who have the highest salaries SELECT * FROM ( SELECT *, MAX(Salary) OVER() AS HighestSalary FROM Sales.Employees ) t WHERE Salary = HighestSalary Task 12: Find the deviation of each Sale from the minimum and maximum Sales SELECT OrderID, OrderDate, ProductID, Sales, MAX(Sales) OVER () AS HighestSales, MIN(Sales) OVER () AS LowestSales, Sales - MIN(Sales) OVER () AS DeviationFromMin, MAX(Sales) OVER () - Sales AS DeviationFromMax FROM Sales.Orders ROLLING SUM &amp; AVERAGE Use Case Task 13: Calculate the moving average of Sales for each Product over time SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID) AS AvgByProduct, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS MovingAvg FROM Sales.Orders Task 14: Calculate the moving average of Sales for each Product over time, including only the next order SELECT OrderID, ProductID, OrderDate, Sales, AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) AS RollingAvg FROM Sales.Orders">
+    <meta itemprop="wordCount" content="528">
+    <title>Window Aggregate Functions :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/sql/window_aggregations/" rel="canonical" type="text/html" title="Window Aggregate Functions :: Data Engineering Notes">
+    <link href="/sql/window_aggregations/index.md" rel="alternate" type="text/markdown" title="Window Aggregate Functions :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1759820572" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759820572" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759820572" defer></script>
+    <script src="/js/search-lunr.js?1759820572" defer></script>
+    <script src="/js/search.js?1759820572" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759820572";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759820572" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759820572" rel="stylesheet">
+    <link href="/css/theme.css?1759820572" rel="stylesheet">
+    <link href="/css/format-print.css?1759820572" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/sql\/window_aggregations\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/sql/window_aggregations/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#table-of-contents">Table of Contents</a></li>
+    <li><a href="#count">COUNT</a>
+      <ul>
+        <li><a href="#task-1-find-the-total-number-of-orders-and-the-total-number-of-orders-for-each-customer">Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer</a></li>
+        <li><a href="#task-2-find-the-total-number-of-customers-scores-and-countries">Task 2: Find the Total Number of Customers, Scores, and Countries</a></li>
+        <li><a href="#task-3-check-whether-the-table-ordersarchive-contains-any-duplicate-rows">Task 3: Check whether the table &lsquo;OrdersArchive&rsquo; contains any duplicate rows</a></li>
+      </ul>
+    </li>
+    <li><a href="#sum">SUM</a>
+      <ul>
+        <li><a href="#task-4-find-the-total-sales-across-all-orders-and-per-product">Task 4: Find the Total Sales Across All Orders and per Product</a></li>
+        <li><a href="#task-5-find-the-percentage-contribution-of-each-products-sales-to-the-total-sales">Task 5: Find the Percentage Contribution of Each Product&rsquo;s Sales to the Total Sales</a></li>
+      </ul>
+    </li>
+    <li><a href="#avg">AVG</a>
+      <ul>
+        <li><a href="#task-6-find-the-average-sales-across-all-orders-and-per-product">Task 6: Find the Average Sales Across All Orders and per Product</a></li>
+        <li><a href="#task-7-find-the-average-scores-of-customers">Task 7: Find the Average Scores of Customers</a></li>
+        <li><a href="#task-8-find-all-orders-where-sales-exceed-the-average-sales-across-all-orders">Task 8: Find all orders where Sales exceed the average Sales across all orders</a></li>
+      </ul>
+    </li>
+    <li><a href="#max--min">MAX / MIN</a>
+      <ul>
+        <li><a href="#task-9-find-the-highest-and-lowest-sales-across-all-orders">Task 9: Find the Highest and Lowest Sales across all orders</a></li>
+        <li><a href="#task-10-find-the-lowest-sales-across-all-orders-and-by-product">Task 10: Find the Lowest Sales across all orders and by Product</a></li>
+        <li><a href="#task-11-show-the-employees-who-have-the-highest-salaries">Task 11: Show the employees who have the highest salaries</a></li>
+        <li><a href="#task-12-find-the-deviation-of-each-sale-from-the-minimum-and-maximum-sales">Task 12: Find the deviation of each Sale from the minimum and maximum Sales</a></li>
+      </ul>
+    </li>
+    <li><a href="#rolling-sum--average-use-case">ROLLING SUM &amp; AVERAGE Use Case</a>
+      <ul>
+        <li><a href="#task-13-calculate-the-moving-average-of-sales-for-each-product-over-time">Task 13: Calculate the moving average of Sales for each Product over time</a></li>
+        <li><a href="#task-14-calculate-the-moving-average-of-sales-for-each-product-over-time-including-only-the-next-order">Task 14: Calculate the moving average of Sales for each Product over time, including only the next order</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/sql/"><span itemprop="name">SQL</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Window Aggregate Functions</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/SQL/Window_Aggregations.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window_aggregations/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window_aggregations/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window-functions/" title="Window Functions (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/sql/window-ranking/" title="Window Ranking Functions (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable sql" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="window-aggregate-functions">Window Aggregate Functions</h1>
+
+<p>These functions allow you to perform aggregate calculations over a set of rows without the need for complex subqueries. They enable you to compute counts, sums, averages, minimums, and maximums while still retaining access to individual row details.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li>COUNT</li>
+<li>SUM</li>
+<li>AVG</li>
+<li>MAX / MIN</li>
+<li>ROLLING SUM &amp; AVERAGE Use Case</li>
+</ol>
+<hr>
+<h2 id="count">COUNT</h2>
+<h3 id="task-1-find-the-total-number-of-orders-and-the-total-number-of-orders-for-each-customer">Task 1: Find the Total Number of Orders and the Total Number of Orders for Each Customer</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CustomerID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalOrders</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CustomerID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">OrdersByCustomers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h3 id="task-2-find-the-total-number-of-customers-scores-and-countries">Task 2: Find the Total Number of Customers, Scores, and Countries</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">*</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalCustomersStar</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalCustomersOne</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="n">Score</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalScores</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="n">Country</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalCountries</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span></span></span></code></pre></div>
+<h3 id="task-3-check-whether-the-table-ordersarchive-contains-any-duplicate-rows">Task 3: Check whether the table &lsquo;OrdersArchive&rsquo; contains any duplicate rows</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">*</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">*</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">OrderID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CheckDuplicates</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">OrdersArchive</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">CheckDuplicates</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span></span></span></code></pre></div>
+<h2 id="sum">SUM</h2>
+<h3 id="task-4-find-the-total-sales-across-all-orders-and-per-product">Task 4: Find the Total Sales Across All Orders and per Product</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SalesByProduct</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h3 id="task-5-find-the-percentage-contribution-of-each-products-sales-to-the-total-sales">Task 5: Find the Percentage Contribution of Each Product&rsquo;s Sales to the Total Sales</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">TotalSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="n">Sales</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PercentageOfTotal</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h2 id="avg">AVG</h2>
+<h3 id="task-6-find-the-average-sales-across-all-orders-and-per-product">Task 6: Find the Average Sales Across All Orders and per Product</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AvgSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AvgSalesByProduct</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h3 id="task-7-find-the-average-scores-of-customers">Task 7: Find the Average Scores of Customers</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CustomerID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">LastName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Score</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">COALESCE</span><span class="p">(</span><span class="n">Score</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CustomerScore</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">Score</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AvgScore</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">COALESCE</span><span class="p">(</span><span class="n">Score</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AvgScoreWithoutNull</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Customers</span></span></span></code></pre></div>
+<h3 id="task-8-find-all-orders-where-sales-exceed-the-average-sales-across-all-orders">Task 8: Find all orders where Sales exceed the average Sales across all orders</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">AVG</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Avg_Sales</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">Sales</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Avg_Sales</span></span></span></code></pre></div>
+<h2 id="max--min">MAX / MIN</h2>
+<h3 id="task-9-find-the-highest-and-lowest-sales-across-all-orders">Task 9: Find the Highest and Lowest Sales across all orders</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MIN</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">MinSales</span><span class="p">,</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">MaxSales</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h3 id="task-10-find-the-lowest-sales-across-all-orders-and-by-product">Task 10: Find the Lowest Sales across all orders and by Product</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MIN</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LowestSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MIN</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LowestSalesByProduct</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h3 id="task-11-show-the-employees-who-have-the-highest-salaries">Task 11: Show the employees who have the highest salaries</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		   </span><span class="k">MAX</span><span class="p">(</span><span class="n">Salary</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">HighestSalary</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Employees</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">Salary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HighestSalary</span></span></span></code></pre></div>
+<h3 id="task-12-find-the-deviation-of-each-sale-from-the-minimum-and-maximum-sales">Task 12: Find the deviation of each Sale from the minimum and maximum Sales</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">HighestSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MIN</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LowestSales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DeviationFromMin</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Sales</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DeviationFromMax</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h2 id="rolling-sum--average-use-case">ROLLING SUM &amp; AVERAGE Use Case</h2>
+<h3 id="task-13-calculate-the-moving-average-of-sales-for-each-product-over-time">Task 13: Calculate the moving average of Sales for each Product over time</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AvgByProduct</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">OrderDate</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">MovingAvg</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+<h3 id="task-14-calculate-the-moving-average-of-sales-for-each-product-over-time-including-only-the-next-order">Task 14: Calculate the moving average of Sales for each Product over time, including only the next order</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ProductID</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderDate</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Sales</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">Sales</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ProductID</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">OrderDate</span><span class="w"> </span><span class="k">ROWS</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="k">CURRENT</span><span class="w"> </span><span class="k">ROW</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">FOLLOWING</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">RollingAvg</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">Sales</span><span class="p">.</span><span class="n">Orders</span></span></span></code></pre></div>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1759820572" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759820572" defer></script>
+    <script src="/js/theme.js?1759820572" defer></script>
+  </body>
+</html>

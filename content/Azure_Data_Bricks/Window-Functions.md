@@ -22,7 +22,7 @@ from pyspark.sql.window import Window
 
 A window specification defines how rows will be grouped (partitioned) and ordered within each group.
 
-Example – Basic Window Specification:
+**Example – Basic Window Specification:**
 
 `window_spec = Window.partitionBy("category").orderBy("timestamp")`
 
@@ -32,35 +32,35 @@ Example – Basic Window Specification:
 `window_spec = Window.partitionBy("category", "sub_category").orderBy(F.col("timestamp"), F.col("score"))`
 
 ### 4. Common Window Functions
-### a. Row Number
+#### a. Row Number
 
-Function: `row_number()`
+**Function:** `row_number()`
 
-Description: Assigns a unique integer to each row within the partition (starting from 1).
+**Description:** Assigns a unique integer to each row within the partition (starting from 1).
 
 `df = df.withColumn("row_number", F.row_number().over(window_spec))`
 
-b. Rank
+#### b. Rank
 
-Function: `rank()`
+**Function:** `rank()`
 
-Description: Assigns the same rank to rows with the same values in the order criteria. The next rank has a gap.
+**Description:** Assigns the same rank to rows with the same values in the order criteria. The next rank has a gap.
 
 `df = df.withColumn("rank", F.rank().over(window_spec))`
 
-c. Dense Rank
+#### c. Dense Rank
 
-Function: `dense_rank()`
+**Function:** `dense_rank()`
 
-Description: Similar to rank, but does not leave gaps in ranking.
+**Description:** Similar to rank, but does not leave gaps in ranking.
 
 `df = df.withColumn("dense_rank", F.dense_rank().over(window_spec))`
 
-d. Lead and Lag
+#### d. Lead and Lag
 
-Functions: `lead()`, `lag()`
+**Functions:** `lead()`, `lag()`
 
-Description:
+**Description:**
 
 `lead()` → value of the next row within the window.
 
@@ -69,7 +69,7 @@ Description:
 `df = df.withColumn("next_value", F.lead("value").over(window_spec))`
 `df = df.withColumn("previous_value", F.lag("value").over(window_spec))`
 
-e. Aggregation Functions
+#### e. Aggregation Functions
 
 Window functions can also compute aggregated values across the specified window.
 
@@ -78,11 +78,11 @@ Window functions can also compute aggregated values across the specified window.
 
 Other common aggregations:
 
-Sum: `F.sum("column_name").over(window_spec)`
+**Sum:** `F.sum("column_name").over(window_spec)`
 
-Min: `F.min("column_name").over(window_spec)`
+**Min:** `F.min("column_name").over(window_spec)`
 
-Max: `F.max("column_name").over(window_spec)`
+**Max:** `F.max("column_name").over(window_spec)`
 
 ### 5. Putting It All Together – Example
 ```python
@@ -120,13 +120,13 @@ df = df.withColumn("avg_value", F.avg("value").over(window_spec))
 df.show()
 ```
 
-6. Conclusion
+### 6. Conclusion
 
 Window functions in PySpark are powerful tools for analyzing data within groups while retaining row-level details.
 
 By defining window specifications and applying functions like rank, dense_rank, lead, lag, and aggregations, you can perform complex analytics efficiently.
 
-🔹 Windows Function in PySpark – Part 2
+## Windows Function in PySpark – Part 2
 ```python
 from pyspark.sql import SparkSession
 from pyspark.sql.window import Window
@@ -160,8 +160,12 @@ df3 = df.withColumn("RowNumber", F.row_number().over(window_spec))
 df4 = df.withColumn("ScoreDifferenceWithNext", F.lead("Score").over(window_spec) - df["Score"])
 df5 = df.withColumn("ScoreDifferenceWithPrevious", df["Score"] - F.lag("Score").over(window_spec))
 ```
-🔹 Windows Function in PySpark – Part 3 (Student Marks Analysis)
+## Windows Function in PySpark – Part 3 (Student Marks Analysis)
 ```python
+from pyspark.sql import SparkSession
+from pyspark.sql.window import Window
+import pyspark.sql.functions as F
+
 # Updated sample data
 data = [
     ("Alice", "Math", 90, 1),
@@ -217,7 +221,7 @@ window_spec_max_subject_marks = Window.partitionBy("Semester","Subject").orderBy
 max_subject_marks_df = df.withColumn("Rank", F.rank().over(window_spec_max_subject_marks))
 max_subject_scorer = max_subject_marks_df.filter(max_subject_marks_df["Rank"] == 1)
 ```
-### Windows Function in PySpark – Part 4 (Highest Salary per Department)
+## Windows Function in PySpark – Part 4 (Highest Salary per Department)
 ```python
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window

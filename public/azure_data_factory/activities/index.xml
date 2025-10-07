@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tasks :: Data Engineering Notes</title>
+    <link>http://localhost:1313/azure_data_factory/activities/</link>
+    <description>Good luck</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/azure_data_factory/activities/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Copy Activity</title>
+      <link>http://localhost:1313/azure_data_factory/activities/copy-activity/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/azure_data_factory/activities/copy-activity/</guid>
+      <description>Copy Activity in Azure Data Factory What is Copy Activity? Copy Activity is the core data movement activity in Azure Data Factory (ADF). It allows you to securely and efficiently copy data from a source data store to a destination (sink) data store. This is widely used for data ingestion, ETL pipelines, and data migration across on-premises, cloud, and hybrid environments.&#xA;Key Features Supports 100+ connectors for structured, semi-structured, and unstructured data.</description>
+    </item>
+    <item>
+      <title>Copy Activity Tasks</title>
+      <link>http://localhost:1313/azure_data_factory/activities/copy-tasks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/azure_data_factory/activities/copy-tasks/</guid>
+      <description>📝 Copy Data Activity – Hands-on Task Checklist 1. Basics &amp; Setup Create a pipeline with Copy Activity to copy data from Azure Blob Storage → Azure SQL Database.&#xA;Try copying structured (CSV), semi-structured (JSON), and binary files.&#xA;2. Connectors Copy data from Azure Blob → ADLS Gen2.&#xA;Copy data from On-prem SQL Server → Azure SQL DB using Self-hosted IR.&#xA;Copy data from a REST API → ADLS.&#xA;3. Integration Runtime Use Auto-resolve IR for cloud-to-cloud copy.</description>
+    </item>
+  </channel>
+</rss>
