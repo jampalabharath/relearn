@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -10,7 +10,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Practice Sets :: Data Engineering Notes">
     <meta name="twitter:description" content="SQL LeetCode Pyspark 1">
-    <meta property="og:url" content="http://localhost:1313/practice/">
+    <meta property="og:url" content="https://example.org/practice/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Practice Sets :: Data Engineering Notes">
     <meta property="og:description" content="SQL LeetCode Pyspark 1">
@@ -20,38 +20,38 @@
     <meta itemprop="description" content="SQL LeetCode Pyspark 1">
     <meta itemprop="wordCount" content="4">
     <title>Practice Sets :: Data Engineering Notes</title>
-    <link href="http://localhost:1313/practice/" rel="canonical" type="text/html" title="Practice Sets :: Data Engineering Notes">
+    <link href="https://example.org/practice/" rel="canonical" type="text/html" title="Practice Sets :: Data Engineering Notes">
     <link href="/practice/index.xml" rel="alternate" type="application/rss+xml" title="Practice Sets :: Data Engineering Notes">
     <link href="/practice/index.md" rel="alternate" type="text/markdown" title="Practice Sets :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759820572" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759820572" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759820572" defer></script>
-    <script src="/js/search-lunr.js?1759820572" defer></script>
-    <script src="/js/search.js?1759820572" defer></script>
+    <link href="/images/favicon.ico?1759918286" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759918286" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759918286" defer></script>
+    <script src="/js/search-lunr.min.js?1759918286" defer></script>
+    <script src="/js/search.min.js?1759918286" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759820572";
+      window.relearn.index_js_url="/searchindex.en.js?1759918286";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759820572" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759820572" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759820572" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759918286" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759820572" rel="stylesheet">
-    <link href="/css/theme.css?1759820572" rel="stylesheet">
-    <link href="/css/format-print.css?1759820572" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759918286" rel="stylesheet">
+    <link href="/css/theme.min.css?1759918286" rel="stylesheet">
+    <link href="/css/format-print.min.css?1759918286" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = ``;
+      window.relearn.min = `.min`;
       window.relearn.path='\/practice\/';
       window.relearn.relBasePath='..';
       window.relearn.relBaseUri='..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.absBaseUri='https:\/\/example.org';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -8358,7 +8358,7 @@ Only count sessions with <strong>at least one activity</strong> in that time per
 <h1 id="pyspark-1">Pyspark 1</h1>
 
 <h2 id="1-write-a-pyspark-query-using-below-input-to-get-below-output">1. Write a PySpark query using below input to get below output?</h2>
-<h3 id="input">Input</h3>
+<h4 id="input">Input</h4>
 <table>
   <thead>
       <tr>
@@ -8381,7 +8381,7 @@ Only count sessions with <strong>at least one activity</strong> in that time per
       </tr>
   </tbody>
 </table>
-<h3 id="output">Output</h3>
+<h4 id="output">Output</h4>
 <table>
   <thead>
       <tr>
@@ -8433,14 +8433,22 @@ Only count sessions with <strong>at least one activity</strong> in that time per
 </span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="s2">&#34;Hobbies&#34;</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Create DataFrame</span>
-</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Split and explode hobbies</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Split and explode hobbies</span>
 </span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;Hobbies&#34;</span><span class="p">,</span> <span class="n">explode</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Hobbies&#34;</span><span class="p">],</span> <span class="s2">&#34;,\s*&#34;</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+  </div>
+</details>
 <h2 id="2-write-a-pyspark-query-using-the-below-input-to-get-the-required-output">2. Write a PySpark query using the below input to get the required output.</h2>
-<h3 id="input-1">Input</h3>
+<h4 id="input-1">Input</h4>
 <table>
   <thead>
       <tr>
@@ -8467,7 +8475,7 @@ Only count sessions with <strong>at least one activity</strong> in that time per
       </tr>
   </tbody>
 </table>
-<h3 id="expected-output">Expected Output</h3>
+<h4 id="expected-output">Expected Output</h4>
 <table>
   <thead>
       <tr>
@@ -8487,7 +8495,6 @@ Only count sessions with <strong>at least one activity</strong> in that time per
   </tbody>
 </table>
 <hr>
-<h2 id="pyspark-solution">PySpark Solution</h2>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Sample Input Data</span>
@@ -8497,14 +8504,985 @@ Only count sessions with <strong>at least one activity</strong> in that time per
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&#34;Bglr&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">]</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;City1&#34;</span><span class="p">,</span> <span class="s2">&#34;City2&#34;</span><span class="p">,</span> <span class="s2">&#34;City3&#34;</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Use COALESCE to pick the first non-null city</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;City1&#34;</span><span class="p">,</span> <span class="s2">&#34;City2&#34;</span><span class="p">,</span> <span class="s2">&#34;City3&#34;</span><span class="p">])</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Use COALESCE to pick the first non-null city</span>
 </span></span><span class="line"><span class="cl"><span class="n">result_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">    <span class="n">F</span><span class="o">.</span><span class="n">coalesce</span><span class="p">(</span><span class="s2">&#34;City1&#34;</span><span class="p">,</span> <span class="s2">&#34;City2&#34;</span><span class="p">,</span> <span class="s2">&#34;City3&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Result&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">result_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="3-question--student-result-classification">3. Question – Student Result Classification</h2>
+<p>You have a PySpark DataFrame <code>df</code> containing student marks in multiple subjects:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Subject</th>
+          <th>Mark</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>Steve</td>
+          <td>SQL</td>
+          <td>90</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>Steve</td>
+          <td>PySpark</td>
+          <td>100</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>David</td>
+          <td>SQL</td>
+          <td>70</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>David</td>
+          <td>PySpark</td>
+          <td>60</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>John</td>
+          <td>SQL</td>
+          <td>30</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>John</td>
+          <td>PySpark</td>
+          <td>20</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>Shree</td>
+          <td>SQL</td>
+          <td>50</td>
+      </tr>
+  </tbody>
+</table>
+<ol>
+<li>
+<p>Write a PySpark query to calculate the <strong>average percentage</strong> for each student across all subjects.</p>
+</li>
+<li>
+<p>Based on the percentage, assign a <strong>Result</strong> column using the following rules:</p>
+<ul>
+<li><strong>Distinction</strong> → Percentage ≥ 70</li>
+<li><strong>First Class</strong> → 60 ≤ Percentage &lt; 70</li>
+<li><strong>Second Class</strong> → 50 ≤ Percentage &lt; 60</li>
+<li><strong>Third Class</strong> → 40 ≤ Percentage &lt; 50</li>
+<li><strong>Fail</strong> → Percentage &lt; 40</li>
+</ul>
+</li>
+</ol>
+<p>Show the final DataFrame with columns: <code>Id</code>, <code>Name</code>, <code>Percentage</code>, <code>Result</code>.</p>
+<hr>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">avg</span><span class="p">,</span> <span class="n">when</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;StudentMarks&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Steve&#39;</span><span class="p">,</span> <span class="s1">&#39;SQL&#39;</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Steve&#39;</span><span class="p">,</span> <span class="s1">&#39;PySpark&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;David&#39;</span><span class="p">,</span> <span class="s1">&#39;SQL&#39;</span><span class="p">,</span> <span class="mi">70</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;David&#39;</span><span class="p">,</span> <span class="s1">&#39;PySpark&#39;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;SQL&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;PySpark&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Shree&#39;</span><span class="p">,</span> <span class="s1">&#39;SQL&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Id&#34;</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">,</span> <span class="s2">&#34;Subject&#34;</span><span class="p">,</span> <span class="s2">&#34;Mark&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Calculate average percentage per student</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_per</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&#34;Id&#34;</span><span class="p">,</span> <span class="s2">&#34;Name&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">avg</span><span class="p">(</span><span class="s2">&#34;Mark&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Assign Result based on percentage</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_final</span> <span class="o">=</span> <span class="n">df_per</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;*&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">when</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">70</span><span class="p">,</span> <span class="s2">&#34;Distinction&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">when</span><span class="p">((</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">),</span> <span class="s2">&#34;First Class&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">when</span><span class="p">((</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&#34;Second Class&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">when</span><span class="p">((</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;Percentage&#34;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">40</span><span class="p">),</span> <span class="s2">&#34;Third Class&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="s2">&#34;Fail&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Result&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df_final</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="4-department-wise-employee-ranking">4. Department-wise Employee Ranking</h2>
+<h4 id="question"><strong>Question</strong></h4>
+<p>You are given the following employee dataset:</p>
+<table>
+  <thead>
+      <tr>
+          <th>EmpId</th>
+          <th>EmpName</th>
+          <th>Salary</th>
+          <th>DeptName</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>A</td>
+          <td>1000</td>
+          <td>IT</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>B</td>
+          <td>1500</td>
+          <td>IT</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>C</td>
+          <td>2500</td>
+          <td>IT</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>D</td>
+          <td>3000</td>
+          <td>HR</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td>E</td>
+          <td>2000</td>
+          <td>HR</td>
+      </tr>
+      <tr>
+          <td>6</td>
+          <td>F</td>
+          <td>1000</td>
+          <td>HR</td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td>G</td>
+          <td>4000</td>
+          <td>Sales</td>
+      </tr>
+      <tr>
+          <td>8</td>
+          <td>H</td>
+          <td>4000</td>
+          <td>Sales</td>
+      </tr>
+      <tr>
+          <td>9</td>
+          <td>I</td>
+          <td>1000</td>
+          <td>Sales</td>
+      </tr>
+      <tr>
+          <td>10</td>
+          <td>J</td>
+          <td>2000</td>
+          <td>Sales</td>
+      </tr>
+  </tbody>
+</table>
+<p>You need to:</p>
+<ol>
+<li>Assign a <strong>dense rank</strong> to employees based on their salary <strong>within each department</strong>, sorted in <strong>descending order</strong>.</li>
+<li>Display only those employees who hold the <strong>2nd highest salary</strong> in each department.</li>
+</ol>
+<hr>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;EmployeeRanking&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Input Data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s2">&#34;A&#34;</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="s2">&#34;IT&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s2">&#34;B&#34;</span><span class="p">,</span><span class="mi">1500</span><span class="p">,</span><span class="s2">&#34;IT&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s2">&#34;C&#34;</span><span class="p">,</span><span class="mi">2500</span><span class="p">,</span><span class="s2">&#34;IT&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="s2">&#34;D&#34;</span><span class="p">,</span><span class="mi">3000</span><span class="p">,</span><span class="s2">&#34;HR&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s2">&#34;E&#34;</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="s2">&#34;HR&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s2">&#34;F&#34;</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="s2">&#34;HR&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="s2">&#34;G&#34;</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="s2">&#34;Sales&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="s2">&#34;H&#34;</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="s2">&#34;Sales&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="s2">&#34;I&#34;</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="s2">&#34;Sales&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s2">&#34;J&#34;</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="s2">&#34;Sales&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;EmpId&#34;</span><span class="p">,</span><span class="s2">&#34;EmpName&#34;</span><span class="p">,</span><span class="s2">&#34;Salary&#34;</span><span class="p">,</span><span class="s2">&#34;DeptName&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">schema1</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Apply dense_rank() by department based on descending salary</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_rank</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;*&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dense_rank</span><span class="p">()</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">Window</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">DeptName</span><span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Salary</span><span class="o">.</span><span class="n">desc</span><span class="p">()))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;rank&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Filter employees with 2nd highest salary</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_second_highest</span> <span class="o">=</span> <span class="n">df_rank</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">df_rank</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df_second_highest</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="5-employee-salary-report-by-department-and-manager">5. Employee Salary Report by Department and Manager</h2>
+<h4 id="question-1"><strong>Question</strong></h4>
+<p>You are given two DataFrames:</p>
+<h4 id="1-employee-salary-information"><strong>1️⃣ Employee Salary Information</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th>EmpId</th>
+          <th>EmpName</th>
+          <th>Mgrid</th>
+          <th>deptid</th>
+          <th>salarydt</th>
+          <th>salary</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>100</td>
+          <td>Raj</td>
+          <td>null</td>
+          <td>1</td>
+          <td>01-04-23</td>
+          <td>50000</td>
+      </tr>
+      <tr>
+          <td>200</td>
+          <td>Joanne</td>
+          <td>100</td>
+          <td>1</td>
+          <td>01-04-23</td>
+          <td>4000</td>
+      </tr>
+      <tr>
+          <td>200</td>
+          <td>Joanne</td>
+          <td>100</td>
+          <td>1</td>
+          <td>13-04-23</td>
+          <td>4500</td>
+      </tr>
+      <tr>
+          <td>200</td>
+          <td>Joanne</td>
+          <td>100</td>
+          <td>1</td>
+          <td>14-04-23</td>
+          <td>4020</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="2-department-information"><strong>2️⃣ Department Information</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th>deptid</th>
+          <th>deptname</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>IT</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>HR</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="task"><strong>Task</strong></h4>
+<ol>
+<li>Convert the <code>salarydt</code> column to <strong>date type</strong>.</li>
+<li>Join both DataFrames to add <strong>department name</strong>.</li>
+<li>Perform a <strong>self-join</strong> to get each employee’s <strong>manager name</strong> (based on <code>Mgrid = EmpId</code>).</li>
+<li>Group the data to calculate the <strong>total salary paid</strong> for each employee, month, and year within their department, along with their manager’s name.</li>
+</ol>
+<hr>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">to_date</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">date_format</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;EmployeeSalaryReport&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Employee Salary DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&#34;Raj&#34;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;01-04-23&#34;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">&#34;Joanne&#34;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;01-04-23&#34;</span><span class="p">,</span> <span class="mi">4000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">&#34;Joanne&#34;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;13-04-23&#34;</span><span class="p">,</span> <span class="mi">4500</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">&#34;Joanne&#34;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;14-04-23&#34;</span><span class="p">,</span> <span class="mi">4020</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;EmpId&#34;</span><span class="p">,</span> <span class="s2">&#34;EmpName&#34;</span><span class="p">,</span> <span class="s2">&#34;Mgrid&#34;</span><span class="p">,</span> <span class="s2">&#34;deptid&#34;</span><span class="p">,</span> <span class="s2">&#34;salarydt&#34;</span><span class="p">,</span> <span class="s2">&#34;salary&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_salary</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">schema1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Department DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">data2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;IT&#34;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;HR&#34;</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;deptid&#34;</span><span class="p">,</span> <span class="s2">&#34;deptname&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_dept</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">schema2</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Step 1: Convert salarydt to Date Type</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df_salary</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;Newsaldt&#34;</span><span class="p">,</span> <span class="n">to_date</span><span class="p">(</span><span class="s2">&#34;salarydt&#34;</span><span class="p">,</span> <span class="s2">&#34;dd-MM-yy&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 2: Join department data</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_dept</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;deptid&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 3: Self join to get Manager Name</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df1</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;a&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df1</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;b&#34;</span><span class="p">),</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;a.Mgrid&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;b.EmpId&#34;</span><span class="p">),</span> <span class="s2">&#34;left&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;a.deptname&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;b.EmpName&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;ManagerName&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;a.EmpName&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;a.Newsaldt&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="p">(</span><span class="s2">&#34;a.salary&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 4: Group by Dept, Manager, Employee, Year, and Month</span>
+</span></span><span class="line"><span class="cl"><span class="n">df3</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df2</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;deptname&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;ManagerName&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;EmpName&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">year</span><span class="p">(</span><span class="s2">&#34;Newsaldt&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Year&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">date_format</span><span class="p">(</span><span class="s2">&#34;Newsaldt&#34;</span><span class="p">,</span> <span class="s2">&#34;MMMM&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Month&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&#34;salary&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df3</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="6-month-over-month-sales-growth-calculation">6. Month-over-Month Sales Growth Calculation</h2>
+<h4 id="question-2"><strong>Question</strong></h4>
+<p>You are given the following sales order dataset:</p>
+<table>
+  <thead>
+      <tr>
+          <th>SOId</th>
+          <th>SODate</th>
+          <th>ItemId</th>
+          <th>ItemQty</th>
+          <th>ItemValue</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>2024-01-01</td>
+          <td>I1</td>
+          <td>10</td>
+          <td>1000</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>2024-01-15</td>
+          <td>I2</td>
+          <td>20</td>
+          <td>2000</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>2024-02-01</td>
+          <td>I3</td>
+          <td>10</td>
+          <td>1500</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>2024-02-15</td>
+          <td>I4</td>
+          <td>20</td>
+          <td>2500</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td>2024-03-01</td>
+          <td>I5</td>
+          <td>30</td>
+          <td>3000</td>
+      </tr>
+      <tr>
+          <td>6</td>
+          <td>2024-03-10</td>
+          <td>I6</td>
+          <td>40</td>
+          <td>3500</td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td>2024-03-20</td>
+          <td>I7</td>
+          <td>20</td>
+          <td>2500</td>
+      </tr>
+      <tr>
+          <td>8</td>
+          <td>2024-03-30</td>
+          <td>I8</td>
+          <td>10</td>
+          <td>1000</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="task-1"><strong>Task</strong></h4>
+<ol>
+<li>
+<p>Convert the <code>SODate</code> column into a <strong>DateType</strong>.</p>
+</li>
+<li>
+<p>Extract <strong>Month</strong> and <strong>Year</strong> from the sales order date.</p>
+</li>
+<li>
+<p>Calculate <strong>total sales per month</strong> (<code>sum(ItemValue)</code>).</p>
+</li>
+<li>
+<p>Use a <strong>window function (<code>lag</code>)</strong> to get the <strong>previous month’s total sales</strong>.</p>
+</li>
+<li>
+<p>Compute the <strong>month-over-month sales growth percentage</strong> using:</p>
+<p>[
+Growth% = \frac{(CurrentMonth - PrevMonth) * 100}{CurrentMonth}
+]</p>
+</li>
+</ol>
+<hr>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;MonthlySalesGrowth&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sample Data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;2024-01-01&#39;</span><span class="p">,</span> <span class="s2">&#34;I1&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;2024-01-15&#34;</span><span class="p">,</span> <span class="s2">&#34;I2&#34;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&#34;2024-02-01&#34;</span><span class="p">,</span> <span class="s2">&#34;I3&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1500</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&#34;2024-02-15&#34;</span><span class="p">,</span> <span class="s2">&#34;I4&#34;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2500</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&#34;2024-03-01&#34;</span><span class="p">,</span> <span class="s2">&#34;I5&#34;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">3000</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&#34;2024-03-10&#34;</span><span class="p">,</span> <span class="s2">&#34;I6&#34;</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">3500</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s2">&#34;2024-03-20&#34;</span><span class="p">,</span> <span class="s2">&#34;I7&#34;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2500</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s2">&#34;2024-03-30&#34;</span><span class="p">,</span> <span class="s2">&#34;I8&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;SOId&#34;</span><span class="p">,</span> <span class="s2">&#34;SODate&#34;</span><span class="p">,</span> <span class="s2">&#34;ItemId&#34;</span><span class="p">,</span> <span class="s2">&#34;ItemQty&#34;</span><span class="p">,</span> <span class="s2">&#34;ItemValue&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Step 1: Convert SODate to DateType</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;SODate&#34;</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">SODate</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">DateType</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 2: Extract Month, Year</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">month</span><span class="p">(</span><span class="s2">&#34;SODate&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Month&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">year</span><span class="p">(</span><span class="s2">&#34;SODate&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Year&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">col</span><span class="p">(</span><span class="s2">&#34;ItemValue&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 3: Aggregate monthly total sales</span>
+</span></span><span class="line"><span class="cl"><span class="n">df3</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&#34;Month&#34;</span><span class="p">,</span> <span class="s2">&#34;Year&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="s2">&#34;ItemValue&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;TotalSale&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 4: Use lag() to find previous month&#39;s sale</span>
+</span></span><span class="line"><span class="cl"><span class="n">df4</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;*&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lag</span><span class="p">(</span><span class="s2">&#34;TotalSale&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">Window</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s2">&#34;Month&#34;</span><span class="p">,</span> <span class="s2">&#34;Year&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;PrevSale&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 5: Calculate Month-over-Month growth %</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_final</span> <span class="o">=</span> <span class="n">df4</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">((</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;TotalSale&#34;</span><span class="p">)</span> <span class="o">-</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;PrevSale&#34;</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;TotalSale&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Growth_Percentage&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df_final</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="7-average-machine-processing-time">7. Average Machine Processing Time</h2>
+<h4 id="question-3"><strong>Question</strong></h4>
+<p>You are given the following dataset representing machine process activity logs:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Machine_id</th>
+          <th>processid</th>
+          <th>activityid</th>
+          <th>timestamp</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>start</td>
+          <td>0.712</td>
+      </tr>
+      <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>end</td>
+          <td>1.520</td>
+      </tr>
+      <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>start</td>
+          <td>3.140</td>
+      </tr>
+      <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>end</td>
+          <td>4.120</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>start</td>
+          <td>0.550</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>end</td>
+          <td>1.550</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>start</td>
+          <td>0.430</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>end</td>
+          <td>1.420</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>0</td>
+          <td>start</td>
+          <td>4.100</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>0</td>
+          <td>end</td>
+          <td>4.512</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>1</td>
+          <td>start</td>
+          <td>2.500</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>1</td>
+          <td>end</td>
+          <td>5.000</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="task-2"><strong>Task</strong></h4>
+<ol>
+<li>Identify <strong>start</strong> and <strong>end</strong> times for each <code>processid</code> and <code>Machine_id</code>.</li>
+<li>Calculate the <strong>processing duration</strong> (<code>endtime - starttime</code>) for each process.</li>
+<li>Find the <strong>average processing time per machine</strong> across all its processes.</li>
+</ol>
+<hr>
+<h4 id="pyspark-solution"><strong>PySpark Solution</strong></h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;MachineProcessingTime&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 1: Input Data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="mf">0.712</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="mf">1.520</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="mf">3.140</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="mf">4.120</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="mf">0.550</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="mf">1.550</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="mf">0.430</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="mf">1.420</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="mf">4.100</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="mf">4.512</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="mf">2.500</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="mf">5.000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Machine_id&#34;</span><span class="p">,</span> <span class="s2">&#34;processid&#34;</span><span class="p">,</span> <span class="s2">&#34;activityid&#34;</span><span class="p">,</span> <span class="s2">&#34;timestamp&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Step 2: Split start and end timestamps</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df1</span><span class="o">.</span><span class="n">Machine_id</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df1</span><span class="o">.</span><span class="n">processid</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">when</span><span class="p">(</span><span class="n">df1</span><span class="o">.</span><span class="n">activityid</span> <span class="o">==</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;starttime&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">when</span><span class="p">(</span><span class="n">df1</span><span class="o">.</span><span class="n">activityid</span> <span class="o">==</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="n">df1</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;endtime&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 3: Aggregate start and end timestamps per process</span>
+</span></span><span class="line"><span class="cl"><span class="n">df3</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&#34;Machine_id&#34;</span><span class="p">,</span> <span class="s2">&#34;processid&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">max</span><span class="p">(</span><span class="s2">&#34;starttime&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;starttime&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">max</span><span class="p">(</span><span class="s2">&#34;endtime&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;endtime&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 4: Calculate processing duration</span>
+</span></span><span class="line"><span class="cl"><span class="n">df4</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df3</span><span class="o">.</span><span class="n">Machine_id</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="n">df3</span><span class="o">.</span><span class="n">endtime</span> <span class="o">-</span> <span class="n">df3</span><span class="o">.</span><span class="n">starttime</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;diff&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 5: Calculate average processing time per machine</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_final</span> <span class="o">=</span> <span class="n">df4</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&#34;Machine_id&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">avg</span><span class="p">(</span><span class="s2">&#34;diff&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;avg_processing_time&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df_final</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="8-combine-multiple-skills-into-a-single-column">8. Combine Multiple Skills into a Single Column</h2>
+<h4 id="question-4"><strong>Question</strong></h4>
+<p>You are given the following employee skill dataset:</p>
+<table>
+  <thead>
+      <tr>
+          <th>EmpId</th>
+          <th>EmpName</th>
+          <th>Skill</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>John</td>
+          <td>ADF</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>John</td>
+          <td>ADB</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>John</td>
+          <td>PowerBI</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>Joanne</td>
+          <td>ADF</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>Joanne</td>
+          <td>SQL</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>Joanne</td>
+          <td>Crystal Report</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>Vikas</td>
+          <td>ADF</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>Vikas</td>
+          <td>SQL</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>Vikas</td>
+          <td>SSIS</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>Monu</td>
+          <td>SQL</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>Monu</td>
+          <td>SSIS</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>Monu</td>
+          <td>SSAS</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>Monu</td>
+          <td>ADF</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="task-3"><strong>Task</strong></h4>
+<ol>
+<li>Group the records by <strong>employee name</strong>.</li>
+<li>Collect all skills of each employee into a single list.</li>
+<li>Concatenate those skills into a single comma-separated string under a new column <strong><code>Skills</code></strong>.</li>
+</ol>
+<hr>
+<h4 id="pyspark-solution-1"><strong>PySpark Solution</strong></h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">collect_list</span><span class="p">,</span> <span class="n">concat_ws</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;EmployeeSkills&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 1: Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;ADF&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;ADB&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;PowerBI&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Joanne&#39;</span><span class="p">,</span> <span class="s1">&#39;ADF&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Joanne&#39;</span><span class="p">,</span> <span class="s1">&#39;SQL&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Joanne&#39;</span><span class="p">,</span> <span class="s1">&#39;Crystal Report&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Vikas&#39;</span><span class="p">,</span> <span class="s1">&#39;ADF&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Vikas&#39;</span><span class="p">,</span> <span class="s1">&#39;SQL&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Vikas&#39;</span><span class="p">,</span> <span class="s1">&#39;SSIS&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Monu&#39;</span><span class="p">,</span> <span class="s1">&#39;SQL&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Monu&#39;</span><span class="p">,</span> <span class="s1">&#39;SSIS&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Monu&#39;</span><span class="p">,</span> <span class="s1">&#39;SSAS&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Monu&#39;</span><span class="p">,</span> <span class="s1">&#39;ADF&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;EmpId&#34;</span><span class="p">,</span> <span class="s2">&#34;EmpName&#34;</span><span class="p">,</span> <span class="s2">&#34;Skill&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Step 2: Collect all skills per employee into a list</span>
+</span></span><span class="line"><span class="cl"><span class="n">df2</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&#34;EmpName&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">collect_list</span><span class="p">(</span><span class="s2">&#34;Skill&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Skill&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 3: Convert list to comma-separated string</span>
+</span></span><span class="line"><span class="cl"><span class="n">df3</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;EmpName&#34;</span><span class="p">,</span> <span class="n">concat_ws</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">,</span> <span class="s2">&#34;Skill&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;Skills&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df3</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="9-split-phone-numbers-into-std-code-and-phone-number">9. Split Phone Numbers into STD Code and Phone Number</h2>
+<h4 id="question-5"><strong>Question</strong></h4>
+<p>You are given the following dataset containing employee names and their phone numbers:</p>
+<table>
+  <thead>
+      <tr>
+          <th>name</th>
+          <th>phone</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Joanne</td>
+          <td>040-20215632</td>
+      </tr>
+      <tr>
+          <td>Tom</td>
+          <td>044-23651023</td>
+      </tr>
+      <tr>
+          <td>John</td>
+          <td>086-12456782</td>
+      </tr>
+  </tbody>
+</table>
+<p>Each phone number is stored in the format:<br>
+<code>&lt;STD Code&gt;-&lt;Phone Number&gt;</code></p>
+<hr>
+<h4 id="task-4"><strong>Task</strong></h4>
+<ol>
+<li>
+<p>Split the <code>phone</code> column into two new columns:</p>
+<ul>
+<li><strong><code>std_code</code></strong> → Contains the STD code before the hyphen.</li>
+<li><strong><code>phone_num</code></strong> → Contains the actual phone number after the hyphen.</li>
+</ul>
+</li>
+<li>
+<p>Display the final DataFrame.</p>
+</li>
+</ol>
+<hr>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">split</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;PhoneNumberSplit&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 1: Create DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s1">&#39;Joanne&#39;</span><span class="p">,</span> <span class="s2">&#34;040-20215632&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">,</span> <span class="s2">&#34;044-23651023&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s2">&#34;086-12456782&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;name&#34;</span><span class="p">,</span> <span class="s2">&#34;phone&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Step 2: Split phone number into STD code and phone number</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;std_code&#34;</span><span class="p">,</span> <span class="n">split</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span> <span class="s2">&#34;-&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getItem</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;phone_num&#34;</span><span class="p">,</span> <span class="n">split</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span> <span class="s2">&#34;-&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getItem</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
+<h2 id="10find-actor-director-pairs-with-more-than-two-collaborations">10.Find Actor-Director Pairs with More Than Two Collaborations</h2>
+<h4 id="question-6"><strong>Question</strong></h4>
+<p>You are given a dataset containing details of <strong>actors</strong> and <strong>directors</strong>, where each record represents a collaboration between them:</p>
+<table>
+  <thead>
+      <tr>
+          <th>ActorId</th>
+          <th>DirectorId</th>
+          <th>timestamp</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>2</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>4</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>5</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>1</td>
+          <td>6</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="task-5"><strong>Task</strong></h4>
+<p>Find all <strong>Actor–Director pairs</strong> that have worked together on <strong>more than two occasions</strong>.</p>
+<hr>
+<h4 id="pyspark-solution-2"><strong>PySpark Solution</strong></h4>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&#34;ActorDirectorCollaboration&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 1: Define schema and data</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;ActorId&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;DirectorId&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StructField</span><span class="p">(</span><span class="s2">&#34;timestamp&#34;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span></span></span></code></pre></div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Step 2: Group by ActorId and DirectorId and count occurrences</span>
+</span></span><span class="line"><span class="cl"><span class="n">result_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&#34;ActorId&#34;</span><span class="p">,</span> <span class="s2">&#34;DirectorId&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 3: Filter pairs with count &gt; 2</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">result_df</span><span class="p">[</span><span class="s2">&#34;count&#34;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 4: Display Actor-Director pairs with more than 2 collaborations</span>
+</span></span><span class="line"><span class="cl"><span class="n">df1</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&#34;ActorId&#34;</span><span class="p">,</span> <span class="s2">&#34;DirectorId&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></span></span></code></pre></div>
+  </div>
+</details>
 
   <footer class="footline">
   </footer>
@@ -8513,22 +9491,22 @@ Only count sessions with <strong>at least one activity</strong> in that time per
         </div>
       </main>
     </div>
-    <script src="/js/js-yaml/js-yaml.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-color.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-dispatch.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-drag.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-ease.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-interpolate.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-selection.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-timer.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-transition.min.js?1759820572" defer></script>
-    <script src="/js/d3/d3-zoom.min.js?1759820572" defer></script>
-    <script src="/js/mermaid/mermaid.min.js?1759820572" defer></script>
+    <script src="/js/js-yaml/js-yaml.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-color.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-dispatch.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-drag.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-ease.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-interpolate.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-selection.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-timer.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-transition.min.js?1759918286" defer></script>
+    <script src="/js/d3/d3-zoom.min.js?1759918286" defer></script>
+    <script src="/js/mermaid/mermaid.min.js?1759918286" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/clipboard/clipboard.min.js?1759820572" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759820572" defer></script>
-    <script src="/js/theme.js?1759820572" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759918286" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759918286" defer></script>
+    <script src="/js/theme.min.js?1759918286" defer></script>
   </body>
 </html>

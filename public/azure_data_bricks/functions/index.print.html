@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -12,7 +12,7 @@ By default, sorting is ascending. This shows the first 5 countries alphabeticall
     <meta name="twitter:title" content="Functions :: Data Engineering Notes">
     <meta name="twitter:description" content="Sorting and String Functions from pyspark.sql import SparkSession from pyspark.sql.functions import col, desc, asc, concat, concat_ws, initcap, lower, upper, instr, length, lit # Create a Spark session spark = SparkSession.builder.appName(&#34;SortingAndStringFunctions&#34;).getOrCreate() # Sample data data = [ (&#34;USA&#34;, &#34;North America&#34;, 100, 50.5), (&#34;India&#34;, &#34;Asia&#34;, 300, 20.0), (&#34;Germany&#34;, &#34;Europe&#34;, 200, 30.5), (&#34;Australia&#34;, &#34;Oceania&#34;, 150, 60.0), (&#34;Japan&#34;, &#34;Asia&#34;, 120, 45.0), (&#34;Brazil&#34;, &#34;South America&#34;, 180, 25.0) ] # Define the schema columns = [&#34;Country&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;UnitPrice&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Display the original DataFrame df.show() Sorting the DataFrame 1. Sort by a single column (ascending order) df.orderBy(&#34;Country&#34;).show(5)
 By default, sorting is ascending. This shows the first 5 countries alphabetically.">
-    <meta property="og:url" content="http://localhost:1313/azure_data_bricks/functions/">
+    <meta property="og:url" content="https://example.org/azure_data_bricks/functions/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Functions :: Data Engineering Notes">
     <meta property="og:description" content="Sorting and String Functions from pyspark.sql import SparkSession from pyspark.sql.functions import col, desc, asc, concat, concat_ws, initcap, lower, upper, instr, length, lit # Create a Spark session spark = SparkSession.builder.appName(&#34;SortingAndStringFunctions&#34;).getOrCreate() # Sample data data = [ (&#34;USA&#34;, &#34;North America&#34;, 100, 50.5), (&#34;India&#34;, &#34;Asia&#34;, 300, 20.0), (&#34;Germany&#34;, &#34;Europe&#34;, 200, 30.5), (&#34;Australia&#34;, &#34;Oceania&#34;, 150, 60.0), (&#34;Japan&#34;, &#34;Asia&#34;, 120, 45.0), (&#34;Brazil&#34;, &#34;South America&#34;, 180, 25.0) ] # Define the schema columns = [&#34;Country&#34;, &#34;Region&#34;, &#34;UnitsSold&#34;, &#34;UnitPrice&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Display the original DataFrame df.show() Sorting the DataFrame 1. Sort by a single column (ascending order) df.orderBy(&#34;Country&#34;).show(5)
@@ -25,37 +25,37 @@ By default, sorting is ascending. This shows the first 5 countries alphabeticall
 By default, sorting is ascending. This shows the first 5 countries alphabetically.">
     <meta itemprop="wordCount" content="892">
     <title>Functions :: Data Engineering Notes</title>
-    <link href="http://localhost:1313/azure_data_bricks/functions/" rel="canonical" type="text/html" title="Functions :: Data Engineering Notes">
+    <link href="https://example.org/azure_data_bricks/functions/" rel="canonical" type="text/html" title="Functions :: Data Engineering Notes">
     <link href="/azure_data_bricks/functions/index.md" rel="alternate" type="text/markdown" title="Functions :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759832300" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759832300" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759832300" defer></script>
-    <script src="/js/search-lunr.js?1759832300" defer></script>
-    <script src="/js/search.js?1759832300" defer></script>
+    <link href="/images/favicon.ico?1759918286" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759918286" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759918286" defer></script>
+    <script src="/js/search-lunr.min.js?1759918286" defer></script>
+    <script src="/js/search.min.js?1759918286" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759832300";
+      window.relearn.index_js_url="/searchindex.en.js?1759918286";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759832300" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759832300" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759832300" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759832300" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759918286" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759832300" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759832300" rel="stylesheet">
-    <link href="/css/theme.css?1759832300" rel="stylesheet">
-    <link href="/css/format-print.css?1759832300" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759918286" rel="stylesheet">
+    <link href="/css/theme.min.css?1759918286" rel="stylesheet">
+    <link href="/css/format-print.min.css?1759918286" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = ``;
+      window.relearn.min = `.min`;
       window.relearn.path='\/azure_data_bricks\/functions\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.absBaseUri='https:\/\/example.org';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -474,8 +474,8 @@ By default, sorting is ascending. This shows the first 5 countries alphabeticall
         </div>
       </main>
     </div>
-    <script src="/js/clipboard/clipboard.min.js?1759832300" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759832300" defer></script>
-    <script src="/js/theme.js?1759832300" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759918286" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759918286" defer></script>
+    <script src="/js/theme.min.js?1759918286" defer></script>
   </body>
 </html>

@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Practice Sets :: Data Engineering Notes</title>
-    <link>http://localhost:1313/practice/</link>
+    <link>https://example.org/practice/</link>
     <description>SQL LeetCode Pyspark 1</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="http://localhost:1313/practice/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://example.org/practice/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SQL LeetCode</title>
-      <link>http://localhost:1313/practice/leetcode-sql/</link>
+      <link>https://example.org/practice/leetcode-sql/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/practice/leetcode-sql/</guid>
+      <guid>https://example.org/practice/leetcode-sql/</guid>
       <description>175. Combine Two Tables Description Table: Person&#xA;Column Name Type PersonId int FirstName varchar LastName varchar PersonId is the primary key column for this table. Table: Address&#xA;Column Name Type AddressId int PersonId int City varchar State varchar AddressId is the primary key column for this table. Write a SQL query for a report that provides the following information for each person in the Person table, regardless if there is an address for them:</description>
     </item>
     <item>
       <title>Pyspark 1</title>
-      <link>http://localhost:1313/practice/pyspark1/</link>
+      <link>https://example.org/practice/pyspark1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/practice/pyspark1/</guid>
-      <description>1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr PySpark Solution from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show()</description>
+      <guid>https://example.org/practice/pyspark1/</guid>
+      <description>1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) Solution # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) Solution # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show() 3. Question – Student Result Classification You have a PySpark DataFrame df containing student marks in multiple subjects:</description>
     </item>
   </channel>
 </rss>

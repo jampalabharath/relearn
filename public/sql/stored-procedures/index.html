@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -12,7 +12,7 @@
     <meta name="twitter:title" content="Stored Procedures :: Data Engineering Notes">
     <meta name="twitter:description" content="This script shows how to work with stored procedures in SQL Server, starting from basic implementations and advancing to more sophisticated techniques.
 1. Basic Stored Procedure -- Define the Stored Procedure CREATE PROCEDURE GetCustomerSummary AS BEGIN SELECT COUNT(*) AS TotalCustomers, AVG(Score) AS AvgScore FROM Sales.Customers WHERE Country = &#39;USA&#39;; END GO -- Execute Stored Procedure EXEC GetCustomerSummary; 2. Parameters in Stored Procedure -- Edit the Stored Procedure ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = &#39;USA&#39; AS BEGIN -- Reports: Summary from Customers and Orders SELECT COUNT(*) AS TotalCustomers, AVG(Score) AS AvgScore FROM Sales.Customers WHERE Country = @Country; END GO -- Execute Stored Procedure EXEC GetCustomerSummary @Country = &#39;Germany&#39;; EXEC GetCustomerSummary @Country = &#39;USA&#39;; EXEC GetCustomerSummary; 3. Multiple Queries in Stored Procedure -- Edit the Stored Procedure ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = &#39;USA&#39; AS BEGIN -- Query 1: Find the Total Nr. of Customers and the Average Score SELECT COUNT(*) AS TotalCustomers, AVG(Score) AS AvgScore FROM Sales.Customers WHERE Country = @Country; -- Query 2: Find the Total Nr. of Orders and Total Sales SELECT COUNT(OrderID) AS TotalOrders, SUM(Sales) AS TotalSales FROM Sales.Orders AS o JOIN Sales.Customers AS c ON c.CustomerID = o.CustomerID WHERE c.Country = @Country; END GO -- Execute Stored Procedure EXEC GetCustomerSummary @Country = &#39;Germany&#39;; EXEC GetCustomerSummary @Country = &#39;USA&#39;; EXEC GetCustomerSummary; 4. Variables in Stored Procedure -- Edit the Stored Procedure ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = &#39;USA&#39; AS BEGIN -- Declare Variables DECLARE @TotalCustomers INT, @AvgScore FLOAT; -- Query 1: Find the Total Nr. of Customers and the Average Score SELECT @TotalCustomers = COUNT(*), @AvgScore = AVG(Score) FROM Sales.Customers WHERE Country = @Country; PRINT(&#39;Total Customers from &#39; &#43; @Country &#43; &#39;:&#39; &#43; CAST(@TotalCustomers AS NVARCHAR)); PRINT(&#39;Average Score from &#39; &#43; @Country &#43; &#39;:&#39; &#43; CAST(@AvgScore AS NVARCHAR)); -- Query 2: Find the Total Nr. of Orders and Total Sales SELECT COUNT(OrderID) AS TotalOrders, SUM(Sales) AS TotalSales FROM Sales.Orders AS o JOIN Sales.Customers AS c ON c.CustomerID = o.CustomerID WHERE c.Country = @Country; END GO -- Execute Stored Procedure EXEC GetCustomerSummary @Country = &#39;Germany&#39;; EXEC GetCustomerSummary @Country = &#39;USA&#39;; EXEC GetCustomerSummary; 5. Control Flow with IF/ELSE ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = &#39;USA&#39; AS BEGIN -- Declare Variables DECLARE @TotalCustomers INT, @AvgScore FLOAT; /* -------------------------------------------------------------------------- Prepare &amp; Cleanup Data -------------------------------------------------------------------------- */ IF EXISTS (SELECT 1 FROM Sales.Customers WHERE Score IS NULL AND Country = @Country) BEGIN PRINT(&#39;Updating NULL Scores to 0&#39;); UPDATE Sales.Customers SET Score = 0 WHERE Score IS NULL AND Country = @Country; END ELSE BEGIN PRINT(&#39;No NULL Scores found&#39;); END; /* -------------------------------------------------------------------------- Generating Reports -------------------------------------------------------------------------- */ SELECT @TotalCustomers = COUNT(*), @AvgScore = AVG(Score) FROM Sales.Customers WHERE Country = @Country; PRINT(&#39;Total Customers from &#39; &#43; @Country &#43; &#39;:&#39; &#43; CAST(@TotalCustomers AS NVARCHAR)); PRINT(&#39;Average Score from &#39; &#43; @Country &#43; &#39;:&#39; &#43; CAST(@AvgScore AS NVARCHAR)); SELECT COUNT(OrderID) AS TotalOrders, SUM(Sales) AS TotalSales, 1/0 AS FaultyCalculation -- Intentional error for demonstration FROM Sales.Orders AS o JOIN Sales.Customers AS c ON c.CustomerID = o.CustomerID WHERE c.Country = @Country; END GO -- Execute Stored Procedure EXEC GetCustomerSummary @Country = &#39;Germany&#39;; EXEC GetCustomerSummary @Country = &#39;USA&#39;; EXEC GetCustomerSummary; 6. Error Handling with TRY/CATCH ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = &#39;USA&#39; AS BEGIN BEGIN TRY -- Declare Variables DECLARE @TotalCustomers INT, @AvgScore FLOAT; /* -------------------------------------------------------------------------- Prepare &amp; Cleanup Data -------------------------------------------------------------------------- */ IF EXISTS (SELECT 1 FROM Sales.Customers WHERE Score IS NULL AND Country = @Country) BEGIN PRINT(&#39;Updating NULL Scores to 0&#39;); UPDATE Sales.Customers SET Score = 0 WHERE Score IS NULL AND Country = @Country; END ELSE BEGIN PRINT(&#39;No NULL Scores found&#39;); END; /* -------------------------------------------------------------------------- Generating Reports -------------------------------------------------------------------------- */ SELECT @TotalCustomers = COUNT(*), @AvgScore = AVG(Score) FROM Sales.Customers WHERE Country = @Country; PRINT(&#39;Total Customers from &#39; &#43; @Country &#43; &#39;:&#39; &#43; CAST(@TotalCustomers AS NVARCHAR)); PRINT(&#39;Average Score from &#39; &#43; @Country &#43; &#39;:&#39; &#43; CAST(@AvgScore AS NVARCHAR)); SELECT COUNT(OrderID) AS TotalOrders, SUM(Sales) AS TotalSales, 1/0 AS FaultyCalculation -- Intentional error for demonstration FROM Sales.Orders AS o JOIN Sales.Customers AS c ON c.CustomerID = o.CustomerID WHERE c.Country = @Country; END TRY BEGIN CATCH /* -------------------------------------------------------------------------- Error Handling -------------------------------------------------------------------------- */ PRINT(&#39;An error occurred.&#39;); PRINT(&#39;Error Message: &#39; &#43; ERROR_MESSAGE()); PRINT(&#39;Error Number: &#39; &#43; CAST(ERROR_NUMBER() AS NVARCHAR)); PRINT(&#39;Error Severity: &#39; &#43; CAST(ERROR_SEVERITY() AS NVARCHAR)); PRINT(&#39;Error State: &#39; &#43; CAST(ERROR_STATE() AS NVARCHAR)); PRINT(&#39;Error Line: &#39; &#43; CAST(ERROR_LINE() AS NVARCHAR)); PRINT(&#39;Error Procedure: &#39; &#43; ISNULL(ERROR_PROCEDURE(), &#39;N/A&#39;)); END CATCH; END GO -- Execute Stored Procedure EXEC GetCustomerSummary @Country = &#39;Germany&#39;; EXEC GetCustomerSummary @Country = &#39;USA&#39;; EXEC GetCustomerSummary;">
-    <meta property="og:url" content="http://localhost:1313/sql/stored-procedures/">
+    <meta property="og:url" content="https://example.org/sql/stored-procedures/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Stored Procedures :: Data Engineering Notes">
     <meta property="og:description" content="This script shows how to work with stored procedures in SQL Server, starting from basic implementations and advancing to more sophisticated techniques.
@@ -27,35 +27,35 @@
     <title>Stored Procedures :: Data Engineering Notes</title>
     <link href="/sql/stored-procedures/index.md" rel="alternate" type="text/markdown" title="Stored Procedures :: Data Engineering Notes">
     <link href="/sql/stored-procedures/index.print.html" rel="alternate" type="text/html" title="Stored Procedures :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759820572" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759820572" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759820572" defer></script>
-    <script src="/js/search-lunr.js?1759820572" defer></script>
-    <script src="/js/search.js?1759820572" defer></script>
+    <link href="/images/favicon.ico?1759918286" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759918286" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759918286" defer></script>
+    <script src="/js/search-lunr.min.js?1759918286" defer></script>
+    <script src="/js/search.min.js?1759918286" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759820572";
+      window.relearn.index_js_url="/searchindex.en.js?1759918286";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759820572" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759820572" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759820572" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759820572" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759918286" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759820572" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759820572" rel="stylesheet">
-    <link href="/css/theme.css?1759820572" rel="stylesheet">
-    <link href="/css/format-html.css?1759820572" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759918286" rel="stylesheet">
+    <link href="/css/theme.min.css?1759918286" rel="stylesheet">
+    <link href="/css/format-html.min.css?1759918286" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = ``;
+      window.relearn.min = `.min`;
       window.relearn.path='\/sql\/stored-procedures\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.absBaseUri='https:\/\/example.org';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -477,14 +477,10 @@
             <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
-            <li class="" data-nav-id="/azure_data_factory/"><input type="checkbox" id="R-section-c1c884e4194f85ef98db8cc87f1e973a" aria-controls="R-subsections-c1c884e4194f85ef98db8cc87f1e973a"><label for="R-section-c1c884e4194f85ef98db8cc87f1e973a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADF</span></label><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-c1c884e4194f85ef98db8cc87f1e973a" class="collapsible-menu">
-            <li class="alwaysopen " data-nav-id="/azure_data_factory/activities/"><input type="checkbox" id="R-section-9a4edd8345cef5c530f46ba254125443" aria-controls="R-subsections-9a4edd8345cef5c530f46ba254125443" checked><label for="R-section-9a4edd8345cef5c530f46ba254125443"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Tasks</span></label><a class="padding" href="/azure_data_factory/activities/">Tasks<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-9a4edd8345cef5c530f46ba254125443" class="collapsible-menu">
-            <li class="" data-nav-id="/azure_data_factory/activities/copy-activity/"><a class="padding" href="/azure_data_factory/activities/copy-activity/">Copy Activity<i class="fa-fw fas fa-check read-icon"></i></a></li>
-            <li class="" data-nav-id="/azure_data_factory/activities/copy-tasks/"><a class="padding" href="/azure_data_factory/activities/copy-tasks/">Copy Activity Tasks<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/spark/"><a class="padding" href="/azure_data_bricks/spark/">Spark<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
-            <li class="alwaysopen " data-nav-id="/azure_data_bricks/learn/"><input type="checkbox" id="R-section-377d1400f63bb26d363e5ccc43d91649" aria-controls="R-subsections-377d1400f63bb26d363e5ccc43d91649" checked><label for="R-section-377d1400f63bb26d363e5ccc43d91649"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Spark</span></label><a class="padding" href="/azure_data_bricks/learn/">Spark<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-377d1400f63bb26d363e5ccc43d91649" class="collapsible-menu">
-            <li class="" data-nav-id="/azure_data_bricks/learn/intro/"><a class="padding" href="/azure_data_bricks/learn/intro/">Introduction<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
@@ -544,8 +540,8 @@
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1759820572" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759820572" defer></script>
-    <script src="/js/theme.js?1759820572" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759918286" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759918286" defer></script>
+    <script src="/js/theme.min.js?1759918286" defer></script>
   </body>
 </html>
