@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ It covers GETDATE, DATETRUNC, DATENAME, DATEPART, YEAR, MONTH, DAY, EOMONTH, FOR
     <meta name="twitter:description" content="This guide demonstrates various date and time functions in SQL.
 It covers GETDATE, DATETRUNC, DATENAME, DATEPART, YEAR, MONTH, DAY, EOMONTH, FORMAT, CONVERT, CAST, DATEADD, DATEDIFF, and ISDATE.
 1. GETDATE() | Date Values -- Display OrderID, CreationTime, a hard-coded date, and the current system date SELECT OrderID, CreationTime, &#39;2025-08-20&#39; AS HardCoded, GETDATE() AS Today FROM Sales.Orders; 2. Date Part Extractions (DATETRUNC, DATENAME, DATEPART, YEAR, MONTH, DAY) -- Extract various parts of CreationTime SELECT OrderID, CreationTime, DATETRUNC(year, CreationTime) AS Year_dt, DATETRUNC(day, CreationTime) AS Day_dt, DATETRUNC(minute, CreationTime) AS Minute_dt, DATENAME(month, CreationTime) AS Month_dn, DATENAME(weekday, CreationTime) AS Weekday_dn, DATENAME(day, CreationTime) AS Day_dn, DATENAME(year, CreationTime) AS Year_dn, DATEPART(year, CreationTime) AS Year_dp, DATEPART(month, CreationTime) AS Month_dp, DATEPART(day, CreationTime) AS Day_dp, DATEPART(hour, CreationTime) AS Hour_dp, DATEPART(quarter, CreationTime) AS Quarter_dp, DATEPART(week, CreationTime) AS Week_dp, YEAR(CreationTime) AS Year, MONTH(CreationTime) AS Month, DAY(CreationTime) AS Day FROM Sales.Orders; 3. DATETRUNC() Data Aggregation -- Aggregate orders by year SELECT DATETRUNC(year, CreationTime) AS Creation, COUNT(*) AS OrderCount FROM Sales.Orders GROUP BY DATETRUNC(year, CreationTime); 4. EOMONTH() -- Display end-of-month date for each order SELECT OrderID, CreationTime, EOMONTH(CreationTime) AS EndOfMonth FROM Sales.Orders; 5. Date Parts | Use Cases -- Orders per year SELECT YEAR(OrderDate) AS OrderYear, COUNT(*) AS TotalOrders FROM Sales.Orders GROUP BY YEAR(OrderDate); -- Orders per month SELECT MONTH(OrderDate) AS OrderMonth, COUNT(*) AS TotalOrders FROM Sales.Orders GROUP BY MONTH(OrderDate); -- Orders per month (friendly names) SELECT DATENAME(month, OrderDate) AS OrderMonth, COUNT(*) AS TotalOrders FROM Sales.Orders GROUP BY DATENAME(month, OrderDate); -- Orders placed in February SELECT * FROM Sales.Orders WHERE MONTH(OrderDate) = 2; 6. FORMAT() -- Format CreationTime into different formats SELECT OrderID, CreationTime, FORMAT(CreationTime, &#39;MM-dd-yyyy&#39;) AS USA_Format, FORMAT(CreationTime, &#39;dd-MM-yyyy&#39;) AS EURO_Format, FORMAT(CreationTime, &#39;dd&#39;) AS dd, FORMAT(CreationTime, &#39;ddd&#39;) AS ddd, FORMAT(CreationTime, &#39;dddd&#39;) AS dddd, FORMAT(CreationTime, &#39;MM&#39;) AS MM, FORMAT(CreationTime, &#39;MMM&#39;) AS MMM, FORMAT(CreationTime, &#39;MMMM&#39;) AS MMMM FROM Sales.Orders; -- Custom format example SELECT OrderID, CreationTime, &#39;Day &#39; &#43; FORMAT(CreationTime, &#39;ddd MMM&#39;) &#43; &#39; Q&#39; &#43; DATENAME(quarter, CreationTime) &#43; &#39; &#39; &#43; FORMAT(CreationTime, &#39;yyyy hh:mm:ss tt&#39;) AS CustomFormat FROM Sales.Orders; -- Orders per month (formatted &#34;MMM yy&#34;) SELECT FORMAT(CreationTime, &#39;MMM yy&#39;) AS OrderDate, COUNT(*) AS TotalOrders FROM Sales.Orders GROUP BY FORMAT(CreationTime, &#39;MMM yy&#39;); 7. CONVERT() -- Conversion using CONVERT SELECT CONVERT(INT, &#39;123&#39;) AS [String to Int CONVERT], CONVERT(DATE, &#39;2025-08-20&#39;) AS [String to Date CONVERT], CreationTime, CONVERT(DATE, CreationTime) AS [Datetime to Date CONVERT], CONVERT(VARCHAR, CreationTime, 32) AS [USA Std. Style:32], CONVERT(VARCHAR, CreationTime, 34) AS [EURO Std. Style:34] FROM Sales.Orders; 8. CAST() -- Conversion using CAST SELECT CAST(&#39;123&#39; AS INT) AS [String to Int], CAST(123 AS VARCHAR) AS [Int to String], CAST(&#39;2025-08-20&#39; AS DATE) AS [String to Date], CAST(&#39;2025-08-20&#39; AS DATETIME2) AS [String to Datetime], CreationTime, CAST(CreationTime AS DATE) AS [Datetime to Date] FROM Sales.Orders; 9. DATEADD / DATEDIFF -- Date arithmetic SELECT OrderID, OrderDate, DATEADD(day, -10, OrderDate) AS TenDaysBefore, DATEADD(month, 3, OrderDate) AS ThreeMonthsLater, DATEADD(year, 2, OrderDate) AS TwoYearsLater FROM Sales.Orders; -- Employee ages SELECT EmployeeID, BirthDate, DATEDIFF(year, BirthDate, GETDATE()) AS Age FROM Sales.Employees; -- Avg shipping duration SELECT MONTH(OrderDate) AS OrderMonth, AVG(DATEDIFF(day, OrderDate, ShipDate)) AS AvgShip FROM Sales.Orders GROUP BY MONTH(OrderDate); -- Time gap analysis SELECT OrderID, OrderDate AS CurrentOrderDate, LAG(OrderDate) OVER (ORDER BY OrderDate) AS PreviousOrderDate, DATEDIFF(day, LAG(OrderDate) OVER (ORDER BY OrderDate), OrderDate) AS NrOfDays FROM Sales.Orders; 10. ISDATE() -- Validate OrderDate using ISDATE SELECT OrderDate, ISDATE(OrderDate) AS IsValidDate, CASE WHEN ISDATE(OrderDate) = 1 THEN CAST(OrderDate AS DATE) ELSE &#39;9999-01-01&#39; END AS NewOrderDate FROM ( SELECT &#39;2025-08-20&#39; AS OrderDate UNION SELECT &#39;2025-08-21&#39; UNION SELECT &#39;2025-08-23&#39; UNION SELECT &#39;2025-08&#39; ) AS t; -- WHERE ISDATE(OrderDate) = 0">
-    <meta property="og:url" content="https://example.org/sql/date-time1/">
+    <meta property="og:url" content="http://localhost:1313/sql/date-time1/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Date & Time Functions :: Data Engineering Notes">
     <meta property="og:description" content="This guide demonstrates various date and time functions in SQL.
@@ -31,35 +31,35 @@ It covers GETDATE, DATETRUNC, DATENAME, DATEPART, YEAR, MONTH, DAY, EOMONTH, FOR
     <title>Date &amp; Time Functions :: Data Engineering Notes</title>
     <link href="/sql/date-time1/index.md" rel="alternate" type="text/markdown" title="Date &amp; Time Functions :: Data Engineering Notes">
     <link href="/sql/date-time1/index.print.html" rel="alternate" type="text/html" title="Date &amp; Time Functions :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759918286" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759918286" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759918286" defer></script>
-    <script src="/js/search-lunr.min.js?1759918286" defer></script>
-    <script src="/js/search.min.js?1759918286" defer></script>
+    <link href="/images/favicon.ico?1759986780" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759986780" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759986780" defer></script>
+    <script src="/js/search-lunr.js?1759986780" defer></script>
+    <script src="/js/search.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759918286";
+      window.relearn.index_js_url="/searchindex.en.js?1759986780";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759918286" rel="stylesheet">
-    <link href="/css/theme.min.css?1759918286" rel="stylesheet">
-    <link href="/css/format-html.min.css?1759918286" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759986780" rel="stylesheet">
+    <link href="/css/theme.css?1759986780" rel="stylesheet">
+    <link href="/css/format-html.css?1759986780" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = `.min`;
+      window.relearn.min = ``;
       window.relearn.path='\/sql\/date-time1\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='https:\/\/example.org';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -509,8 +509,8 @@ It covers <code>GETDATE</code>, <code>DATETRUNC</code>, <code>DATENAME</code>, <
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1759918286" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759918286" defer></script>
-    <script src="/js/theme.min.js?1759918286" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759986780" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759986780" defer></script>
+    <script src="/js/theme.js?1759986780" defer></script>
   </body>
 </html>

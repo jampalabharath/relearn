@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ Table of Contents SUBQUERY - RESULT TYPES SUBQUERY - FROM CLAUSE SUBQUERY - SELE
     <meta name="twitter:description" content="This script demonstrates various subquery techniques in SQL.
 It covers result types, subqueries in the FROM clause, in SELECT, in JOIN clauses, with comparison operators, IN, ANY, correlated subqueries, and EXISTS.
 Table of Contents SUBQUERY - RESULT TYPES SUBQUERY - FROM CLAUSE SUBQUERY - SELECT SUBQUERY - JOIN CLAUSE SUBQUERY - COMPARISON OPERATORS SUBQUERY - IN OPERATOR SUBQUERY - ANY OPERATOR SUBQUERY - CORRELATED SUBQUERY - EXISTS OPERATOR SUBQUERY | RESULT TYPES Scalar Query SELECT AVG(Sales) FROM Sales.Orders; Row Query SELECT CustomerID FROM Sales.Orders; Table Query SELECT OrderID, OrderDate FROM Sales.Orders; SUBQUERY | FROM CLAUSE Task 1: Products with Price Higher than Average Price SELECT * FROM ( SELECT ProductID, Price, AVG(Price) OVER () AS AvgPrice FROM Sales.Products ) AS t WHERE Price &gt; AvgPrice; Task 2: Rank Customers by Total Sales SELECT *, RANK() OVER (ORDER BY TotalSales DESC) AS CustomerRank FROM ( SELECT CustomerID, SUM(Sales) AS TotalSales FROM Sales.Orders GROUP BY CustomerID ) AS t; SUBQUERY | SELECT Task 3: Product Details with Total Number of Orders SELECT ProductID, Product, Price, (SELECT COUNT(*) FROM Sales.Orders) AS TotalOrders FROM Sales.Products; SUBQUERY | JOIN CLAUSE Task 4: Customer Details with Total Sales SELECT c.*, t.TotalSales FROM Sales.Customers AS c LEFT JOIN ( SELECT CustomerID, SUM(Sales) AS TotalSales FROM Sales.Orders GROUP BY CustomerID ) AS t ON c.CustomerID = t.CustomerID; Task 5: Customer Details with Total Orders SELECT c.*, o.TotalOrders FROM Sales.Customers AS c LEFT JOIN ( SELECT CustomerID, COUNT(*) AS TotalOrders FROM Sales.Orders GROUP BY CustomerID ) AS o ON c.CustomerID = o.CustomerID; SUBQUERY | COMPARISON OPERATORS Task 6: Products with Price Higher than Average Price SELECT ProductID, Price, (SELECT AVG(Price) FROM Sales.Products) AS AvgPrice FROM Sales.Products WHERE Price &gt; (SELECT AVG(Price) FROM Sales.Products); SUBQUERY | IN OPERATOR Task 7: Orders Made by Customers in Germany SELECT * FROM Sales.Orders WHERE CustomerID IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;Germany&#39; ); Task 8: Orders Made by Customers Not in Germany SELECT * FROM Sales.Orders WHERE CustomerID NOT IN ( SELECT CustomerID FROM Sales.Customers WHERE Country = &#39;Germany&#39; ); SUBQUERY | ANY OPERATOR Task 9: Female Employees with Salaries Greater than Any Male Employee SELECT EmployeeID, FirstName, Salary FROM Sales.Employees WHERE Gender = &#39;F&#39; AND Salary &gt; ANY ( SELECT Salary FROM Sales.Employees WHERE Gender = &#39;M&#39; ); CORRELATED SUBQUERY Task 10: Customer Details with Total Orders (Correlated) SELECT *, (SELECT COUNT(*) FROM Sales.Orders o WHERE o.CustomerID = c.CustomerID) AS TotalSales FROM Sales.Customers AS c; SUBQUERY | EXISTS OPERATOR Task 11: Orders Made by Customers in Germany SELECT * FROM Sales.Orders AS o WHERE EXISTS ( SELECT 1 FROM Sales.Customers AS c WHERE Country = &#39;Germany&#39; AND o.CustomerID = c.CustomerID ); Task 12: Orders Made by Customers Not in Germany SELECT * FROM Sales.Orders AS o WHERE NOT EXISTS ( SELECT 1 FROM Sales.Customers AS c WHERE Country = &#39;Germany&#39; AND o.CustomerID = c.CustomerID );">
-    <meta property="og:url" content="https://example.org/sql/subqueries/">
+    <meta property="og:url" content="http://localhost:1313/sql/subqueries/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Subquery Functions :: Data Engineering Notes">
     <meta property="og:description" content="This script demonstrates various subquery techniques in SQL.
@@ -31,35 +31,35 @@ Table of Contents SUBQUERY - RESULT TYPES SUBQUERY - FROM CLAUSE SUBQUERY - SELE
     <title>Subquery Functions :: Data Engineering Notes</title>
     <link href="/sql/subqueries/index.md" rel="alternate" type="text/markdown" title="Subquery Functions :: Data Engineering Notes">
     <link href="/sql/subqueries/index.print.html" rel="alternate" type="text/html" title="Subquery Functions :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759918286" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759918286" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759918286" defer></script>
-    <script src="/js/search-lunr.min.js?1759918286" defer></script>
-    <script src="/js/search.min.js?1759918286" defer></script>
+    <link href="/images/favicon.ico?1759986780" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759986780" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759986780" defer></script>
+    <script src="/js/search-lunr.js?1759986780" defer></script>
+    <script src="/js/search.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759918286";
+      window.relearn.index_js_url="/searchindex.en.js?1759986780";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759918286" rel="stylesheet">
-    <link href="/css/theme.min.css?1759918286" rel="stylesheet">
-    <link href="/css/format-html.min.css?1759918286" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759986780" rel="stylesheet">
+    <link href="/css/theme.css?1759986780" rel="stylesheet">
+    <link href="/css/format-html.css?1759986780" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = `.min`;
+      window.relearn.min = ``;
       window.relearn.path='\/sql\/subqueries\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='https:\/\/example.org';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -548,8 +548,8 @@ It covers result types, subqueries in the <code>FROM</code> clause, in <code>SEL
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1759918286" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759918286" defer></script>
-    <script src="/js/theme.min.js?1759918286" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759986780" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759986780" defer></script>
+    <script src="/js/theme.js?1759986780" defer></script>
   </body>
 </html>

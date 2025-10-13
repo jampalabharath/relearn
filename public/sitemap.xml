@@ -1,156 +1,156 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.org/azure_data_bricks/spark/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/spark/</loc>
   </url>
   <url>
-    <loc>https://example.org/interviewprep/adf1/</loc>
+    <loc>http://localhost:1313/interviewprep/adf1/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/df-creation/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/df-creation/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/select/</loc>
+    <loc>http://localhost:1313/sql/select/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/</loc>
+    <loc>http://localhost:1313/sql/</loc>
   </url>
   <url>
-    <loc>https://example.org/practice/leetcode-sql/</loc>
+    <loc>http://localhost:1313/practice/leetcode-sql/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_factory/</loc>
+    <loc>http://localhost:1313/azure_data_factory/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/ddl/</loc>
+    <loc>http://localhost:1313/sql/ddl/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/df-operations/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/df-operations/</loc>
   </url>
   <url>
-    <loc>https://example.org/practice/pyspark1/</loc>
+    <loc>http://localhost:1313/practice/pyspark1/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/dml/</loc>
+    <loc>http://localhost:1313/sql/dml/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/functions/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/date/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/date/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/filter/</loc>
+    <loc>http://localhost:1313/sql/filter/</loc>
   </url>
   <url>
-    <loc>https://example.org/practice/</loc>
+    <loc>http://localhost:1313/practice/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/nulls/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/nulls/</loc>
   </url>
   <url>
-    <loc>https://example.org/interviewprep/</loc>
+    <loc>http://localhost:1313/interviewprep/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/joins/</loc>
+    <loc>http://localhost:1313/sql/joins/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/aggregations/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/aggregations/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/set-operations/</loc>
+    <loc>http://localhost:1313/sql/set-operations/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/joins/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/joins/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/string-functions/</loc>
+    <loc>http://localhost:1313/sql/string-functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/number-functions/</loc>
+    <loc>http://localhost:1313/sql/number-functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/when/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/when/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/date-time1/</loc>
+    <loc>http://localhost:1313/sql/date-time1/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/window-functions/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/window-functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/date-time2/</loc>
+    <loc>http://localhost:1313/sql/date-time2/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/explode/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/explode/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/null-functions/</loc>
+    <loc>http://localhost:1313/sql/null-functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/pivot/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/pivot/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/case-statement/</loc>
+    <loc>http://localhost:1313/sql/case-statement/</loc>
   </url>
   <url>
-    <loc>https://example.org/azure_data_bricks/comparisons/</loc>
+    <loc>http://localhost:1313/azure_data_bricks/comparisons/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/aggregate-functions/</loc>
+    <loc>http://localhost:1313/sql/aggregate-functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/window-functions/</loc>
+    <loc>http://localhost:1313/sql/window-functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/window_aggregations/</loc>
+    <loc>http://localhost:1313/sql/window_aggregations/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/window-ranking/</loc>
+    <loc>http://localhost:1313/sql/window-ranking/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/window-value-functions/</loc>
+    <loc>http://localhost:1313/sql/window-value-functions/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/subqueries/</loc>
+    <loc>http://localhost:1313/sql/subqueries/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/cte/</loc>
+    <loc>http://localhost:1313/sql/cte/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/views/</loc>
+    <loc>http://localhost:1313/sql/views/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/temporary-tables/</loc>
+    <loc>http://localhost:1313/sql/temporary-tables/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/stored-procedures/</loc>
+    <loc>http://localhost:1313/sql/stored-procedures/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/triggers/</loc>
+    <loc>http://localhost:1313/sql/triggers/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/indexes/</loc>
+    <loc>http://localhost:1313/sql/indexes/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/partitions/</loc>
+    <loc>http://localhost:1313/sql/partitions/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/performance-optimization/</loc>
+    <loc>http://localhost:1313/sql/performance-optimization/</loc>
   </url>
   <url>
-    <loc>https://example.org/sql/ai-and-sql/</loc>
+    <loc>http://localhost:1313/sql/ai-and-sql/</loc>
   </url>
   <url>
-    <loc>https://example.org/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url>
   <url>
-    <loc>https://example.org/</loc>
+    <loc>http://localhost:1313/</loc>
   </url>
   <url>
-    <loc>https://example.org/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>

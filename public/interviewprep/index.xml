@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Interview Prep :: Data Engineering Notes</title>
-    <link>https://example.org/interviewprep/</link>
+    <link>http://localhost:1313/interviewprep/</link>
     <description></description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="https://example.org/interviewprep/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/interviewprep/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ADF 1</title>
-      <link>https://example.org/interviewprep/adf1/</link>
+      <link>http://localhost:1313/interviewprep/adf1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.org/interviewprep/adf1/</guid>
+      <guid>http://localhost:1313/interviewprep/adf1/</guid>
       <description>1. What are the different types of Integration runtimes(IR) in ADF, and when should you use each? Integration runtime (IR) is a compute engine that provides computational resources to perform data movement, transformation, and orchestration in ADF.&#xA;Types of Integration Runtimes Azure IR&#xA;Use when performing data movement, transformation, and orchestration entirely within the cloud. Self-Hosted IR&#xA;Use when any source or destination is an on-premises system. Required to pull data from on-prem systems. Azure SSIS IR</description>
     </item>
   </channel>

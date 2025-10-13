@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -10,7 +10,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Pyspark 1 :: Data Engineering Notes">
     <meta name="twitter:description" content="1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) Solution # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) Solution # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show() 3. Question – Student Result Classification You have a PySpark DataFrame df containing student marks in multiple subjects:">
-    <meta property="og:url" content="https://example.org/practice/pyspark1/">
+    <meta property="og:url" content="http://localhost:1313/practice/pyspark1/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Pyspark 1 :: Data Engineering Notes">
     <meta property="og:description" content="1. Write a PySpark query using below input to get below output? Input name Hobbies Alice Badminton, Tennis Bob Tennis, Cricket Julie Cricket, Carroms Output name Hobbies Alice Badminton Alice Tennis Bob Tennis Bob Cricket Julie Cricket Julie Carroms from pyspark.sql import SparkSession from pyspark.sql.functions import split, explode # Create Spark session spark = SparkSession.builder.appName(&#34;HobbiesSplit&#34;).getOrCreate() # Sample data data = [ (&#34;Alice&#34;, &#34;Badminton, Tennis&#34;), (&#34;Bob&#34;, &#34;Tennis, Cricket&#34;), (&#34;Julie&#34;, &#34;Cricket, Carroms&#34;) ] columns = [&#34;name&#34;, &#34;Hobbies&#34;] # Create DataFrame df = spark.createDataFrame(data, columns) Solution # Split and explode hobbies result = df.withColumn(&#34;Hobbies&#34;, explode(split(df[&#34;Hobbies&#34;], &#34;,\s*&#34;))) result.show(truncate=False) 2. Write a PySpark query using the below input to get the required output. Input City1 City2 City3 Goa null Ap null AP null null null Bglr Expected Output Result Goa AP Bglr from pyspark.sql import functions as F # Sample Input Data data = [ (&#34;Goa&#34;, None, &#34;Ap&#34;), (None, &#34;AP&#34;, None), (None, None, &#34;Bglr&#34;) ] df = spark.createDataFrame(data, [&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;]) Solution # Use COALESCE to pick the first non-null city result_df = df.select( F.coalesce(&#34;City1&#34;, &#34;City2&#34;, &#34;City3&#34;).alias(&#34;Result&#34;) ) result_df.show() 3. Question – Student Result Classification You have a PySpark DataFrame df containing student marks in multiple subjects:">
@@ -23,35 +23,35 @@
     <title>Pyspark 1 :: Data Engineering Notes</title>
     <link href="/practice/pyspark1/index.md" rel="alternate" type="text/markdown" title="Pyspark 1 :: Data Engineering Notes">
     <link href="/practice/pyspark1/index.print.html" rel="alternate" type="text/html" title="Pyspark 1 :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759918286" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759918286" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759918286" defer></script>
-    <script src="/js/search-lunr.min.js?1759918286" defer></script>
-    <script src="/js/search.min.js?1759918286" defer></script>
+    <link href="/images/favicon.ico?1759986780" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759986780" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759986780" defer></script>
+    <script src="/js/search-lunr.js?1759986780" defer></script>
+    <script src="/js/search.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759918286";
+      window.relearn.index_js_url="/searchindex.en.js?1759986780";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759918286" rel="stylesheet">
-    <link href="/css/theme.min.css?1759918286" rel="stylesheet">
-    <link href="/css/format-html.min.css?1759918286" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759986780" rel="stylesheet">
+    <link href="/css/theme.css?1759986780" rel="stylesheet">
+    <link href="/css/format-html.css?1759986780" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = `.min`;
+      window.relearn.min = ``;
       window.relearn.path='\/practice\/pyspark1\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='https:\/\/example.org';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -1501,8 +1501,8 @@ Growth% = \frac{(CurrentMonth - PrevMonth) * 100}{CurrentMonth}
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1759918286" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759918286" defer></script>
-    <script src="/js/theme.min.js?1759918286" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759986780" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759986780" defer></script>
+    <script src="/js/theme.js?1759986780" defer></script>
   </body>
 </html>

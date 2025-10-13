@@ -50,6 +50,16 @@ We’ll explore:
 
 ---
 
+### 1. Add and Subtract Days
+
+```python
+dateDF.select(
+    col("today"),
+    date_add(col("today"), 5).alias("5_days_after"),
+    date_sub(col("today"), 5).alias("5_days_before")
+).show(truncate=False)
+```
+
 ### 1. to_date
 
 - Converts a string to a date (default format: `yyyy-MM-dd`).    

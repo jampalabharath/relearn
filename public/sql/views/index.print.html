@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -16,7 +16,7 @@ CREATE, DROP, MODIFY VIEW Task: Create a Monthly Sales Summary View Aggregate by
 It includes examples for creating, dropping, and modifying views, hiding query complexity, and implementing data security by controlling data access.
 CREATE, DROP, MODIFY VIEW Task: Create a Monthly Sales Summary View Aggregate by OrderMonth with total sales, total orders, and total quantities.
 -- Create View CREATE VIEW Sales.V_Monthly_Summary AS ( SELECT DATETRUNC(month, OrderDate) AS OrderMonth, SUM(Sales) AS TotalSales, COUNT(OrderID) AS TotalOrders, SUM(Quantity) AS TotalQuantities FROM Sales.Orders GROUP BY DATETRUNC(month, OrderDate) ); GO -- Query the View SELECT * FROM Sales.V_Monthly_Summary; -- Drop View if it exists IF OBJECT_ID(&#39;Sales.V_Monthly_Summary&#39;, &#39;V&#39;) IS NOT NULL DROP VIEW Sales.V_Monthly_Summary; GO -- Re-create the View with modified logic CREATE VIEW Sales.V_Monthly_Summary AS SELECT DATETRUNC(month, OrderDate) AS OrderMonth, SUM(Sales) AS TotalSales, COUNT(OrderID) AS TotalOrders FROM Sales.Orders GROUP BY DATETRUNC(month, OrderDate); GO VIEW USE CASE | HIDE COMPLEXITY Task: Abstract Multi-Table Joins with a View Join Orders, Products, Customers, and Employees into a single view.">
-    <meta property="og:url" content="https://example.org/sql/views/">
+    <meta property="og:url" content="http://localhost:1313/sql/views/">
     <meta property="og:site_name" content="Data Engineering Notes">
     <meta property="og:title" content="Views :: Data Engineering Notes">
     <meta property="og:description" content="This script demonstrates various view use cases in SQL Server.
@@ -33,37 +33,37 @@ CREATE, DROP, MODIFY VIEW Task: Create a Monthly Sales Summary View Aggregate by
 -- Create View CREATE VIEW Sales.V_Monthly_Summary AS ( SELECT DATETRUNC(month, OrderDate) AS OrderMonth, SUM(Sales) AS TotalSales, COUNT(OrderID) AS TotalOrders, SUM(Quantity) AS TotalQuantities FROM Sales.Orders GROUP BY DATETRUNC(month, OrderDate) ); GO -- Query the View SELECT * FROM Sales.V_Monthly_Summary; -- Drop View if it exists IF OBJECT_ID(&#39;Sales.V_Monthly_Summary&#39;, &#39;V&#39;) IS NOT NULL DROP VIEW Sales.V_Monthly_Summary; GO -- Re-create the View with modified logic CREATE VIEW Sales.V_Monthly_Summary AS SELECT DATETRUNC(month, OrderDate) AS OrderMonth, SUM(Sales) AS TotalSales, COUNT(OrderID) AS TotalOrders FROM Sales.Orders GROUP BY DATETRUNC(month, OrderDate); GO VIEW USE CASE | HIDE COMPLEXITY Task: Abstract Multi-Table Joins with a View Join Orders, Products, Customers, and Employees into a single view.">
     <meta itemprop="wordCount" content="319">
     <title>Views :: Data Engineering Notes</title>
-    <link href="https://example.org/sql/views/" rel="canonical" type="text/html" title="Views :: Data Engineering Notes">
+    <link href="http://localhost:1313/sql/views/" rel="canonical" type="text/html" title="Views :: Data Engineering Notes">
     <link href="/sql/views/index.md" rel="alternate" type="text/markdown" title="Views :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759918286" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759918286" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759918286" defer></script>
-    <script src="/js/search-lunr.min.js?1759918286" defer></script>
-    <script src="/js/search.min.js?1759918286" defer></script>
+    <link href="/images/favicon.ico?1759986780" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1759986780" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759986780" defer></script>
+    <script src="/js/search-lunr.js?1759986780" defer></script>
+    <script src="/js/search.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759918286";
+      window.relearn.index_js_url="/searchindex.en.js?1759986780";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759918286" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759918286" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759986780" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759918286" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759918286" rel="stylesheet">
-    <link href="/css/theme.min.css?1759918286" rel="stylesheet">
-    <link href="/css/format-print.min.css?1759918286" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759986780" rel="stylesheet">
+    <link href="/css/theme.css?1759986780" rel="stylesheet">
+    <link href="/css/format-print.css?1759986780" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = `.min`;
+      window.relearn.min = ``;
       window.relearn.path='\/sql\/views\/';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='https:\/\/example.org';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -273,8 +273,8 @@ It includes examples for creating, dropping, and modifying views, hiding query c
         </div>
       </main>
     </div>
-    <script src="/js/clipboard/clipboard.min.js?1759918286" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759918286" defer></script>
-    <script src="/js/theme.min.js?1759918286" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759986780" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759986780" defer></script>
+    <script src="/js/theme.js?1759986780" defer></script>
   </body>
 </html>
