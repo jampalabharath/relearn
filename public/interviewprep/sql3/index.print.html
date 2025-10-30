@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="print">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="🧩 Data Manipulation Language (DML) Command Description Syntax Example SELECT Retrieves data from a database. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; INSERT Adds new records to a table. INSERT INTO table_name (column1, column2) VALUES (value1, value2); INSERT INTO customers (first_name, last_name) VALUES (&#39;Mary&#39;, &#39;Doe&#39;); UPDATE Modifies existing records in a table. UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition; UPDATE employees SET employee_name = &#39;John Doe&#39;, department = &#39;Marketing&#39;; DELETE Removes records from a table. DELETE FROM table_name WHERE condition; DELETE FROM employees WHERE employee_name = &#39;John Doe&#39;; 🏗️ Data Definition Language (DDL) Command Description Syntax Example CREATE Creates a new database object (table, view, etc.). CREATE TABLE table_name (column1 datatype1, column2 datatype2, ...); CREATE TABLE employees (employee_id INT PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), age INT); ALTER Adds, deletes, or modifies columns in an existing table. ALTER TABLE table_name ADD column_name datatype; ALTER TABLE customers ADD email VARCHAR(100); DROP Deletes an existing table or database object. DROP TABLE table_name; DROP TABLE customers; TRUNCATE Removes all rows from a table but keeps the structure. TRUNCATE TABLE table_name; TRUNCATE TABLE customers; 🔐 Data Control Language (DCL) Command Description Syntax Example GRANT Gives privileges to users or roles. GRANT SELECT, INSERT ON table_name TO user_name; GRANT SELECT, INSERT ON employees TO &#39;John Doe&#39;; REVOKE Removes privileges previously granted. REVOKE SELECT, INSERT ON table_name FROM user_name; REVOKE SELECT, INSERT ON employees FROM &#39;John Doe&#39;; 🔍 Querying Data Command Description Syntax Example SELECT Statement Retrieves data from one or more tables. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; WHERE Clause Filters rows based on specific conditions. SELECT * FROM table_name WHERE condition; SELECT * FROM customers WHERE age &gt; 30; ORDER BY Clause Sorts the result set by one or more columns. SELECT * FROM table_name ORDER BY column_name ASC/DESC; SELECT * FROM products ORDER BY price DESC; GROUP BY Clause Groups rows sharing a property and is used with aggregates. SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name; SELECT category, COUNT(*) FROM products GROUP BY category; HAVING Clause Filters grouped results (used with GROUP BY). SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name HAVING condition; SELECT category, COUNT(*) FROM products GROUP BY category HAVING COUNT(*) &gt; 5; 🔗 Joining Commands Command Description Syntax Example INNER JOIN Returns rows with matching values in both tables. SELECT * FROM table1 INNER JOIN table2 ON table1.column = table2.column; SELECT * FROM employees INNER JOIN departments ON employees.department_id = departments.id; LEFT JOIN / LEFT OUTER JOIN Returns all rows from the left table and matching rows from the right table. SELECT * FROM table1 LEFT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees LEFT JOIN departments ON employees.department_id = departments.id; RIGHT JOIN / RIGHT OUTER JOIN Returns all rows from the right table and matching rows from the left table. SELECT * FROM table1 RIGHT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees RIGHT JOIN departments ON employees.department_id = departments.department_id; FULL JOIN / FULL OUTER JOIN Returns all rows when there’s a match in either table. SELECT * FROM table1 FULL JOIN table2 ON table1.column = table2.column; sql SELECT * FROM employees LEFT JOIN departments ON employees.employee_id = departments.employee_id UNION SELECT * FROM employees RIGHT JOIN departments ON employees.employee_id = departments.employee_id; CROSS JOIN Combines every row from the first table with every row from the second (Cartesian product). SELECT * FROM table1 CROSS JOIN table2; SELECT * FROM employees CROSS JOIN departments; SELF JOIN Joins a table with itself. SELECT * FROM table1 t1, table1 t2 WHERE t1.column = t2.column; SELECT * FROM employees t1, employees t2 WHERE t1.employee_id = t2.employee_id; NATURAL JOIN Matches columns with the same name in both tables. SELECT * FROM table1 NATURAL JOIN table2; SELECT * FROM employees NATURAL JOIN departments; 🧮 Subqueries in SQL Command Description Syntax Example IN Checks if a value matches any in a subquery result. SELECT column(s) FROM table WHERE value IN (subquery); SELECT * FROM customers WHERE city IN (SELECT city FROM suppliers); ANY Compares a value to any returned by a subquery (used with =, &gt;, &lt;, etc.). SELECT column(s) FROM table WHERE value &lt; ANY (subquery); SELECT * FROM products WHERE price &lt; ANY (SELECT unit_price FROM supplier_products); ALL Compares a value to all values returned by a subquery. SELECT column(s) FROM table WHERE value &gt; ALL (subquery); SELECT * FROM orders WHERE order_amount &gt; ALL (SELECT total_amount FROM previous_orders); 📊 Aggregate Functions Command Description Syntax Example COUNT() Counts rows or non-null values in a column. SELECT COUNT(column_name) FROM table_name; SELECT COUNT(age) FROM employees; SUM() Calculates the sum of values in a column. SELECT SUM(column_name) FROM table_name; SELECT SUM(revenue) FROM sales; AVG() Calculates the average of values in a column. SELECT AVG(column_name) FROM table_name; SELECT AVG(price) FROM products; MIN() Returns the minimum value in a column. SELECT MIN(column_name) FROM table_name; SELECT MIN(price) FROM products; MAX() Returns the maximum value in a column. SELECT MAX(column_name) FROM table_name; SELECT MAX(price) FROM products; 🔤 String Functions Command Description Syntax Example CONCAT() Concatenates two or more strings. SELECT CONCAT(string1, string2, ...) AS concatenated_string FROM table_name; SELECT CONCAT(first_name, &#39; &#39;, last_name) AS full_name FROM employees; SUBSTRING() / SUBSTR() Extracts a substring from a string. SELECT SUBSTRING(string FROM start_position [FOR length]) AS substring FROM table_name; SELECT SUBSTRING(product_name FROM 1 FOR 5) AS substring FROM products; CHAR_LENGTH() / LENGTH() Returns the number of characters in a string. SELECT CHAR_LENGTH(string) AS length FROM table_name; SELECT CHAR_LENGTH(product_name) AS length FROM products; UPPER() Converts all characters to uppercase. SELECT UPPER(string) AS uppercase_string FROM table_name; SELECT UPPER(first_name) AS uppercase_first_name FROM employees; LOWER() Converts all characters to lowercase. SELECT LOWER(string) AS lowercase_string FROM table_name; SELECT LOWER(last_name) AS lowercase_last_name FROM employees; TRIM() Removes specified prefixes, suffixes, or whitespace. SELECT TRIM([LEADING / TRAILING / BOTH] characters FROM string) AS trimmed_string FROM table_name; SELECT TRIM(TRAILING &#39; &#39; FROM full_name) AS trimmed_full_name FROM customers; LEFT() Returns characters from the left of a string. SELECT LEFT(string, num_characters) AS left_string FROM table_name; SELECT LEFT(product_name, 5) AS left_product_name FROM products; RIGHT() Returns characters from the right of a string. SELECT RIGHT(string, num_characters) AS right_string FROM table_name; SELECT RIGHT(order_number, 4) AS right_order_number FROM orders; REPLACE() Replaces occurrences of a substring within a string. SELECT REPLACE(string, old_substring, new_substring) AS replaced_string FROM table_name; SELECT REPLACE(description, &#39;old_string&#39;, &#39;new_string&#39;) AS replaced_description FROM product_descriptions; 🕒 Date and Time SQL Commands Command Description Syntax Example CURRENT_DATE() Returns the current date. SELECT CURRENT_DATE() AS current_date; — CURRENT_TIME() Returns the current time. SELECT CURRENT_TIME() AS current_time; — CURRENT_TIMESTAMP() Returns the current date and time. SELECT CURRENT_TIMESTAMP() AS current_timestamp; — DATE_PART() Extracts a specific part (year, month, day, etc.) from a date or time. SELECT DATE_PART(&#39;part&#39;, date_expression) AS extracted_part; — DATE_ADD() / DATE_SUB() Adds or subtracts a specified interval (days, months, years) to/from a date. SELECT DATE_ADD(date_expression, INTERVAL value unit) AS new_date; — EXTRACT() Extracts a specific component from a date or time. SELECT EXTRACT(part FROM date_expression) AS extracted_part; — TO_CHAR() Converts a date or time to a specific string format. SELECT TO_CHAR(date_expression, &#39;format&#39;) AS formatted_date; — TIMESTAMPDIFF() Calculates the difference between two timestamps in a specified unit. SELECT TIMESTAMPDIFF(unit, timestamp1, timestamp2) AS difference; — DATEDIFF() Returns the number of days between two dates. SELECT DATEDIFF(date1, date2) AS difference_in_days; — ⚙️ Conditional Expressions Command Description Syntax Example CASE Statement Performs conditional logic within a query. sql SELECT column1, column2, CASE WHEN condition1 THEN result1 WHEN condition2 THEN result2 ELSE default_result END AS alias FROM table_name; sql SELECT order_id, total_amount, CASE WHEN total_amount &gt; 1000 THEN &#39;High Value Order&#39; WHEN total_amount &gt; 500 THEN &#39;Medium Value Order&#39; ELSE &#39;Low Value Order&#39; END AS order_status FROM orders; IF() Function Evaluates a condition and returns a value based on the evaluation. SELECT IF(condition, true_value, false_value) AS alias FROM table_name; SELECT name, age, IF(age &gt; 50, &#39;Senior&#39;, &#39;Junior&#39;) AS employee_category FROM employees; COALESCE() Function Returns the first non-null value from a list. SELECT COALESCE(value1, value2, ...) AS alias FROM table_name; SELECT COALESCE(first_name, middle_name) AS preferred_name FROM employees; NULLIF() Function Returns NULL if two expressions are equal. SELECT NULLIF(expression1, expression2) AS alias FROM table_name; SELECT NULLIF(total_amount, discounted_amount) AS diff_amount FROM orders; 🔁 Set Operations Command Description Syntax Example UNION Combines result sets of two or more SELECT statements (removes duplicates). sql SELECT column1, column2 FROM table1 UNION SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers UNION SELECT first_name, last_name FROM employees; INTERSECT Returns common rows that appear in both result sets. sql SELECT column1, column2 FROM table1 INTERSECT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers INTERSECT SELECT first_name, last_name FROM employees; EXCEPT Returns rows from the first query that are not present in the second. sql SELECT column1, column2 FROM table1 EXCEPT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers EXCEPT SELECT first_name, last_name FROM employees; 💾 Transaction Control Commands (TCL) Command Description Syntax Example COMMIT Saves all the changes made during the current transaction and makes them permanent. COMMIT; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Alice&#39;, 30); UPDATE products SET price = 25.00 WHERE category = &#39;Electronics&#39;; COMMIT; ROLLBACK Undoes all the changes made during the current transaction and discards them. ROLLBACK; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Bob&#39;, 35); UPDATE products SET price = 30.00 WHERE category = &#39;Electronics&#39;; ROLLBACK; SAVEPOINT Sets a point within a transaction to which you can later roll back. SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;Carol&#39;, 28); SAVEPOINT before_update; UPDATE products SET price = 40.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO before_update; -- DELETE is rolled back, but UPDATE remains COMMIT; ROLLBACK TO SAVEPOINT Rolls back the transaction to a specific savepoint without affecting prior operations. ROLLBACK TO SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;David&#39;, 42); SAVEPOINT before_update; UPDATE products SET price = 50.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO SAVEPOINT before_update; -- UPDATE is rolled back, but INSERT remains COMMIT; SET TRANSACTION Configures properties for the current transaction, such as isolation level or mode. SET TRANSACTION [ISOLATION LEVEL { READ COMMITTED / SERIALIZABLE }]; sql BEGIN TRANSACTION; -- Set isolation level to READ COMMITTED SET TRANSACTION ISOLATION LEVEL READ COMMITTED; INSERT INTO employees (name, age) VALUES (&#39;Emily&#39;, 35); UPDATE products SET price = 60.00 WHERE category = &#39;Electronics&#39;; COMMIT;">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="SQL cheat sheet :: Data Engineering Notes">
+    <meta name="twitter:description" content="🧩 Data Manipulation Language (DML) Command Description Syntax Example SELECT Retrieves data from a database. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; INSERT Adds new records to a table. INSERT INTO table_name (column1, column2) VALUES (value1, value2); INSERT INTO customers (first_name, last_name) VALUES (&#39;Mary&#39;, &#39;Doe&#39;); UPDATE Modifies existing records in a table. UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition; UPDATE employees SET employee_name = &#39;John Doe&#39;, department = &#39;Marketing&#39;; DELETE Removes records from a table. DELETE FROM table_name WHERE condition; DELETE FROM employees WHERE employee_name = &#39;John Doe&#39;; 🏗️ Data Definition Language (DDL) Command Description Syntax Example CREATE Creates a new database object (table, view, etc.). CREATE TABLE table_name (column1 datatype1, column2 datatype2, ...); CREATE TABLE employees (employee_id INT PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), age INT); ALTER Adds, deletes, or modifies columns in an existing table. ALTER TABLE table_name ADD column_name datatype; ALTER TABLE customers ADD email VARCHAR(100); DROP Deletes an existing table or database object. DROP TABLE table_name; DROP TABLE customers; TRUNCATE Removes all rows from a table but keeps the structure. TRUNCATE TABLE table_name; TRUNCATE TABLE customers; 🔐 Data Control Language (DCL) Command Description Syntax Example GRANT Gives privileges to users or roles. GRANT SELECT, INSERT ON table_name TO user_name; GRANT SELECT, INSERT ON employees TO &#39;John Doe&#39;; REVOKE Removes privileges previously granted. REVOKE SELECT, INSERT ON table_name FROM user_name; REVOKE SELECT, INSERT ON employees FROM &#39;John Doe&#39;; 🔍 Querying Data Command Description Syntax Example SELECT Statement Retrieves data from one or more tables. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; WHERE Clause Filters rows based on specific conditions. SELECT * FROM table_name WHERE condition; SELECT * FROM customers WHERE age &gt; 30; ORDER BY Clause Sorts the result set by one or more columns. SELECT * FROM table_name ORDER BY column_name ASC/DESC; SELECT * FROM products ORDER BY price DESC; GROUP BY Clause Groups rows sharing a property and is used with aggregates. SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name; SELECT category, COUNT(*) FROM products GROUP BY category; HAVING Clause Filters grouped results (used with GROUP BY). SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name HAVING condition; SELECT category, COUNT(*) FROM products GROUP BY category HAVING COUNT(*) &gt; 5; 🔗 Joining Commands Command Description Syntax Example INNER JOIN Returns rows with matching values in both tables. SELECT * FROM table1 INNER JOIN table2 ON table1.column = table2.column; SELECT * FROM employees INNER JOIN departments ON employees.department_id = departments.id; LEFT JOIN / LEFT OUTER JOIN Returns all rows from the left table and matching rows from the right table. SELECT * FROM table1 LEFT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees LEFT JOIN departments ON employees.department_id = departments.id; RIGHT JOIN / RIGHT OUTER JOIN Returns all rows from the right table and matching rows from the left table. SELECT * FROM table1 RIGHT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees RIGHT JOIN departments ON employees.department_id = departments.department_id; FULL JOIN / FULL OUTER JOIN Returns all rows when there’s a match in either table. SELECT * FROM table1 FULL JOIN table2 ON table1.column = table2.column; sql SELECT * FROM employees LEFT JOIN departments ON employees.employee_id = departments.employee_id UNION SELECT * FROM employees RIGHT JOIN departments ON employees.employee_id = departments.employee_id; CROSS JOIN Combines every row from the first table with every row from the second (Cartesian product). SELECT * FROM table1 CROSS JOIN table2; SELECT * FROM employees CROSS JOIN departments; SELF JOIN Joins a table with itself. SELECT * FROM table1 t1, table1 t2 WHERE t1.column = t2.column; SELECT * FROM employees t1, employees t2 WHERE t1.employee_id = t2.employee_id; NATURAL JOIN Matches columns with the same name in both tables. SELECT * FROM table1 NATURAL JOIN table2; SELECT * FROM employees NATURAL JOIN departments; 🧮 Subqueries in SQL Command Description Syntax Example IN Checks if a value matches any in a subquery result. SELECT column(s) FROM table WHERE value IN (subquery); SELECT * FROM customers WHERE city IN (SELECT city FROM suppliers); ANY Compares a value to any returned by a subquery (used with =, &gt;, &lt;, etc.). SELECT column(s) FROM table WHERE value &lt; ANY (subquery); SELECT * FROM products WHERE price &lt; ANY (SELECT unit_price FROM supplier_products); ALL Compares a value to all values returned by a subquery. SELECT column(s) FROM table WHERE value &gt; ALL (subquery); SELECT * FROM orders WHERE order_amount &gt; ALL (SELECT total_amount FROM previous_orders); 📊 Aggregate Functions Command Description Syntax Example COUNT() Counts rows or non-null values in a column. SELECT COUNT(column_name) FROM table_name; SELECT COUNT(age) FROM employees; SUM() Calculates the sum of values in a column. SELECT SUM(column_name) FROM table_name; SELECT SUM(revenue) FROM sales; AVG() Calculates the average of values in a column. SELECT AVG(column_name) FROM table_name; SELECT AVG(price) FROM products; MIN() Returns the minimum value in a column. SELECT MIN(column_name) FROM table_name; SELECT MIN(price) FROM products; MAX() Returns the maximum value in a column. SELECT MAX(column_name) FROM table_name; SELECT MAX(price) FROM products; 🔤 String Functions Command Description Syntax Example CONCAT() Concatenates two or more strings. SELECT CONCAT(string1, string2, ...) AS concatenated_string FROM table_name; SELECT CONCAT(first_name, &#39; &#39;, last_name) AS full_name FROM employees; SUBSTRING() / SUBSTR() Extracts a substring from a string. SELECT SUBSTRING(string FROM start_position [FOR length]) AS substring FROM table_name; SELECT SUBSTRING(product_name FROM 1 FOR 5) AS substring FROM products; CHAR_LENGTH() / LENGTH() Returns the number of characters in a string. SELECT CHAR_LENGTH(string) AS length FROM table_name; SELECT CHAR_LENGTH(product_name) AS length FROM products; UPPER() Converts all characters to uppercase. SELECT UPPER(string) AS uppercase_string FROM table_name; SELECT UPPER(first_name) AS uppercase_first_name FROM employees; LOWER() Converts all characters to lowercase. SELECT LOWER(string) AS lowercase_string FROM table_name; SELECT LOWER(last_name) AS lowercase_last_name FROM employees; TRIM() Removes specified prefixes, suffixes, or whitespace. SELECT TRIM([LEADING / TRAILING / BOTH] characters FROM string) AS trimmed_string FROM table_name; SELECT TRIM(TRAILING &#39; &#39; FROM full_name) AS trimmed_full_name FROM customers; LEFT() Returns characters from the left of a string. SELECT LEFT(string, num_characters) AS left_string FROM table_name; SELECT LEFT(product_name, 5) AS left_product_name FROM products; RIGHT() Returns characters from the right of a string. SELECT RIGHT(string, num_characters) AS right_string FROM table_name; SELECT RIGHT(order_number, 4) AS right_order_number FROM orders; REPLACE() Replaces occurrences of a substring within a string. SELECT REPLACE(string, old_substring, new_substring) AS replaced_string FROM table_name; SELECT REPLACE(description, &#39;old_string&#39;, &#39;new_string&#39;) AS replaced_description FROM product_descriptions; 🕒 Date and Time SQL Commands Command Description Syntax Example CURRENT_DATE() Returns the current date. SELECT CURRENT_DATE() AS current_date; — CURRENT_TIME() Returns the current time. SELECT CURRENT_TIME() AS current_time; — CURRENT_TIMESTAMP() Returns the current date and time. SELECT CURRENT_TIMESTAMP() AS current_timestamp; — DATE_PART() Extracts a specific part (year, month, day, etc.) from a date or time. SELECT DATE_PART(&#39;part&#39;, date_expression) AS extracted_part; — DATE_ADD() / DATE_SUB() Adds or subtracts a specified interval (days, months, years) to/from a date. SELECT DATE_ADD(date_expression, INTERVAL value unit) AS new_date; — EXTRACT() Extracts a specific component from a date or time. SELECT EXTRACT(part FROM date_expression) AS extracted_part; — TO_CHAR() Converts a date or time to a specific string format. SELECT TO_CHAR(date_expression, &#39;format&#39;) AS formatted_date; — TIMESTAMPDIFF() Calculates the difference between two timestamps in a specified unit. SELECT TIMESTAMPDIFF(unit, timestamp1, timestamp2) AS difference; — DATEDIFF() Returns the number of days between two dates. SELECT DATEDIFF(date1, date2) AS difference_in_days; — ⚙️ Conditional Expressions Command Description Syntax Example CASE Statement Performs conditional logic within a query. sql SELECT column1, column2, CASE WHEN condition1 THEN result1 WHEN condition2 THEN result2 ELSE default_result END AS alias FROM table_name; sql SELECT order_id, total_amount, CASE WHEN total_amount &gt; 1000 THEN &#39;High Value Order&#39; WHEN total_amount &gt; 500 THEN &#39;Medium Value Order&#39; ELSE &#39;Low Value Order&#39; END AS order_status FROM orders; IF() Function Evaluates a condition and returns a value based on the evaluation. SELECT IF(condition, true_value, false_value) AS alias FROM table_name; SELECT name, age, IF(age &gt; 50, &#39;Senior&#39;, &#39;Junior&#39;) AS employee_category FROM employees; COALESCE() Function Returns the first non-null value from a list. SELECT COALESCE(value1, value2, ...) AS alias FROM table_name; SELECT COALESCE(first_name, middle_name) AS preferred_name FROM employees; NULLIF() Function Returns NULL if two expressions are equal. SELECT NULLIF(expression1, expression2) AS alias FROM table_name; SELECT NULLIF(total_amount, discounted_amount) AS diff_amount FROM orders; 🔁 Set Operations Command Description Syntax Example UNION Combines result sets of two or more SELECT statements (removes duplicates). sql SELECT column1, column2 FROM table1 UNION SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers UNION SELECT first_name, last_name FROM employees; INTERSECT Returns common rows that appear in both result sets. sql SELECT column1, column2 FROM table1 INTERSECT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers INTERSECT SELECT first_name, last_name FROM employees; EXCEPT Returns rows from the first query that are not present in the second. sql SELECT column1, column2 FROM table1 EXCEPT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers EXCEPT SELECT first_name, last_name FROM employees; 💾 Transaction Control Commands (TCL) Command Description Syntax Example COMMIT Saves all the changes made during the current transaction and makes them permanent. COMMIT; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Alice&#39;, 30); UPDATE products SET price = 25.00 WHERE category = &#39;Electronics&#39;; COMMIT; ROLLBACK Undoes all the changes made during the current transaction and discards them. ROLLBACK; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Bob&#39;, 35); UPDATE products SET price = 30.00 WHERE category = &#39;Electronics&#39;; ROLLBACK; SAVEPOINT Sets a point within a transaction to which you can later roll back. SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;Carol&#39;, 28); SAVEPOINT before_update; UPDATE products SET price = 40.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO before_update; -- DELETE is rolled back, but UPDATE remains COMMIT; ROLLBACK TO SAVEPOINT Rolls back the transaction to a specific savepoint without affecting prior operations. ROLLBACK TO SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;David&#39;, 42); SAVEPOINT before_update; UPDATE products SET price = 50.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO SAVEPOINT before_update; -- UPDATE is rolled back, but INSERT remains COMMIT; SET TRANSACTION Configures properties for the current transaction, such as isolation level or mode. SET TRANSACTION [ISOLATION LEVEL { READ COMMITTED / SERIALIZABLE }]; sql BEGIN TRANSACTION; -- Set isolation level to READ COMMITTED SET TRANSACTION ISOLATION LEVEL READ COMMITTED; INSERT INTO employees (name, age) VALUES (&#39;Emily&#39;, 35); UPDATE products SET price = 60.00 WHERE category = &#39;Electronics&#39;; COMMIT;">
+    <meta property="og:url" content="http://localhost:1313/interviewprep/sql3/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="SQL cheat sheet :: Data Engineering Notes">
+    <meta property="og:description" content="🧩 Data Manipulation Language (DML) Command Description Syntax Example SELECT Retrieves data from a database. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; INSERT Adds new records to a table. INSERT INTO table_name (column1, column2) VALUES (value1, value2); INSERT INTO customers (first_name, last_name) VALUES (&#39;Mary&#39;, &#39;Doe&#39;); UPDATE Modifies existing records in a table. UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition; UPDATE employees SET employee_name = &#39;John Doe&#39;, department = &#39;Marketing&#39;; DELETE Removes records from a table. DELETE FROM table_name WHERE condition; DELETE FROM employees WHERE employee_name = &#39;John Doe&#39;; 🏗️ Data Definition Language (DDL) Command Description Syntax Example CREATE Creates a new database object (table, view, etc.). CREATE TABLE table_name (column1 datatype1, column2 datatype2, ...); CREATE TABLE employees (employee_id INT PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), age INT); ALTER Adds, deletes, or modifies columns in an existing table. ALTER TABLE table_name ADD column_name datatype; ALTER TABLE customers ADD email VARCHAR(100); DROP Deletes an existing table or database object. DROP TABLE table_name; DROP TABLE customers; TRUNCATE Removes all rows from a table but keeps the structure. TRUNCATE TABLE table_name; TRUNCATE TABLE customers; 🔐 Data Control Language (DCL) Command Description Syntax Example GRANT Gives privileges to users or roles. GRANT SELECT, INSERT ON table_name TO user_name; GRANT SELECT, INSERT ON employees TO &#39;John Doe&#39;; REVOKE Removes privileges previously granted. REVOKE SELECT, INSERT ON table_name FROM user_name; REVOKE SELECT, INSERT ON employees FROM &#39;John Doe&#39;; 🔍 Querying Data Command Description Syntax Example SELECT Statement Retrieves data from one or more tables. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; WHERE Clause Filters rows based on specific conditions. SELECT * FROM table_name WHERE condition; SELECT * FROM customers WHERE age &gt; 30; ORDER BY Clause Sorts the result set by one or more columns. SELECT * FROM table_name ORDER BY column_name ASC/DESC; SELECT * FROM products ORDER BY price DESC; GROUP BY Clause Groups rows sharing a property and is used with aggregates. SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name; SELECT category, COUNT(*) FROM products GROUP BY category; HAVING Clause Filters grouped results (used with GROUP BY). SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name HAVING condition; SELECT category, COUNT(*) FROM products GROUP BY category HAVING COUNT(*) &gt; 5; 🔗 Joining Commands Command Description Syntax Example INNER JOIN Returns rows with matching values in both tables. SELECT * FROM table1 INNER JOIN table2 ON table1.column = table2.column; SELECT * FROM employees INNER JOIN departments ON employees.department_id = departments.id; LEFT JOIN / LEFT OUTER JOIN Returns all rows from the left table and matching rows from the right table. SELECT * FROM table1 LEFT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees LEFT JOIN departments ON employees.department_id = departments.id; RIGHT JOIN / RIGHT OUTER JOIN Returns all rows from the right table and matching rows from the left table. SELECT * FROM table1 RIGHT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees RIGHT JOIN departments ON employees.department_id = departments.department_id; FULL JOIN / FULL OUTER JOIN Returns all rows when there’s a match in either table. SELECT * FROM table1 FULL JOIN table2 ON table1.column = table2.column; sql SELECT * FROM employees LEFT JOIN departments ON employees.employee_id = departments.employee_id UNION SELECT * FROM employees RIGHT JOIN departments ON employees.employee_id = departments.employee_id; CROSS JOIN Combines every row from the first table with every row from the second (Cartesian product). SELECT * FROM table1 CROSS JOIN table2; SELECT * FROM employees CROSS JOIN departments; SELF JOIN Joins a table with itself. SELECT * FROM table1 t1, table1 t2 WHERE t1.column = t2.column; SELECT * FROM employees t1, employees t2 WHERE t1.employee_id = t2.employee_id; NATURAL JOIN Matches columns with the same name in both tables. SELECT * FROM table1 NATURAL JOIN table2; SELECT * FROM employees NATURAL JOIN departments; 🧮 Subqueries in SQL Command Description Syntax Example IN Checks if a value matches any in a subquery result. SELECT column(s) FROM table WHERE value IN (subquery); SELECT * FROM customers WHERE city IN (SELECT city FROM suppliers); ANY Compares a value to any returned by a subquery (used with =, &gt;, &lt;, etc.). SELECT column(s) FROM table WHERE value &lt; ANY (subquery); SELECT * FROM products WHERE price &lt; ANY (SELECT unit_price FROM supplier_products); ALL Compares a value to all values returned by a subquery. SELECT column(s) FROM table WHERE value &gt; ALL (subquery); SELECT * FROM orders WHERE order_amount &gt; ALL (SELECT total_amount FROM previous_orders); 📊 Aggregate Functions Command Description Syntax Example COUNT() Counts rows or non-null values in a column. SELECT COUNT(column_name) FROM table_name; SELECT COUNT(age) FROM employees; SUM() Calculates the sum of values in a column. SELECT SUM(column_name) FROM table_name; SELECT SUM(revenue) FROM sales; AVG() Calculates the average of values in a column. SELECT AVG(column_name) FROM table_name; SELECT AVG(price) FROM products; MIN() Returns the minimum value in a column. SELECT MIN(column_name) FROM table_name; SELECT MIN(price) FROM products; MAX() Returns the maximum value in a column. SELECT MAX(column_name) FROM table_name; SELECT MAX(price) FROM products; 🔤 String Functions Command Description Syntax Example CONCAT() Concatenates two or more strings. SELECT CONCAT(string1, string2, ...) AS concatenated_string FROM table_name; SELECT CONCAT(first_name, &#39; &#39;, last_name) AS full_name FROM employees; SUBSTRING() / SUBSTR() Extracts a substring from a string. SELECT SUBSTRING(string FROM start_position [FOR length]) AS substring FROM table_name; SELECT SUBSTRING(product_name FROM 1 FOR 5) AS substring FROM products; CHAR_LENGTH() / LENGTH() Returns the number of characters in a string. SELECT CHAR_LENGTH(string) AS length FROM table_name; SELECT CHAR_LENGTH(product_name) AS length FROM products; UPPER() Converts all characters to uppercase. SELECT UPPER(string) AS uppercase_string FROM table_name; SELECT UPPER(first_name) AS uppercase_first_name FROM employees; LOWER() Converts all characters to lowercase. SELECT LOWER(string) AS lowercase_string FROM table_name; SELECT LOWER(last_name) AS lowercase_last_name FROM employees; TRIM() Removes specified prefixes, suffixes, or whitespace. SELECT TRIM([LEADING / TRAILING / BOTH] characters FROM string) AS trimmed_string FROM table_name; SELECT TRIM(TRAILING &#39; &#39; FROM full_name) AS trimmed_full_name FROM customers; LEFT() Returns characters from the left of a string. SELECT LEFT(string, num_characters) AS left_string FROM table_name; SELECT LEFT(product_name, 5) AS left_product_name FROM products; RIGHT() Returns characters from the right of a string. SELECT RIGHT(string, num_characters) AS right_string FROM table_name; SELECT RIGHT(order_number, 4) AS right_order_number FROM orders; REPLACE() Replaces occurrences of a substring within a string. SELECT REPLACE(string, old_substring, new_substring) AS replaced_string FROM table_name; SELECT REPLACE(description, &#39;old_string&#39;, &#39;new_string&#39;) AS replaced_description FROM product_descriptions; 🕒 Date and Time SQL Commands Command Description Syntax Example CURRENT_DATE() Returns the current date. SELECT CURRENT_DATE() AS current_date; — CURRENT_TIME() Returns the current time. SELECT CURRENT_TIME() AS current_time; — CURRENT_TIMESTAMP() Returns the current date and time. SELECT CURRENT_TIMESTAMP() AS current_timestamp; — DATE_PART() Extracts a specific part (year, month, day, etc.) from a date or time. SELECT DATE_PART(&#39;part&#39;, date_expression) AS extracted_part; — DATE_ADD() / DATE_SUB() Adds or subtracts a specified interval (days, months, years) to/from a date. SELECT DATE_ADD(date_expression, INTERVAL value unit) AS new_date; — EXTRACT() Extracts a specific component from a date or time. SELECT EXTRACT(part FROM date_expression) AS extracted_part; — TO_CHAR() Converts a date or time to a specific string format. SELECT TO_CHAR(date_expression, &#39;format&#39;) AS formatted_date; — TIMESTAMPDIFF() Calculates the difference between two timestamps in a specified unit. SELECT TIMESTAMPDIFF(unit, timestamp1, timestamp2) AS difference; — DATEDIFF() Returns the number of days between two dates. SELECT DATEDIFF(date1, date2) AS difference_in_days; — ⚙️ Conditional Expressions Command Description Syntax Example CASE Statement Performs conditional logic within a query. sql SELECT column1, column2, CASE WHEN condition1 THEN result1 WHEN condition2 THEN result2 ELSE default_result END AS alias FROM table_name; sql SELECT order_id, total_amount, CASE WHEN total_amount &gt; 1000 THEN &#39;High Value Order&#39; WHEN total_amount &gt; 500 THEN &#39;Medium Value Order&#39; ELSE &#39;Low Value Order&#39; END AS order_status FROM orders; IF() Function Evaluates a condition and returns a value based on the evaluation. SELECT IF(condition, true_value, false_value) AS alias FROM table_name; SELECT name, age, IF(age &gt; 50, &#39;Senior&#39;, &#39;Junior&#39;) AS employee_category FROM employees; COALESCE() Function Returns the first non-null value from a list. SELECT COALESCE(value1, value2, ...) AS alias FROM table_name; SELECT COALESCE(first_name, middle_name) AS preferred_name FROM employees; NULLIF() Function Returns NULL if two expressions are equal. SELECT NULLIF(expression1, expression2) AS alias FROM table_name; SELECT NULLIF(total_amount, discounted_amount) AS diff_amount FROM orders; 🔁 Set Operations Command Description Syntax Example UNION Combines result sets of two or more SELECT statements (removes duplicates). sql SELECT column1, column2 FROM table1 UNION SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers UNION SELECT first_name, last_name FROM employees; INTERSECT Returns common rows that appear in both result sets. sql SELECT column1, column2 FROM table1 INTERSECT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers INTERSECT SELECT first_name, last_name FROM employees; EXCEPT Returns rows from the first query that are not present in the second. sql SELECT column1, column2 FROM table1 EXCEPT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers EXCEPT SELECT first_name, last_name FROM employees; 💾 Transaction Control Commands (TCL) Command Description Syntax Example COMMIT Saves all the changes made during the current transaction and makes them permanent. COMMIT; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Alice&#39;, 30); UPDATE products SET price = 25.00 WHERE category = &#39;Electronics&#39;; COMMIT; ROLLBACK Undoes all the changes made during the current transaction and discards them. ROLLBACK; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Bob&#39;, 35); UPDATE products SET price = 30.00 WHERE category = &#39;Electronics&#39;; ROLLBACK; SAVEPOINT Sets a point within a transaction to which you can later roll back. SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;Carol&#39;, 28); SAVEPOINT before_update; UPDATE products SET price = 40.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO before_update; -- DELETE is rolled back, but UPDATE remains COMMIT; ROLLBACK TO SAVEPOINT Rolls back the transaction to a specific savepoint without affecting prior operations. ROLLBACK TO SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;David&#39;, 42); SAVEPOINT before_update; UPDATE products SET price = 50.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO SAVEPOINT before_update; -- UPDATE is rolled back, but INSERT remains COMMIT; SET TRANSACTION Configures properties for the current transaction, such as isolation level or mode. SET TRANSACTION [ISOLATION LEVEL { READ COMMITTED / SERIALIZABLE }]; sql BEGIN TRANSACTION; -- Set isolation level to READ COMMITTED SET TRANSACTION ISOLATION LEVEL READ COMMITTED; INSERT INTO employees (name, age) VALUES (&#39;Emily&#39;, 35); UPDATE products SET price = 60.00 WHERE category = &#39;Electronics&#39;; COMMIT;">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Interview Prep">
+    <meta itemprop="name" content="SQL cheat sheet :: Data Engineering Notes">
+    <meta itemprop="description" content="🧩 Data Manipulation Language (DML) Command Description Syntax Example SELECT Retrieves data from a database. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; INSERT Adds new records to a table. INSERT INTO table_name (column1, column2) VALUES (value1, value2); INSERT INTO customers (first_name, last_name) VALUES (&#39;Mary&#39;, &#39;Doe&#39;); UPDATE Modifies existing records in a table. UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition; UPDATE employees SET employee_name = &#39;John Doe&#39;, department = &#39;Marketing&#39;; DELETE Removes records from a table. DELETE FROM table_name WHERE condition; DELETE FROM employees WHERE employee_name = &#39;John Doe&#39;; 🏗️ Data Definition Language (DDL) Command Description Syntax Example CREATE Creates a new database object (table, view, etc.). CREATE TABLE table_name (column1 datatype1, column2 datatype2, ...); CREATE TABLE employees (employee_id INT PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), age INT); ALTER Adds, deletes, or modifies columns in an existing table. ALTER TABLE table_name ADD column_name datatype; ALTER TABLE customers ADD email VARCHAR(100); DROP Deletes an existing table or database object. DROP TABLE table_name; DROP TABLE customers; TRUNCATE Removes all rows from a table but keeps the structure. TRUNCATE TABLE table_name; TRUNCATE TABLE customers; 🔐 Data Control Language (DCL) Command Description Syntax Example GRANT Gives privileges to users or roles. GRANT SELECT, INSERT ON table_name TO user_name; GRANT SELECT, INSERT ON employees TO &#39;John Doe&#39;; REVOKE Removes privileges previously granted. REVOKE SELECT, INSERT ON table_name FROM user_name; REVOKE SELECT, INSERT ON employees FROM &#39;John Doe&#39;; 🔍 Querying Data Command Description Syntax Example SELECT Statement Retrieves data from one or more tables. SELECT column1, column2 FROM table_name; SELECT first_name, last_name FROM customers; WHERE Clause Filters rows based on specific conditions. SELECT * FROM table_name WHERE condition; SELECT * FROM customers WHERE age &gt; 30; ORDER BY Clause Sorts the result set by one or more columns. SELECT * FROM table_name ORDER BY column_name ASC/DESC; SELECT * FROM products ORDER BY price DESC; GROUP BY Clause Groups rows sharing a property and is used with aggregates. SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name; SELECT category, COUNT(*) FROM products GROUP BY category; HAVING Clause Filters grouped results (used with GROUP BY). SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name HAVING condition; SELECT category, COUNT(*) FROM products GROUP BY category HAVING COUNT(*) &gt; 5; 🔗 Joining Commands Command Description Syntax Example INNER JOIN Returns rows with matching values in both tables. SELECT * FROM table1 INNER JOIN table2 ON table1.column = table2.column; SELECT * FROM employees INNER JOIN departments ON employees.department_id = departments.id; LEFT JOIN / LEFT OUTER JOIN Returns all rows from the left table and matching rows from the right table. SELECT * FROM table1 LEFT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees LEFT JOIN departments ON employees.department_id = departments.id; RIGHT JOIN / RIGHT OUTER JOIN Returns all rows from the right table and matching rows from the left table. SELECT * FROM table1 RIGHT JOIN table2 ON table1.column = table2.column; SELECT * FROM employees RIGHT JOIN departments ON employees.department_id = departments.department_id; FULL JOIN / FULL OUTER JOIN Returns all rows when there’s a match in either table. SELECT * FROM table1 FULL JOIN table2 ON table1.column = table2.column; sql SELECT * FROM employees LEFT JOIN departments ON employees.employee_id = departments.employee_id UNION SELECT * FROM employees RIGHT JOIN departments ON employees.employee_id = departments.employee_id; CROSS JOIN Combines every row from the first table with every row from the second (Cartesian product). SELECT * FROM table1 CROSS JOIN table2; SELECT * FROM employees CROSS JOIN departments; SELF JOIN Joins a table with itself. SELECT * FROM table1 t1, table1 t2 WHERE t1.column = t2.column; SELECT * FROM employees t1, employees t2 WHERE t1.employee_id = t2.employee_id; NATURAL JOIN Matches columns with the same name in both tables. SELECT * FROM table1 NATURAL JOIN table2; SELECT * FROM employees NATURAL JOIN departments; 🧮 Subqueries in SQL Command Description Syntax Example IN Checks if a value matches any in a subquery result. SELECT column(s) FROM table WHERE value IN (subquery); SELECT * FROM customers WHERE city IN (SELECT city FROM suppliers); ANY Compares a value to any returned by a subquery (used with =, &gt;, &lt;, etc.). SELECT column(s) FROM table WHERE value &lt; ANY (subquery); SELECT * FROM products WHERE price &lt; ANY (SELECT unit_price FROM supplier_products); ALL Compares a value to all values returned by a subquery. SELECT column(s) FROM table WHERE value &gt; ALL (subquery); SELECT * FROM orders WHERE order_amount &gt; ALL (SELECT total_amount FROM previous_orders); 📊 Aggregate Functions Command Description Syntax Example COUNT() Counts rows or non-null values in a column. SELECT COUNT(column_name) FROM table_name; SELECT COUNT(age) FROM employees; SUM() Calculates the sum of values in a column. SELECT SUM(column_name) FROM table_name; SELECT SUM(revenue) FROM sales; AVG() Calculates the average of values in a column. SELECT AVG(column_name) FROM table_name; SELECT AVG(price) FROM products; MIN() Returns the minimum value in a column. SELECT MIN(column_name) FROM table_name; SELECT MIN(price) FROM products; MAX() Returns the maximum value in a column. SELECT MAX(column_name) FROM table_name; SELECT MAX(price) FROM products; 🔤 String Functions Command Description Syntax Example CONCAT() Concatenates two or more strings. SELECT CONCAT(string1, string2, ...) AS concatenated_string FROM table_name; SELECT CONCAT(first_name, &#39; &#39;, last_name) AS full_name FROM employees; SUBSTRING() / SUBSTR() Extracts a substring from a string. SELECT SUBSTRING(string FROM start_position [FOR length]) AS substring FROM table_name; SELECT SUBSTRING(product_name FROM 1 FOR 5) AS substring FROM products; CHAR_LENGTH() / LENGTH() Returns the number of characters in a string. SELECT CHAR_LENGTH(string) AS length FROM table_name; SELECT CHAR_LENGTH(product_name) AS length FROM products; UPPER() Converts all characters to uppercase. SELECT UPPER(string) AS uppercase_string FROM table_name; SELECT UPPER(first_name) AS uppercase_first_name FROM employees; LOWER() Converts all characters to lowercase. SELECT LOWER(string) AS lowercase_string FROM table_name; SELECT LOWER(last_name) AS lowercase_last_name FROM employees; TRIM() Removes specified prefixes, suffixes, or whitespace. SELECT TRIM([LEADING / TRAILING / BOTH] characters FROM string) AS trimmed_string FROM table_name; SELECT TRIM(TRAILING &#39; &#39; FROM full_name) AS trimmed_full_name FROM customers; LEFT() Returns characters from the left of a string. SELECT LEFT(string, num_characters) AS left_string FROM table_name; SELECT LEFT(product_name, 5) AS left_product_name FROM products; RIGHT() Returns characters from the right of a string. SELECT RIGHT(string, num_characters) AS right_string FROM table_name; SELECT RIGHT(order_number, 4) AS right_order_number FROM orders; REPLACE() Replaces occurrences of a substring within a string. SELECT REPLACE(string, old_substring, new_substring) AS replaced_string FROM table_name; SELECT REPLACE(description, &#39;old_string&#39;, &#39;new_string&#39;) AS replaced_description FROM product_descriptions; 🕒 Date and Time SQL Commands Command Description Syntax Example CURRENT_DATE() Returns the current date. SELECT CURRENT_DATE() AS current_date; — CURRENT_TIME() Returns the current time. SELECT CURRENT_TIME() AS current_time; — CURRENT_TIMESTAMP() Returns the current date and time. SELECT CURRENT_TIMESTAMP() AS current_timestamp; — DATE_PART() Extracts a specific part (year, month, day, etc.) from a date or time. SELECT DATE_PART(&#39;part&#39;, date_expression) AS extracted_part; — DATE_ADD() / DATE_SUB() Adds or subtracts a specified interval (days, months, years) to/from a date. SELECT DATE_ADD(date_expression, INTERVAL value unit) AS new_date; — EXTRACT() Extracts a specific component from a date or time. SELECT EXTRACT(part FROM date_expression) AS extracted_part; — TO_CHAR() Converts a date or time to a specific string format. SELECT TO_CHAR(date_expression, &#39;format&#39;) AS formatted_date; — TIMESTAMPDIFF() Calculates the difference between two timestamps in a specified unit. SELECT TIMESTAMPDIFF(unit, timestamp1, timestamp2) AS difference; — DATEDIFF() Returns the number of days between two dates. SELECT DATEDIFF(date1, date2) AS difference_in_days; — ⚙️ Conditional Expressions Command Description Syntax Example CASE Statement Performs conditional logic within a query. sql SELECT column1, column2, CASE WHEN condition1 THEN result1 WHEN condition2 THEN result2 ELSE default_result END AS alias FROM table_name; sql SELECT order_id, total_amount, CASE WHEN total_amount &gt; 1000 THEN &#39;High Value Order&#39; WHEN total_amount &gt; 500 THEN &#39;Medium Value Order&#39; ELSE &#39;Low Value Order&#39; END AS order_status FROM orders; IF() Function Evaluates a condition and returns a value based on the evaluation. SELECT IF(condition, true_value, false_value) AS alias FROM table_name; SELECT name, age, IF(age &gt; 50, &#39;Senior&#39;, &#39;Junior&#39;) AS employee_category FROM employees; COALESCE() Function Returns the first non-null value from a list. SELECT COALESCE(value1, value2, ...) AS alias FROM table_name; SELECT COALESCE(first_name, middle_name) AS preferred_name FROM employees; NULLIF() Function Returns NULL if two expressions are equal. SELECT NULLIF(expression1, expression2) AS alias FROM table_name; SELECT NULLIF(total_amount, discounted_amount) AS diff_amount FROM orders; 🔁 Set Operations Command Description Syntax Example UNION Combines result sets of two or more SELECT statements (removes duplicates). sql SELECT column1, column2 FROM table1 UNION SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers UNION SELECT first_name, last_name FROM employees; INTERSECT Returns common rows that appear in both result sets. sql SELECT column1, column2 FROM table1 INTERSECT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers INTERSECT SELECT first_name, last_name FROM employees; EXCEPT Returns rows from the first query that are not present in the second. sql SELECT column1, column2 FROM table1 EXCEPT SELECT column1, column2 FROM table2; sql SELECT first_name, last_name FROM customers EXCEPT SELECT first_name, last_name FROM employees; 💾 Transaction Control Commands (TCL) Command Description Syntax Example COMMIT Saves all the changes made during the current transaction and makes them permanent. COMMIT; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Alice&#39;, 30); UPDATE products SET price = 25.00 WHERE category = &#39;Electronics&#39;; COMMIT; ROLLBACK Undoes all the changes made during the current transaction and discards them. ROLLBACK; sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES (&#39;Bob&#39;, 35); UPDATE products SET price = 30.00 WHERE category = &#39;Electronics&#39;; ROLLBACK; SAVEPOINT Sets a point within a transaction to which you can later roll back. SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;Carol&#39;, 28); SAVEPOINT before_update; UPDATE products SET price = 40.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO before_update; -- DELETE is rolled back, but UPDATE remains COMMIT; ROLLBACK TO SAVEPOINT Rolls back the transaction to a specific savepoint without affecting prior operations. ROLLBACK TO SAVEPOINT savepoint_name; sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES (&#39;David&#39;, 42); SAVEPOINT before_update; UPDATE products SET price = 50.00 WHERE category = &#39;Electronics&#39;; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO SAVEPOINT before_update; -- UPDATE is rolled back, but INSERT remains COMMIT; SET TRANSACTION Configures properties for the current transaction, such as isolation level or mode. SET TRANSACTION [ISOLATION LEVEL { READ COMMITTED / SERIALIZABLE }]; sql BEGIN TRANSACTION; -- Set isolation level to READ COMMITTED SET TRANSACTION ISOLATION LEVEL READ COMMITTED; INSERT INTO employees (name, age) VALUES (&#39;Emily&#39;, 35); UPDATE products SET price = 60.00 WHERE category = &#39;Electronics&#39;; COMMIT;">
+    <meta itemprop="wordCount" content="1743">
+    <title>SQL cheat sheet :: Data Engineering Notes</title>
+    <link href="http://localhost:1313/interviewprep/sql3/" rel="canonical" type="text/html" title="SQL cheat sheet :: Data Engineering Notes">
+    <link href="/interviewprep/sql3/index.md" rel="alternate" type="text/markdown" title="SQL cheat sheet :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1761501432" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1761501432" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1761501432" defer></script>
+    <script src="/js/search-lunr.js?1761501432" defer></script>
+    <script src="/js/search.js?1761501432" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1761501432";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1761501432" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1761501432" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1761501432" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1761501432" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761501432" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761501432" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1761501432" rel="stylesheet">
+    <link href="/css/theme.css?1761501432" rel="stylesheet">
+    <link href="/css/format-print.css?1761501432" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/interviewprep\/sql3\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/interviewprep/sql3/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#-data-manipulation-language-dml">🧩 Data Manipulation Language (DML)</a></li>
+    <li><a href="#-data-definition-language-ddl">🏗️ Data Definition Language (DDL)</a></li>
+    <li><a href="#-data-control-language-dcl">🔐 Data Control Language (DCL)</a></li>
+    <li><a href="#-querying-data">🔍 Querying Data</a></li>
+    <li><a href="#-joining-commands">🔗 Joining Commands</a></li>
+    <li><a href="#-subqueries-in-sql">🧮 Subqueries in SQL</a></li>
+    <li><a href="#-aggregate-functions">📊 Aggregate Functions</a></li>
+    <li><a href="#-string-functions">🔤 String Functions</a></li>
+    <li><a href="#-date-and-time-sql-commands">🕒 Date and Time SQL Commands</a></li>
+    <li><a href="#-conditional-expressions">⚙️ Conditional Expressions</a></li>
+    <li><a href="#-set-operations">🔁 Set Operations</a></li>
+    <li><a href="#-transaction-control-commands-tcl">💾 Transaction Control Commands (TCL)</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/interviewprep/"><span itemprop="name">Interview Prep</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">SQL cheat sheet</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/InterviewPrep/SQL3.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/sql3/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/sql3/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/sql2/" title="100 SQL Queries (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/quick-ref/" title="SQL & PySpark Queries (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable interviewprep" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="sql-cheat-sheet">SQL cheat sheet</h1>
+
+<h2 id="-data-manipulation-language-dml">🧩 Data Manipulation Language (DML)</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>SELECT</strong></td>
+          <td>Retrieves data from a database.</td>
+          <td><code>SELECT column1, column2 FROM table_name;</code></td>
+          <td><code>SELECT first_name, last_name FROM customers;</code></td>
+      </tr>
+      <tr>
+          <td><strong>INSERT</strong></td>
+          <td>Adds new records to a table.</td>
+          <td><code>INSERT INTO table_name (column1, column2) VALUES (value1, value2);</code></td>
+          <td><code>INSERT INTO customers (first_name, last_name) VALUES ('Mary', 'Doe');</code></td>
+      </tr>
+      <tr>
+          <td><strong>UPDATE</strong></td>
+          <td>Modifies existing records in a table.</td>
+          <td><code>UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;</code></td>
+          <td><code>UPDATE employees SET employee_name = 'John Doe', department = 'Marketing';</code></td>
+      </tr>
+      <tr>
+          <td><strong>DELETE</strong></td>
+          <td>Removes records from a table.</td>
+          <td><code>DELETE FROM table_name WHERE condition;</code></td>
+          <td><code>DELETE FROM employees WHERE employee_name = 'John Doe';</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-data-definition-language-ddl">🏗️ Data Definition Language (DDL)</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>CREATE</strong></td>
+          <td>Creates a new database object (table, view, etc.).</td>
+          <td><code>CREATE TABLE table_name (column1 datatype1, column2 datatype2, ...);</code></td>
+          <td><code>CREATE TABLE employees (employee_id INT PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), age INT);</code></td>
+      </tr>
+      <tr>
+          <td><strong>ALTER</strong></td>
+          <td>Adds, deletes, or modifies columns in an existing table.</td>
+          <td><code>ALTER TABLE table_name ADD column_name datatype;</code></td>
+          <td><code>ALTER TABLE customers ADD email VARCHAR(100);</code></td>
+      </tr>
+      <tr>
+          <td><strong>DROP</strong></td>
+          <td>Deletes an existing table or database object.</td>
+          <td><code>DROP TABLE table_name;</code></td>
+          <td><code>DROP TABLE customers;</code></td>
+      </tr>
+      <tr>
+          <td><strong>TRUNCATE</strong></td>
+          <td>Removes all rows from a table but keeps the structure.</td>
+          <td><code>TRUNCATE TABLE table_name;</code></td>
+          <td><code>TRUNCATE TABLE customers;</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-data-control-language-dcl">🔐 Data Control Language (DCL)</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>GRANT</strong></td>
+          <td>Gives privileges to users or roles.</td>
+          <td><code>GRANT SELECT, INSERT ON table_name TO user_name;</code></td>
+          <td><code>GRANT SELECT, INSERT ON employees TO 'John Doe';</code></td>
+      </tr>
+      <tr>
+          <td><strong>REVOKE</strong></td>
+          <td>Removes privileges previously granted.</td>
+          <td><code>REVOKE SELECT, INSERT ON table_name FROM user_name;</code></td>
+          <td><code>REVOKE SELECT, INSERT ON employees FROM 'John Doe';</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-querying-data">🔍 Querying Data</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>SELECT Statement</strong></td>
+          <td>Retrieves data from one or more tables.</td>
+          <td><code>SELECT column1, column2 FROM table_name;</code></td>
+          <td><code>SELECT first_name, last_name FROM customers;</code></td>
+      </tr>
+      <tr>
+          <td><strong>WHERE Clause</strong></td>
+          <td>Filters rows based on specific conditions.</td>
+          <td><code>SELECT * FROM table_name WHERE condition;</code></td>
+          <td><code>SELECT * FROM customers WHERE age &gt; 30;</code></td>
+      </tr>
+      <tr>
+          <td><strong>ORDER BY Clause</strong></td>
+          <td>Sorts the result set by one or more columns.</td>
+          <td><code>SELECT * FROM table_name ORDER BY column_name ASC/DESC;</code></td>
+          <td><code>SELECT * FROM products ORDER BY price DESC;</code></td>
+      </tr>
+      <tr>
+          <td><strong>GROUP BY Clause</strong></td>
+          <td>Groups rows sharing a property and is used with aggregates.</td>
+          <td><code>SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name;</code></td>
+          <td><code>SELECT category, COUNT(*) FROM products GROUP BY category;</code></td>
+      </tr>
+      <tr>
+          <td><strong>HAVING Clause</strong></td>
+          <td>Filters grouped results (used with GROUP BY).</td>
+          <td><code>SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name HAVING condition;</code></td>
+          <td><code>SELECT category, COUNT(*) FROM products GROUP BY category HAVING COUNT(*) &gt; 5;</code></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="-joining-commands">🔗 Joining Commands</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>INNER JOIN</strong></td>
+          <td>Returns rows with matching values in both tables.</td>
+          <td><code>SELECT * FROM table1 INNER JOIN table2 ON table1.column = table2.column;</code></td>
+          <td><code>SELECT * FROM employees INNER JOIN departments ON employees.department_id = departments.id;</code></td>
+      </tr>
+      <tr>
+          <td><strong>LEFT JOIN / LEFT OUTER JOIN</strong></td>
+          <td>Returns all rows from the left table and matching rows from the right table.</td>
+          <td><code>SELECT * FROM table1 LEFT JOIN table2 ON table1.column = table2.column;</code></td>
+          <td><code>SELECT * FROM employees LEFT JOIN departments ON employees.department_id = departments.id;</code></td>
+      </tr>
+      <tr>
+          <td><strong>RIGHT JOIN / RIGHT OUTER JOIN</strong></td>
+          <td>Returns all rows from the right table and matching rows from the left table.</td>
+          <td><code>SELECT * FROM table1 RIGHT JOIN table2 ON table1.column = table2.column;</code></td>
+          <td><code>SELECT * FROM employees RIGHT JOIN departments ON employees.department_id = departments.department_id;</code></td>
+      </tr>
+      <tr>
+          <td><strong>FULL JOIN / FULL OUTER JOIN</strong></td>
+          <td>Returns all rows when there’s a match in either table.</td>
+          <td><code>SELECT * FROM table1 FULL JOIN table2 ON table1.column = table2.column;</code></td>
+          <td><code>sql SELECT * FROM employees LEFT JOIN departments ON employees.employee_id = departments.employee_id UNION SELECT * FROM employees RIGHT JOIN departments ON employees.employee_id = departments.employee_id; </code></td>
+      </tr>
+      <tr>
+          <td><strong>CROSS JOIN</strong></td>
+          <td>Combines every row from the first table with every row from the second (Cartesian product).</td>
+          <td><code>SELECT * FROM table1 CROSS JOIN table2;</code></td>
+          <td><code>SELECT * FROM employees CROSS JOIN departments;</code></td>
+      </tr>
+      <tr>
+          <td><strong>SELF JOIN</strong></td>
+          <td>Joins a table with itself.</td>
+          <td><code>SELECT * FROM table1 t1, table1 t2 WHERE t1.column = t2.column;</code></td>
+          <td><code>SELECT * FROM employees t1, employees t2 WHERE t1.employee_id = t2.employee_id;</code></td>
+      </tr>
+      <tr>
+          <td><strong>NATURAL JOIN</strong></td>
+          <td>Matches columns with the same name in both tables.</td>
+          <td><code>SELECT * FROM table1 NATURAL JOIN table2;</code></td>
+          <td><code>SELECT * FROM employees NATURAL JOIN departments;</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-subqueries-in-sql">🧮 Subqueries in SQL</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>IN</strong></td>
+          <td>Checks if a value matches any in a subquery result.</td>
+          <td><code>SELECT column(s) FROM table WHERE value IN (subquery);</code></td>
+          <td><code>SELECT * FROM customers WHERE city IN (SELECT city FROM suppliers);</code></td>
+      </tr>
+      <tr>
+          <td><strong>ANY</strong></td>
+          <td>Compares a value to any returned by a subquery (used with =, &gt;, &lt;, etc.).</td>
+          <td><code>SELECT column(s) FROM table WHERE value &lt; ANY (subquery);</code></td>
+          <td><code>SELECT * FROM products WHERE price &lt; ANY (SELECT unit_price FROM supplier_products);</code></td>
+      </tr>
+      <tr>
+          <td><strong>ALL</strong></td>
+          <td>Compares a value to all values returned by a subquery.</td>
+          <td><code>SELECT column(s) FROM table WHERE value &gt; ALL (subquery);</code></td>
+          <td><code>SELECT * FROM orders WHERE order_amount &gt; ALL (SELECT total_amount FROM previous_orders);</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-aggregate-functions">📊 Aggregate Functions</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>COUNT()</strong></td>
+          <td>Counts rows or non-null values in a column.</td>
+          <td><code>SELECT COUNT(column_name) FROM table_name;</code></td>
+          <td><code>SELECT COUNT(age) FROM employees;</code></td>
+      </tr>
+      <tr>
+          <td><strong>SUM()</strong></td>
+          <td>Calculates the sum of values in a column.</td>
+          <td><code>SELECT SUM(column_name) FROM table_name;</code></td>
+          <td><code>SELECT SUM(revenue) FROM sales;</code></td>
+      </tr>
+      <tr>
+          <td><strong>AVG()</strong></td>
+          <td>Calculates the average of values in a column.</td>
+          <td><code>SELECT AVG(column_name) FROM table_name;</code></td>
+          <td><code>SELECT AVG(price) FROM products;</code></td>
+      </tr>
+      <tr>
+          <td><strong>MIN()</strong></td>
+          <td>Returns the minimum value in a column.</td>
+          <td><code>SELECT MIN(column_name) FROM table_name;</code></td>
+          <td><code>SELECT MIN(price) FROM products;</code></td>
+      </tr>
+      <tr>
+          <td><strong>MAX()</strong></td>
+          <td>Returns the maximum value in a column.</td>
+          <td><code>SELECT MAX(column_name) FROM table_name;</code></td>
+          <td><code>SELECT MAX(price) FROM products;</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-string-functions">🔤 String Functions</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>CONCAT()</strong></td>
+          <td>Concatenates two or more strings.</td>
+          <td><code>SELECT CONCAT(string1, string2, ...) AS concatenated_string FROM table_name;</code></td>
+          <td><code>SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;</code></td>
+      </tr>
+      <tr>
+          <td><strong>SUBSTRING() / SUBSTR()</strong></td>
+          <td>Extracts a substring from a string.</td>
+          <td><code>SELECT SUBSTRING(string FROM start_position [FOR length]) AS substring FROM table_name;</code></td>
+          <td><code>SELECT SUBSTRING(product_name FROM 1 FOR 5) AS substring FROM products;</code></td>
+      </tr>
+      <tr>
+          <td><strong>CHAR_LENGTH() / LENGTH()</strong></td>
+          <td>Returns the number of characters in a string.</td>
+          <td><code>SELECT CHAR_LENGTH(string) AS length FROM table_name;</code></td>
+          <td><code>SELECT CHAR_LENGTH(product_name) AS length FROM products;</code></td>
+      </tr>
+      <tr>
+          <td><strong>UPPER()</strong></td>
+          <td>Converts all characters to uppercase.</td>
+          <td><code>SELECT UPPER(string) AS uppercase_string FROM table_name;</code></td>
+          <td><code>SELECT UPPER(first_name) AS uppercase_first_name FROM employees;</code></td>
+      </tr>
+      <tr>
+          <td><strong>LOWER()</strong></td>
+          <td>Converts all characters to lowercase.</td>
+          <td><code>SELECT LOWER(string) AS lowercase_string FROM table_name;</code></td>
+          <td><code>SELECT LOWER(last_name) AS lowercase_last_name FROM employees;</code></td>
+      </tr>
+      <tr>
+          <td><strong>TRIM()</strong></td>
+          <td>Removes specified prefixes, suffixes, or whitespace.</td>
+          <td><code>SELECT TRIM([LEADING / TRAILING / BOTH] characters FROM string) AS trimmed_string FROM table_name;</code></td>
+          <td><code>SELECT TRIM(TRAILING ' ' FROM full_name) AS trimmed_full_name FROM customers;</code></td>
+      </tr>
+      <tr>
+          <td><strong>LEFT()</strong></td>
+          <td>Returns characters from the left of a string.</td>
+          <td><code>SELECT LEFT(string, num_characters) AS left_string FROM table_name;</code></td>
+          <td><code>SELECT LEFT(product_name, 5) AS left_product_name FROM products;</code></td>
+      </tr>
+      <tr>
+          <td><strong>RIGHT()</strong></td>
+          <td>Returns characters from the right of a string.</td>
+          <td><code>SELECT RIGHT(string, num_characters) AS right_string FROM table_name;</code></td>
+          <td><code>SELECT RIGHT(order_number, 4) AS right_order_number FROM orders;</code></td>
+      </tr>
+      <tr>
+          <td><strong>REPLACE()</strong></td>
+          <td>Replaces occurrences of a substring within a string.</td>
+          <td><code>SELECT REPLACE(string, old_substring, new_substring) AS replaced_string FROM table_name;</code></td>
+          <td><code>SELECT REPLACE(description, 'old_string', 'new_string') AS replaced_description FROM product_descriptions;</code></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="-date-and-time-sql-commands">🕒 Date and Time SQL Commands</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>CURRENT_DATE()</strong></td>
+          <td>Returns the current date.</td>
+          <td><code>SELECT CURRENT_DATE() AS current_date;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>CURRENT_TIME()</strong></td>
+          <td>Returns the current time.</td>
+          <td><code>SELECT CURRENT_TIME() AS current_time;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>CURRENT_TIMESTAMP()</strong></td>
+          <td>Returns the current date and time.</td>
+          <td><code>SELECT CURRENT_TIMESTAMP() AS current_timestamp;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>DATE_PART()</strong></td>
+          <td>Extracts a specific part (year, month, day, etc.) from a date or time.</td>
+          <td><code>SELECT DATE_PART('part', date_expression) AS extracted_part;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>DATE_ADD() / DATE_SUB()</strong></td>
+          <td>Adds or subtracts a specified interval (days, months, years) to/from a date.</td>
+          <td><code>SELECT DATE_ADD(date_expression, INTERVAL value unit) AS new_date;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>EXTRACT()</strong></td>
+          <td>Extracts a specific component from a date or time.</td>
+          <td><code>SELECT EXTRACT(part FROM date_expression) AS extracted_part;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>TO_CHAR()</strong></td>
+          <td>Converts a date or time to a specific string format.</td>
+          <td><code>SELECT TO_CHAR(date_expression, 'format') AS formatted_date;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>TIMESTAMPDIFF()</strong></td>
+          <td>Calculates the difference between two timestamps in a specified unit.</td>
+          <td><code>SELECT TIMESTAMPDIFF(unit, timestamp1, timestamp2) AS difference;</code></td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td><strong>DATEDIFF()</strong></td>
+          <td>Returns the number of days between two dates.</td>
+          <td><code>SELECT DATEDIFF(date1, date2) AS difference_in_days;</code></td>
+          <td>—</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-conditional-expressions">⚙️ Conditional Expressions</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>CASE Statement</strong></td>
+          <td>Performs conditional logic within a query.</td>
+          <td><code>sql SELECT column1, column2, CASE WHEN condition1 THEN result1 WHEN condition2 THEN result2 ELSE default_result END AS alias FROM table_name; </code></td>
+          <td><code>sql SELECT order_id, total_amount, CASE WHEN total_amount &gt; 1000 THEN 'High Value Order' WHEN total_amount &gt; 500 THEN 'Medium Value Order' ELSE 'Low Value Order' END AS order_status FROM orders; </code></td>
+      </tr>
+      <tr>
+          <td><strong>IF() Function</strong></td>
+          <td>Evaluates a condition and returns a value based on the evaluation.</td>
+          <td><code>SELECT IF(condition, true_value, false_value) AS alias FROM table_name;</code></td>
+          <td><code>SELECT name, age, IF(age &gt; 50, 'Senior', 'Junior') AS employee_category FROM employees;</code></td>
+      </tr>
+      <tr>
+          <td><strong>COALESCE() Function</strong></td>
+          <td>Returns the first non-null value from a list.</td>
+          <td><code>SELECT COALESCE(value1, value2, ...) AS alias FROM table_name;</code></td>
+          <td><code>SELECT COALESCE(first_name, middle_name) AS preferred_name FROM employees;</code></td>
+      </tr>
+      <tr>
+          <td><strong>NULLIF() Function</strong></td>
+          <td>Returns NULL if two expressions are equal.</td>
+          <td><code>SELECT NULLIF(expression1, expression2) AS alias FROM table_name;</code></td>
+          <td><code>SELECT NULLIF(total_amount, discounted_amount) AS diff_amount FROM orders;</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-set-operations">🔁 Set Operations</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>UNION</strong></td>
+          <td>Combines result sets of two or more <code>SELECT</code> statements (removes duplicates).</td>
+          <td><code>sql SELECT column1, column2 FROM table1 UNION SELECT column1, column2 FROM table2; </code></td>
+          <td><code>sql SELECT first_name, last_name FROM customers UNION SELECT first_name, last_name FROM employees; </code></td>
+      </tr>
+      <tr>
+          <td><strong>INTERSECT</strong></td>
+          <td>Returns common rows that appear in both result sets.</td>
+          <td><code>sql SELECT column1, column2 FROM table1 INTERSECT SELECT column1, column2 FROM table2; </code></td>
+          <td><code>sql SELECT first_name, last_name FROM customers INTERSECT SELECT first_name, last_name FROM employees; </code></td>
+      </tr>
+      <tr>
+          <td><strong>EXCEPT</strong></td>
+          <td>Returns rows from the first query that are not present in the second.</td>
+          <td><code>sql SELECT column1, column2 FROM table1 EXCEPT SELECT column1, column2 FROM table2; </code></td>
+          <td><code>sql SELECT first_name, last_name FROM customers EXCEPT SELECT first_name, last_name FROM employees; </code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-transaction-control-commands-tcl">💾 Transaction Control Commands (TCL)</h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Command</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Syntax</strong></th>
+          <th><strong>Example</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>COMMIT</strong></td>
+          <td>Saves all the changes made during the current transaction and makes them permanent.</td>
+          <td><code>COMMIT;</code></td>
+          <td><code>sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES ('Alice', 30); UPDATE products SET price = 25.00 WHERE category = 'Electronics'; COMMIT; </code></td>
+      </tr>
+      <tr>
+          <td><strong>ROLLBACK</strong></td>
+          <td>Undoes all the changes made during the current transaction and discards them.</td>
+          <td><code>ROLLBACK;</code></td>
+          <td><code>sql BEGIN TRANSACTION; -- SQL statements and changes within the transaction INSERT INTO employees (name, age) VALUES ('Bob', 35); UPDATE products SET price = 30.00 WHERE category = 'Electronics'; ROLLBACK; </code></td>
+      </tr>
+      <tr>
+          <td><strong>SAVEPOINT</strong></td>
+          <td>Sets a point within a transaction to which you can later roll back.</td>
+          <td><code>SAVEPOINT savepoint_name;</code></td>
+          <td><code>sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES ('Carol', 28); SAVEPOINT before_update; UPDATE products SET price = 40.00 WHERE category = 'Electronics'; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO before_update; -- DELETE is rolled back, but UPDATE remains COMMIT; </code></td>
+      </tr>
+      <tr>
+          <td><strong>ROLLBACK TO SAVEPOINT</strong></td>
+          <td>Rolls back the transaction to a specific savepoint without affecting prior operations.</td>
+          <td><code>ROLLBACK TO SAVEPOINT savepoint_name;</code></td>
+          <td><code>sql BEGIN TRANSACTION; INSERT INTO employees (name, age) VALUES ('David', 42); SAVEPOINT before_update; UPDATE products SET price = 50.00 WHERE category = 'Electronics'; SAVEPOINT after_update; DELETE FROM customers WHERE age &gt; 60; ROLLBACK TO SAVEPOINT before_update; -- UPDATE is rolled back, but INSERT remains COMMIT; </code></td>
+      </tr>
+      <tr>
+          <td><strong>SET TRANSACTION</strong></td>
+          <td>Configures properties for the current transaction, such as isolation level or mode.</td>
+          <td><code>SET TRANSACTION [ISOLATION LEVEL { READ COMMITTED / SERIALIZABLE }];</code></td>
+          <td><code>sql BEGIN TRANSACTION; -- Set isolation level to READ COMMITTED SET TRANSACTION ISOLATION LEVEL READ COMMITTED; INSERT INTO employees (name, age) VALUES ('Emily', 35); UPDATE products SET price = 60.00 WHERE category = 'Electronics'; COMMIT; </code></td>
+      </tr>
+  </tbody>
+</table>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard/clipboard.min.js?1761501432" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1761501432" defer></script>
+    <script src="/js/theme.js?1761501432" defer></script>
+  </body>
+</html>

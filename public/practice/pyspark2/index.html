@@ -5,39 +5,49 @@
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
     <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
-    <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
-    <meta name="description" content="">
+    <meta name="description" content="Section 1: Basic Queries (1–10) Use these to select and filter data from a table.
+-- 1. Select all columns from a table SELECT * FROM employees; -- 2. Select specific columns SELECT first_name, last_name, hire_date FROM employees; -- 3. Count all rows SELECT COUNT(*) FROM employees; -- 4. Count non-null values in a column SELECT COUNT(salary) FROM employees; -- 5. Find unique values in a column SELECT DISTINCT department FROM employees; -- 6. Filter data using WHERE SELECT * FROM employees WHERE department = &#39;Sales&#39;; -- 7. Filter with multiple conditions using AND SELECT * FROM employees WHERE department = &#39;Sales&#39; AND salary &gt; 60000; -- 8. Filter with OR SELECT * FROM employees WHERE department = &#39;Sales&#39; OR department = &#39;Marketing&#39;; -- 9. Combine AND and OR with parentheses SELECT * FROM employees WHERE (department = &#39;Sales&#39; OR department = &#39;Marketing&#39;) AND salary &gt; 70000; -- 10. Exclude a value using NOT SELECT * FROM employees WHERE NOT department = &#39;IT&#39;;">
     <meta name="author" content="">
     <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Pyspark 1 :: Data Engineering Notes">
+    <meta name="twitter:description" content="Section 1: Basic Queries (1–10) Use these to select and filter data from a table.
+-- 1. Select all columns from a table SELECT * FROM employees; -- 2. Select specific columns SELECT first_name, last_name, hire_date FROM employees; -- 3. Count all rows SELECT COUNT(*) FROM employees; -- 4. Count non-null values in a column SELECT COUNT(salary) FROM employees; -- 5. Find unique values in a column SELECT DISTINCT department FROM employees; -- 6. Filter data using WHERE SELECT * FROM employees WHERE department = &#39;Sales&#39;; -- 7. Filter with multiple conditions using AND SELECT * FROM employees WHERE department = &#39;Sales&#39; AND salary &gt; 60000; -- 8. Filter with OR SELECT * FROM employees WHERE department = &#39;Sales&#39; OR department = &#39;Marketing&#39;; -- 9. Combine AND and OR with parentheses SELECT * FROM employees WHERE (department = &#39;Sales&#39; OR department = &#39;Marketing&#39;) AND salary &gt; 70000; -- 10. Exclude a value using NOT SELECT * FROM employees WHERE NOT department = &#39;IT&#39;;">
     <meta property="og:url" content="http://localhost:1313/practice/pyspark2/">
     <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Pyspark 1 :: Data Engineering Notes">
+    <meta property="og:description" content="Section 1: Basic Queries (1–10) Use these to select and filter data from a table.
+-- 1. Select all columns from a table SELECT * FROM employees; -- 2. Select specific columns SELECT first_name, last_name, hire_date FROM employees; -- 3. Count all rows SELECT COUNT(*) FROM employees; -- 4. Count non-null values in a column SELECT COUNT(salary) FROM employees; -- 5. Find unique values in a column SELECT DISTINCT department FROM employees; -- 6. Filter data using WHERE SELECT * FROM employees WHERE department = &#39;Sales&#39;; -- 7. Filter with multiple conditions using AND SELECT * FROM employees WHERE department = &#39;Sales&#39; AND salary &gt; 60000; -- 8. Filter with OR SELECT * FROM employees WHERE department = &#39;Sales&#39; OR department = &#39;Marketing&#39;; -- 9. Combine AND and OR with parentheses SELECT * FROM employees WHERE (department = &#39;Sales&#39; OR department = &#39;Marketing&#39;) AND salary &gt; 70000; -- 10. Exclude a value using NOT SELECT * FROM employees WHERE NOT department = &#39;IT&#39;;">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="Practice Sets">
-    <title></title>
-    <link href="/practice/pyspark2/index.md" rel="alternate" type="text/markdown" title="">
-    <link href="/practice/pyspark2/index.print.html" rel="alternate" type="text/html" title="">
-    <link href="/images/favicon.ico?1759986780" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759986780" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759986780" defer></script>
-    <script src="/js/search-lunr.js?1759986780" defer></script>
-    <script src="/js/search.js?1759986780" defer></script>
+    <meta itemprop="name" content="Pyspark 1 :: Data Engineering Notes">
+    <meta itemprop="description" content="Section 1: Basic Queries (1–10) Use these to select and filter data from a table.
+-- 1. Select all columns from a table SELECT * FROM employees; -- 2. Select specific columns SELECT first_name, last_name, hire_date FROM employees; -- 3. Count all rows SELECT COUNT(*) FROM employees; -- 4. Count non-null values in a column SELECT COUNT(salary) FROM employees; -- 5. Find unique values in a column SELECT DISTINCT department FROM employees; -- 6. Filter data using WHERE SELECT * FROM employees WHERE department = &#39;Sales&#39;; -- 7. Filter with multiple conditions using AND SELECT * FROM employees WHERE department = &#39;Sales&#39; AND salary &gt; 60000; -- 8. Filter with OR SELECT * FROM employees WHERE department = &#39;Sales&#39; OR department = &#39;Marketing&#39;; -- 9. Combine AND and OR with parentheses SELECT * FROM employees WHERE (department = &#39;Sales&#39; OR department = &#39;Marketing&#39;) AND salary &gt; 70000; -- 10. Exclude a value using NOT SELECT * FROM employees WHERE NOT department = &#39;IT&#39;;">
+    <meta itemprop="wordCount" content="163">
+    <title>Pyspark 1 :: Data Engineering Notes</title>
+    <link href="/practice/pyspark2/index.md" rel="alternate" type="text/markdown" title="Pyspark 1 :: Data Engineering Notes">
+    <link href="/practice/pyspark2/index.print.html" rel="alternate" type="text/html" title="Pyspark 1 :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1761403995" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1761403995" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1761403995" defer></script>
+    <script src="/js/search-lunr.js?1761403995" defer></script>
+    <script src="/js/search.js?1761403995" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759986780";
+      window.relearn.index_js_url="/searchindex.en.js?1761403995";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759986780" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759986780" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759986780" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759986780" defer></script>
+    <script src="/js/lunr/lunr.min.js?1761403995" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1761403995" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1761403995" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1761403995" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759986780" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759986780" rel="stylesheet">
-    <link href="/css/theme.css?1759986780" rel="stylesheet">
-    <link href="/css/format-html.css?1759986780" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761403995" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761403995" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1761403995" rel="stylesheet">
+    <link href="/css/theme.css?1761403995" rel="stylesheet">
+    <link href="/css/format-html.css?1761403995" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -110,12 +120,17 @@
             </div>
             <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
               <div class="topbar-content">
-                <div class="topbar-content-wrapper"> 
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#section-1-basic-queries-110">Section 1: Basic Queries (1–10)</a></li>
+  </ul>
+</nav>
                 </div>
               </div>
             </div>
           </div>
-          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/practice/"><span itemprop="name">Practice Sets</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/practice/"><span itemprop="name">Practice Sets</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Pyspark 1</span><meta itemprop="position" content="3"></li>
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/Practice/Pyspark2.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
@@ -146,8 +161,40 @@
   <header class="headline">
   </header>
 
-<h1 id=""></h1>
+<h1 id="pyspark-1">Pyspark 1</h1>
 
+<h2 id="section-1-basic-queries-110">Section 1: Basic Queries (1–10)</h2>
+<p>Use these to select and filter data from a table.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 1. Select all columns from a table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 2. Select specific columns
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 3. Count all rows
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 4. Count non-null values in a column
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 5. Find unique values in a column
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 6. Filter data using WHERE
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Sales&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 7. Filter with multiple conditions using AND
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Sales&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">60000</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 8. Filter with OR
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Sales&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Marketing&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 9. Combine AND and OR with parentheses
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Sales&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Marketing&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">70000</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 10. Exclude a value using NOT
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;IT&#39;</span><span class="p">;</span></span></span></code></pre></div>
 
   <footer class="footline">
   </footer>
@@ -274,9 +321,11 @@
             <li class="parent " data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a" checked><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
             <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
             <li class="" data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li>
-            <li class="active hidden " data-nav-id="/practice/pyspark2/"><a class="padding" href="/practice/pyspark2/"><i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="active " data-nav-id="/practice/pyspark2/"><a class="padding" href="/practice/pyspark2/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
             <li class="" data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b"><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
-            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/interviewprep/pipeline1/"><a class="padding" href="/interviewprep/pipeline1/">Data Pipeline<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/interviewprep/sql1/"><a class="padding" href="/interviewprep/sql1/">SQL 100 Questions<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -320,8 +369,8 @@
 <div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
       </div>
     </aside>
-    <script src="/js/clipboard/clipboard.min.js?1759986780" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759986780" defer></script>
-    <script src="/js/theme.js?1759986780" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1761403995" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1761403995" defer></script>
+    <script src="/js/theme.js?1761403995" defer></script>
   </body>
 </html>

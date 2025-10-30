@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Databricks Medallion Playbook (ADLS CSV → Delta) End‑to‑end guide for incremental loading, data validations/quality, and SCD Type 2 using Databricks &#43; ADLS with Medallion layers: landing → raw (bronze) → rawint (silver‑staging) → curated (silver) → enriched (gold). Uses Delta Lake everywhere.
+0) Principles &amp; Conventions General
+Use Delta for all managed tables; avoid plain CSV/Parquet beyond landing. Prefer Auto Loader for incremental files; fall back to COPY INTO for one‑off backfills. Treat raw as immutable; never update, only append/reprocess. Store ingestion metadata on every row: ingest_id, ingest_ts, source_file, source_mod_ts, batch_id. Naming">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Data Pipeline :: Data Engineering Notes">
+    <meta name="twitter:description" content="Databricks Medallion Playbook (ADLS CSV → Delta) End‑to‑end guide for incremental loading, data validations/quality, and SCD Type 2 using Databricks &#43; ADLS with Medallion layers: landing → raw (bronze) → rawint (silver‑staging) → curated (silver) → enriched (gold). Uses Delta Lake everywhere.
+0) Principles &amp; Conventions General
+Use Delta for all managed tables; avoid plain CSV/Parquet beyond landing. Prefer Auto Loader for incremental files; fall back to COPY INTO for one‑off backfills. Treat raw as immutable; never update, only append/reprocess. Store ingestion metadata on every row: ingest_id, ingest_ts, source_file, source_mod_ts, batch_id. Naming">
+    <meta property="og:url" content="http://localhost:1313/interviewprep/pipeline1/">
+    <meta property="og:site_name" content="Data Engineering Notes">
+    <meta property="og:title" content="Data Pipeline :: Data Engineering Notes">
+    <meta property="og:description" content="Databricks Medallion Playbook (ADLS CSV → Delta) End‑to‑end guide for incremental loading, data validations/quality, and SCD Type 2 using Databricks &#43; ADLS with Medallion layers: landing → raw (bronze) → rawint (silver‑staging) → curated (silver) → enriched (gold). Uses Delta Lake everywhere.
+0) Principles &amp; Conventions General
+Use Delta for all managed tables; avoid plain CSV/Parquet beyond landing. Prefer Auto Loader for incremental files; fall back to COPY INTO for one‑off backfills. Treat raw as immutable; never update, only append/reprocess. Store ingestion metadata on every row: ingest_id, ingest_ts, source_file, source_mod_ts, batch_id. Naming">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Interview Prep">
+    <meta itemprop="name" content="Data Pipeline :: Data Engineering Notes">
+    <meta itemprop="description" content="Databricks Medallion Playbook (ADLS CSV → Delta) End‑to‑end guide for incremental loading, data validations/quality, and SCD Type 2 using Databricks &#43; ADLS with Medallion layers: landing → raw (bronze) → rawint (silver‑staging) → curated (silver) → enriched (gold). Uses Delta Lake everywhere.
+0) Principles &amp; Conventions General
+Use Delta for all managed tables; avoid plain CSV/Parquet beyond landing. Prefer Auto Loader for incremental files; fall back to COPY INTO for one‑off backfills. Treat raw as immutable; never update, only append/reprocess. Store ingestion metadata on every row: ingest_id, ingest_ts, source_file, source_mod_ts, batch_id. Naming">
+    <meta itemprop="wordCount" content="1359">
+    <title>Data Pipeline :: Data Engineering Notes</title>
+    <link href="/interviewprep/pipeline1/index.md" rel="alternate" type="text/markdown" title="Data Pipeline :: Data Engineering Notes">
+    <link href="/interviewprep/pipeline1/index.print.html" rel="alternate" type="text/html" title="Data Pipeline :: Data Engineering Notes">
+    <link href="/images/favicon.ico?1761501432" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1761501432" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1761501432" defer></script>
+    <script src="/js/search-lunr.js?1761501432" defer></script>
+    <script src="/js/search.js?1761501432" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1761501432";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1761501432" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1761501432" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1761501432" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1761501432" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761501432" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761501432" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1761501432" rel="stylesheet">
+    <link href="/css/theme.css?1761501432" rel="stylesheet">
+    <link href="/css/format-html.css?1761501432" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/interviewprep\/pipeline1\/';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto', 'zen-light', 'zen-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script><style>
+:root {
+    --MENU-WIDTH-S: 14.375rem;
+    --MENU-WIDTH-M: 14.375rem;
+    --MENU-WIDTH-L: 18.75rem;
+    --MAIN-WIDTH-MAX: 1000rem;
+}
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/interviewprep/pipeline1/">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#0-principles--conventions">0) Principles &amp; Conventions</a></li>
+    <li><a href="#1-adls-folder-taxonomy-sources-as-csv">1) ADLS Folder Taxonomy (Sources as CSV)</a></li>
+    <li><a href="#2-medallion-table-layout-in-unity-catalog">2) Medallion Table Layout in Unity Catalog</a></li>
+    <li><a href="#3-incremental-ingestion-landing--rawbronze">3) Incremental Ingestion (Landing → Raw/Bronze)</a></li>
+    <li><a href="#4-data-quality--validations-raw--rawint">4) Data Quality &amp; Validations (Raw → RawInt)</a></li>
+    <li><a href="#5-deduplication--keys-rawint--curatedsilver">5) Deduplication &amp; Keys (RawInt → Curated/Silver)</a></li>
+    <li><a href="#6-scd-type-2-in-curated-slowly-changing-dimensions">6) SCD Type 2 in Curated (Slowly Changing Dimensions)</a></li>
+    <li><a href="#7-enrichedgold-layer">7) Enriched/Gold Layer</a></li>
+    <li><a href="#8-orchestration--scheduling">8) Orchestration &amp; Scheduling</a></li>
+    <li><a href="#9-notebooks-youll-need-by-layer">9) Notebooks You’ll Need (by layer)</a></li>
+    <li><a href="#10-parameters-shared-fragment">10) Parameters (shared fragment)</a></li>
+    <li><a href="#11-copying-from-adls--delta-summary">11) Copying from ADLS → Delta (summary)</a></li>
+    <li><a href="#12-performance--cost-best-practices">12) Performance &amp; Cost Best Practices</a></li>
+    <li><a href="#13-observability--lineage">13) Observability &amp; Lineage</a></li>
+    <li><a href="#14-what-you-might-have-missed">14) What You Might Have Missed</a></li>
+    <li><a href="#15-minimal-endtoend-flow-checklist">15) Minimal End‑to‑End Flow (Checklist)</a></li>
+    <li><a href="#16-quick-scd2-example-complete">16) Quick SCD2 Example (Complete)</a></li>
+    <li><a href="#17-housekeeping-snippets">17) Housekeeping Snippets</a>
+      <ul>
+        <li><a href="#final-notes">Final Notes</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class="a11y-only"><a itemprop="item" href="/"><span itemprop="name">Data Engineering Notes</span></a><meta itemprop="position" content="1">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/interviewprep/"><span itemprop="name">Interview Prep</span></a><meta itemprop="position" content="2">&nbsp;/&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Data Pipeline</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-edit" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="https://github.com/jampalabharath/relearn/tree/main/content/InterviewPrep/Pipeline1.md" rel="external" target="_blank" title="Edit (CTRL+ALT+w)"><i class="fa-fw fas fa-pen"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-markdown" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/pipeline1/index.md" title="Show Markdown"><i class="fa-fw fab fa-markdown"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/pipeline1/index.print.html" title="Print whole chapter (CTRL+ALT+p)"><i class="fa-fw fas fa-print"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/adf1/" title="ADF 1 (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/interviewprep/sql1/" title="SQL Theory (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable interviewprep" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="data-pipeline">Data Pipeline</h1>
+
+<h1 id="databricks-medallion-playbook-adls-csv--delta">Databricks Medallion Playbook (ADLS CSV → Delta)</h1>
+<blockquote>
+<p>End‑to‑end guide for <strong>incremental loading</strong>, <strong>data validations/quality</strong>, and <strong>SCD Type 2</strong> using <strong>Databricks</strong> + <strong>ADLS</strong> with <strong>Medallion</strong> layers: <em>landing → raw (bronze) → rawint (silver‑staging) → curated (silver) → enriched (gold).</em> Uses <strong>Delta Lake</strong> everywhere.</p></blockquote>
+<hr>
+<h2 id="0-principles--conventions">0) Principles &amp; Conventions</h2>
+<p><strong>General</strong></p>
+<ul>
+<li>Use <strong>Delta</strong> for all managed tables; avoid plain CSV/Parquet beyond landing.</li>
+<li>Prefer <strong>Auto Loader</strong> for incremental files; fall back to <code>COPY INTO</code> for one‑off backfills.</li>
+<li>Treat <em>raw</em> as immutable; never update, only append/reprocess.</li>
+<li>Store <strong>ingestion metadata</strong> on every row: <code>ingest_id</code>, <code>ingest_ts</code>, <code>source_file</code>, <code>source_mod_ts</code>, <code>batch_id</code>.</li>
+</ul>
+<p><strong>Naming</strong></p>
+<ul>
+<li>Workspaces &amp; Catalogs: <code>uc_catalog = &lt;org&gt;_prod|stg</code>, <code>uc_schema = &lt;domain&gt;_&lt;layer&gt;</code> (e.g., <code>sales_raw</code>, <code>sales_curated</code>).</li>
+<li>Tables: <code>&lt;entity&gt;_&lt;granularity&gt;</code> (snake_case). Examples: <code>orders_header</code>, <code>orders_line</code>.</li>
+<li>Columns: <code>snake_case</code> (e.g., <code>order_id</code>, <code>valid_from</code>).</li>
+<li>Notebook files: <code>&lt;layer&gt;-&lt;domain&gt;-&lt;entity&gt;-&lt;purpose&gt;.nb</code> (kebab-case). Example: <code>raw-sales-orders-ingest.nb</code>.</li>
+<li>Jobs: <code>&lt;layer&gt;.&lt;domain&gt;.&lt;entity&gt;.&lt;schedule&gt;</code> (e.g., <code>raw.sales.orders.hourly</code>).</li>
+<li>Checkpoint &amp; schema locations: <code>/checkpoints/&lt;domain&gt;/&lt;entity&gt;/&lt;layer&gt;/</code> and <code>/schemas/&lt;domain&gt;/&lt;entity&gt;/</code>.</li>
+</ul>
+<p><strong>Source control &amp; CI/CD</strong></p>
+<ul>
+<li>Store notebooks as <strong>Databricks Repos</strong> (files) with code‑review; use <strong>bundle</strong>/IaC to deploy.</li>
+<li>Parameterize via widgets or job parameters; keep <strong>secrets</strong> in Key Vault / Databricks secrets.</li>
+</ul>
+<p><strong>Security &amp; Governance</strong></p>
+<ul>
+<li>Use <strong>Unity Catalog</strong> (UC) for data access, lineage, tags, and ownership.</li>
+<li>Assign owners per schema/table; define data classifications via UC tags (e.g., <code>pii=true</code>).</li>
+</ul>
+<hr>
+<h2 id="1-adls-folder-taxonomy-sources-as-csv">1) ADLS Folder Taxonomy (Sources as CSV)</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>/adls/&lt;container&gt;/landing/
+  └── &lt;domain&gt;/
+       └── &lt;source_system&gt;/
+            └── &lt;entity&gt;/
+                 ├── year=YYYY/ month=MM/ day=DD/  # preferred partitioned landing
+                 │    └── &lt;entity&gt;_&lt;YYYYMMDD_HHMMSS&gt;_&lt;batchid&gt;.csv
+                 └── quarantine/  # failed/invalid files</code></pre></div>
+<p>Notes</p>
+<ul>
+<li>Keep <strong>one entity per folder</strong>; include date partitions or place date/batch in filename.</li>
+<li>Preserve file immutability; never delete sources, only move to <code>quarantine/</code> when necessary.</li>
+</ul>
+<hr>
+<h2 id="2-medallion-table-layout-in-unity-catalog">2) Medallion Table Layout in Unity Catalog</h2>
+<ul>
+<li>
+<p><strong>Catalog</strong>: <code>&lt;org&gt;_prod</code> (and <code>&lt;org&gt;_stg</code> for non‑prod).</p>
+</li>
+<li>
+<p><strong>Schemas (per domain &amp; layer)</strong>:</p>
+<ul>
+<li><code>sales_raw</code> (bronze), <code>sales_rawint</code> (silver‑staging), <code>sales_curated</code> (silver), <code>sales_enriched</code> (gold).</li>
+</ul>
+</li>
+<li>
+<p><strong>Managed Storage</strong>: Delta tables stored in UC‑managed locations; external volumes for checkpoints/schemas.</p>
+</li>
+</ul>
+<hr>
+<h2 id="3-incremental-ingestion-landing--rawbronze">3) Incremental Ingestion (Landing → Raw/Bronze)</h2>
+<p><strong>Preferred: Auto Loader (cloudFiles)</strong></p>
+<ul>
+<li>Handles <strong>new files only</strong>, scalable file discovery, schema inference &amp; evolution.</li>
+</ul>
+<p><strong>PySpark pattern</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">input_file_name</span><span class="p">,</span> <span class="n">current_timestamp</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">source_path</span> <span class="o">=</span> <span class="s2">&#34;/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/landing/sales/erp/orders/&#34;</span>  <span class="c1"># or abfss://</span>
+</span></span><span class="line"><span class="cl"><span class="n">chkpt_path</span>   <span class="o">=</span> <span class="s2">&#34;/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/checkpoints/sales/orders/raw/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema_loc</span>   <span class="o">=</span> <span class="s2">&#34;/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/schemas/sales/orders/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">raw_tbl</span>      <span class="o">=</span> <span class="s2">&#34;&lt;catalog&gt;.sales_raw.orders&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="n">df</span> <span class="o">:=</span> <span class="p">(</span><span class="n">spark</span><span class="o">.</span><span class="n">readStream</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34;cloudFiles&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&#34;cloudFiles.format&#34;</span><span class="p">,</span> <span class="s2">&#34;csv&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&#34;header&#34;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&#34;inferSchema&#34;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&#34;cloudFiles.schemaLocation&#34;</span><span class="p">,</span> <span class="n">schema_loc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">source_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;source_file&#34;</span><span class="p">,</span> <span class="n">input_file_name</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;ingest_ts&#34;</span><span class="p">,</span> <span class="n">current_timestamp</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">       <span class="p">))</span> \
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">writeStream</span> \
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34;delta&#34;</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&#34;checkpointLocation&#34;</span><span class="p">,</span> <span class="n">chkpt_path</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="n">availableNow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">toTable</span><span class="p">(</span><span class="n">raw_tbl</span><span class="p">)</span></span></span></code></pre></div>
+<p><strong>Alternative: COPY INTO (batch/backfill)</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">COPY</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_raw</span><span class="p">.</span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="s1">&#39;abfss://&lt;container&gt;@&lt;account&gt;.dfs.core.windows.net/landing/sales/erp/orders/&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FILEFORMAT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FORMAT_OPTIONS</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;header&#39;</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">COPY_OPTIONS</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;mergeSchema&#39;</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">);</span></span></span></code></pre></div>
+<p><strong>Raw Table Schema</strong> (append‑only)</p>
+<ul>
+<li>Original columns as in source.</li>
+<li>
+<ul>
+<li><code>ingest_ts TIMESTAMP</code>, <code>source_file STRING</code>, <code>batch_id STRING</code> (optional), <code>ingest_id STRING</code> (uuid).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-data-quality--validations-raw--rawint">4) Data Quality &amp; Validations (Raw → RawInt)</h2>
+<p><strong>Approach</strong></p>
+<ul>
+<li>Apply <strong>schema enforcement</strong>, <strong>type casting</strong>, <strong>conformance</strong> (trim, null handling, defaulting), and <strong>row‑level rules</strong>.</li>
+<li>Route failed rows to <strong>quarantine table</strong> with error reasons.</li>
+</ul>
+<p><strong>Delta Expectations (simple built‑in checks)</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_rawint</span><span class="p">.</span><span class="n">orders_expectations</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">rule_name</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">rule_expr</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">violated_count</span><span class="w"> </span><span class="nb">BIGINT</span><span class="p">,</span><span class="w"> </span><span class="n">batch_ts</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span></span></span></code></pre></div>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">when</span><span class="p">,</span> <span class="n">current_timestamp</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">raw</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&#34;&lt;catalog&gt;.sales_raw.orders&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">validated</span> <span class="o">=</span> <span class="p">(</span><span class="n">raw</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;order_id&#34;</span><span class="p">,</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;order_id&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;string&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;order_date&#34;</span><span class="p">,</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;order_date&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;date&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;amount&#34;</span><span class="p">,</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;amount&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&#34;decimal(18,2)&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Rule examples</span>
+</span></span><span class="line"><span class="cl"><span class="n">rules</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;not_null_order_id&#34;</span><span class="p">:</span> <span class="s2">&#34;order_id IS NOT NULL&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;valid_amount&#34;</span><span class="p">:</span> <span class="s2">&#34;amount &gt;= 0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;date_present&#34;</span><span class="p">:</span> <span class="s2">&#34;order_date IS NOT NULL&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ok_df</span>    <span class="o">=</span> <span class="n">validated</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&#34; AND &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl"><span class="n">rejects</span>  <span class="o">=</span> <span class="n">validated</span><span class="o">.</span><span class="n">exceptAll</span><span class="p">(</span><span class="n">ok_df</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;error_reason&#34;</span><span class="p">,</span> <span class="n">when</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;order_id&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">isNull</span><span class="p">(),</span> <span class="s2">&#34;order_id_null&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                           <span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;amount&#34;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&#34;amount_negative&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                           <span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="s2">&#34;generic_failure&#34;</span><span class="p">))</span> \
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&#34;batch_ts&#34;</span><span class="p">,</span> <span class="n">current_timestamp</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ok_df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&#34;append&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">saveAsTable</span><span class="p">(</span><span class="s2">&#34;&lt;catalog&gt;.sales_rawint.orders&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">rejects</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&#34;append&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">saveAsTable</span><span class="p">(</span><span class="s2">&#34;&lt;catalog&gt;.sales_rawint.orders_rejects&#34;</span><span class="p">)</span></span></span></code></pre></div>
+<p><strong>Best practices</strong></p>
+<ul>
+<li>Keep <strong>idempotency</strong>: filter by <code>ingest_ts</code>/<code>batch_id</code> when reprocessing.</li>
+<li>Log metrics per batch to an <strong>observability</strong> table and dashboard in <strong>Lakeview/Grafana</strong>.</li>
+</ul>
+<hr>
+<h2 id="5-deduplication--keys-rawint--curatedsilver">5) Deduplication &amp; Keys (RawInt → Curated/Silver)</h2>
+<ul>
+<li>Define <strong>business key</strong> (e.g., <code>order_id</code> + <code>source_system</code>).</li>
+<li>Deduplicate by key &amp; latest <code>source_mod_ts</code>/<code>ingest_ts</code>.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">orders_dedup</span><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">EXCEPT</span><span class="w"> </span><span class="p">(</span><span class="n">rn</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">order_id</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">source_mod_ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">ingest_ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="n">rn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_rawint</span><span class="p">.</span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">rn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span></span></span></code></pre></div>
+<hr>
+<h2 id="6-scd-type-2-in-curated-slowly-changing-dimensions">6) SCD Type 2 in Curated (Slowly Changing Dimensions)</h2>
+<p><strong>Target layout</strong></p>
+<ul>
+<li>Columns: business keys + attributes + <code>valid_from TIMESTAMP</code>, <code>valid_to TIMESTAMP</code>, <code>is_current BOOLEAN</code>, optional <code>record_hash</code>.</li>
+</ul>
+<p><strong>Upsert logic (MERGE)</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Staging changes (latest per key)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="n">TEMP</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">v_stg</span><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">customer_changes_latest</span><span class="p">;</span><span class="w"> </span><span class="c1">-- build from rawint
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">MERGE</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tgt</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">USING</span><span class="w"> </span><span class="n">v_stg</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">src</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">is_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHEN</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">hash</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">hash</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c1">-- close old record
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">  </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">valid_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">(),</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">is_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHEN</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c1">-- insert new current version
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">  </span><span class="k">INSERT</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">valid_from</span><span class="p">,</span><span class="w"> </span><span class="n">valid_to</span><span class="p">,</span><span class="w"> </span><span class="n">is_current</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">(),</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="p">(</span><span class="s1">&#39;9999-12-31&#39;</span><span class="p">),</span><span class="w"> </span><span class="k">true</span><span class="p">);</span></span></span></code></pre></div>
+<p><strong>Hash diff</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">sha2</span><span class="p">(</span><span class="n">concat_ws</span><span class="p">(</span><span class="s1">&#39;||&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)),</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hash</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_rawint</span><span class="p">.</span><span class="n">customer_clean</span><span class="p">;</span></span></span></code></pre></div>
+<p><strong>Querying current/historical</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Current snapshot
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- As-of time travel
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">valid_from</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">valid_to</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ts</span><span class="p">;</span></span></span></code></pre></div>
+<hr>
+<h2 id="7-enrichedgold-layer">7) Enriched/Gold Layer</h2>
+<ul>
+<li>Build <strong>fact</strong> tables (e.g., <code>fact_orders</code>) and <strong>semantic marts</strong> (aggregates, BI‑ready models).</li>
+<li>Maintain <strong>surrogate keys</strong> via identity columns or mapping tables.</li>
+<li>Enforce <strong>Z‑ORDER</strong> on common predicates and <strong>OPTIMIZE</strong> periodically.</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">OPTIMIZE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="n">ZORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">VACUUM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="n">RETAIN</span><span class="w"> </span><span class="mi">168</span><span class="w"> </span><span class="n">HOURS</span><span class="p">;</span><span class="w"> </span><span class="c1">-- 7 days</span></span></span></code></pre></div>
+<hr>
+<h2 id="8-orchestration--scheduling">8) Orchestration &amp; Scheduling</h2>
+<ul>
+<li><strong>Databricks Jobs</strong> per domain/entity with dependency graph: <code>raw → rawint → curated → enriched</code>.</li>
+<li>Triggers: time‑based (cron) or event‑based (file arrival) using Auto Loader.</li>
+<li>Pass parameters: <code>domain</code>, <code>entity</code>, <code>since_ts</code> for incremental windows.</li>
+<li>Implement <strong>retry with backoff</strong>, <strong>timeouts</strong>, and <strong>alerts</strong> to email/Slack.</li>
+</ul>
+<hr>
+<h2 id="9-notebooks-youll-need-by-layer">9) Notebooks You’ll Need (by layer)</h2>
+<p><strong>Landing/Raw</strong></p>
+<ol>
+<li><code>raw-&lt;domain&gt;-&lt;entity&gt;-ingest.nb</code> – Auto Loader stream job.</li>
+<li><code>raw-&lt;domain&gt;-&lt;entity&gt;-backfill.nb</code> – <code>COPY INTO</code> for historical loads.</li>
+</ol>
+<p><strong>RawInt (Validation/Conformance)</strong>
+3. <code>rawint-&lt;domain&gt;-&lt;entity&gt;-dq.nb</code> – type casting, rules, rejects, metrics.</p>
+<p><strong>Curated (Modeling/SCD2)</strong>
+4. <code>curated-&lt;domain&gt;-&lt;entity&gt;-dedup.nb</code> – dedup/windowing.
+5. <code>curated-&lt;domain&gt;-&lt;entity&gt;-scd2.nb</code> – hash diff + MERGE.</p>
+<p><strong>Enriched</strong>
+6. <code>enriched-&lt;domain&gt;-&lt;entity&gt;-facts.nb</code> – facts/aggregations.
+7. <code>enriched-&lt;domain&gt;-&lt;entity&gt;-optimize.nb</code> – OPTIMIZE/VACUUM.</p>
+<p><strong>Ops/Utils</strong>
+8. <code>utils-params.nb</code> – common params &amp; widgets.
+9. <code>utils-common-fns.nb</code> – reusable functions (ingest metadata, logging, hashing).
+10. <code>utils-observability.nb</code> – metrics tables &amp; dashboards.</p>
+<hr>
+<h2 id="10-parameters-shared-fragment">10) Parameters (shared fragment)</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># utils-params.nb</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">uuid</span><span class="o">,</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dbutils</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&#34;domain&#34;</span><span class="p">,</span> <span class="s2">&#34;sales&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dbutils</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&#34;entity&#34;</span><span class="p">,</span> <span class="s2">&#34;orders&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dbutils</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&#34;source_path&#34;</span><span class="p">,</span> <span class="s2">&#34;/Volumes/.../landing/$</span><span class="si">{domain}</span><span class="s2">/$</span><span class="si">{entity}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dbutils</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&#34;catalog&#34;</span><span class="p">,</span> <span class="s2">&#34;&lt;org&gt;_prod&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">cfg</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">dbutils</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&#34;domain&#34;</span><span class="p">,</span><span class="s2">&#34;entity&#34;</span><span class="p">,</span><span class="s2">&#34;source_path&#34;</span><span class="p">,</span><span class="s2">&#34;catalog&#34;</span><span class="p">]}</span>
+</span></span><span class="line"><span class="cl"><span class="n">cfg</span><span class="p">[</span><span class="s2">&#34;ingest_id&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span></span></span></code></pre></div>
+<hr>
+<h2 id="11-copying-from-adls--delta-summary">11) Copying from ADLS → Delta (summary)</h2>
+<ul>
+<li><strong>Auto Loader</strong> streaming job (preferred) from <code>abfss://</code> paths with checkpoints &amp; schema evolution.</li>
+<li><strong>COPY INTO</strong> for bulk loads/backfills.</li>
+<li>Always write to <strong>Delta tables</strong> in UC; never keep CSV beyond landing.</li>
+</ul>
+<hr>
+<h2 id="12-performance--cost-best-practices">12) Performance &amp; Cost Best Practices</h2>
+<ul>
+<li><strong>Partition</strong> large tables by low‑cardinality/time columns (e.g., <code>load_date</code>); avoid over‑partitioning.</li>
+<li>Periodic <strong>OPTIMIZE</strong> + <strong>Z‑ORDER</strong> on query keys.</li>
+<li>Use <strong>availableNow</strong> triggers for micro‑batch bulk catch‑up.</li>
+<li>Use <strong>Auto Compaction</strong> and <strong>Optimize Write</strong> (Workspace settings / table properties).</li>
+</ul>
+<hr>
+<h2 id="13-observability--lineage">13) Observability &amp; Lineage</h2>
+<ul>
+<li>Create <strong>metrics tables</strong> (rows in/out, rejects, rule violations, late files).</li>
+<li>Build <strong>Lakeview</strong> dashboards.</li>
+<li>Use <strong>Unity Catalog lineage</strong> for end‑to‑end traceability.</li>
+</ul>
+<hr>
+<h2 id="14-what-you-might-have-missed">14) What You Might Have Missed</h2>
+<ul>
+<li><strong>Quarantine flows</strong> with reason codes.</li>
+<li><strong>PII handling</strong>: column‑level masking (views) + UC privileges; store hashes/salts if needed.</li>
+<li><strong>Idempotent reprocessing</strong> by <code>batch_id</code> or <code>ingest_ts</code> windows.</li>
+<li><strong>Schema evolution</strong> policy: allow additive only in raw/rawint; controlled evolution in curated.</li>
+<li><strong>Backfill strategy</strong> separate from incremental.</li>
+<li><strong>Vacuum retention</strong> policy aligned to recovery/RPO.</li>
+<li><strong>Dev/Stg/Prod</strong> isolation via separate catalogs &amp; volumes.</li>
+</ul>
+<hr>
+<h2 id="15-minimal-endtoend-flow-checklist">15) Minimal End‑to‑End Flow (Checklist)</h2>
+<ol>
+<li><strong>Create UC</strong> catalog/schemas and ADLS volumes; set grants.</li>
+<li><strong>Define ADLS landing taxonomy</strong> per domain/source/entity.</li>
+<li><strong>Implement Auto Loader</strong> (landing→raw) with checkpoints &amp; schema locations.</li>
+<li><strong>Add validations</strong> (raw→rawint) + rejects/quarantine + metrics.</li>
+<li><strong>Deduplicate &amp; standardize</strong> (rawint→curated).</li>
+<li><strong>Implement SCD2</strong> dimensions and load <strong>facts</strong> (curated→enriched).</li>
+<li><strong>Optimize</strong> tables and set maintenance (OPTIMIZE, VACUUM).</li>
+<li><strong>Schedule jobs</strong>, retries, and alerts.</li>
+<li><strong>Monitor</strong> with metrics dashboards &amp; UC lineage.</li>
+</ol>
+<hr>
+<h2 id="16-quick-scd2-example-complete">16) Quick SCD2 Example (Complete)</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 1) Clean latest changes per key from rawint
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="n">TEMP</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">v_latest</span><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">EXCEPT</span><span class="w"> </span><span class="p">(</span><span class="n">rn</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">customer_id</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">source_mod_ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">ingest_ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="n">rn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_rawint</span><span class="p">.</span><span class="n">customer_clean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">rn</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 2) Stage with hash diffs
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="n">TEMP</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">v_stage</span><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">sha2</span><span class="p">(</span><span class="n">concat_ws</span><span class="p">(</span><span class="s1">&#39;||&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">status</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)),</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hash</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">v_latest</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 3) Merge into SCD2 dim
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">MERGE</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="n">tgt</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">USING</span><span class="w"> </span><span class="n">v_stage</span><span class="w"> </span><span class="n">src</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">is_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHEN</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">hash</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">hash</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">valid_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">(),</span><span class="w"> </span><span class="n">tgt</span><span class="p">.</span><span class="n">is_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHEN</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">INSERT</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">valid_from</span><span class="p">,</span><span class="w"> </span><span class="n">valid_to</span><span class="p">,</span><span class="w"> </span><span class="n">is_current</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">.</span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">(),</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="p">(</span><span class="s1">&#39;9999-12-31&#39;</span><span class="p">),</span><span class="w"> </span><span class="k">true</span><span class="p">);</span></span></span></code></pre></div>
+<hr>
+<h2 id="17-housekeeping-snippets">17) Housekeeping Snippets</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Optimize &amp; clean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OPTIMIZE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="n">ZORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">VACUUM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="n">RETAIN</span><span class="w"> </span><span class="mi">168</span><span class="w"> </span><span class="n">HOURS</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Table properties (enable auto tuning)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">catalog</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sales_curated</span><span class="p">.</span><span class="n">dim_customer</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">TBLPROPERTIES</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s1">&#39;delta.autoOptimize.optimizeWrite&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s1">&#39;delta.autoOptimize.autoCompact&#39;</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span></span></span></code></pre></div>
+<hr>
+<h3 id="final-notes">Final Notes</h3>
+<ul>
+<li>The correct term is <strong>Medallion</strong> (not <em>medtallion</em>). The <code>rawint</code> layer is optional; it’s useful to isolate validation from business modeling.</li>
+<li>Consider <strong>DLT</strong> for declarative pipelines (expectations + lineage) if you want fewer custom notebooks; patterns above map 1:1 to DLT.</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+<head>
+  <style>
+    #R-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: auto;
+    }
+
+    #R-logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    #R-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    #R-logo .logo-title {
+  margin-left: 0.5rem;   
+  font-size: 1.2rem;     
+  line-height: 1;        
+  display: flex;
+  align-items: center;   
+}
+  </style>
+</head>
+
+
+
+<a id="R-logo" class="R-default" href="/">
+  <img src="/images/logo.png" alt="brand logo">
+  <span class="logo-title">Relearn</span>
+</a>
+        </div>
+        <search><form action="/search/" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="" data-nav-id="/sql/"><input type="checkbox" id="R-section-6b91b02647756f9b5e29b003bccc4db0" aria-controls="R-subsections-6b91b02647756f9b5e29b003bccc4db0"><label for="R-section-6b91b02647756f9b5e29b003bccc4db0"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu SQL</span></label><a class="padding" href="/sql/">SQL<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-6b91b02647756f9b5e29b003bccc4db0" class="collapsible-menu">
+            <li class="" data-nav-id="/sql/select/"><a class="padding" href="/sql/select/">SELECT Query<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ddl/"><a class="padding" href="/sql/ddl/">DDL<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/dml/"><a class="padding" href="/sql/dml/">DML<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/filter/"><a class="padding" href="/sql/filter/">Filtering Data<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/joins/"><a class="padding" href="/sql/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/set-operations/"><a class="padding" href="/sql/set-operations/">Set Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/string-functions/"><a class="padding" href="/sql/string-functions/">String Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/number-functions/"><a class="padding" href="/sql/number-functions/">Number Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time1/"><a class="padding" href="/sql/date-time1/">Date &amp; Time Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/date-time2/"><a class="padding" href="/sql/date-time2/">Date &amp; Time Formats<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/null-functions/"><a class="padding" href="/sql/null-functions/">NULL Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/case-statement/"><a class="padding" href="/sql/case-statement/">CASE Statement<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/aggregate-functions/"><a class="padding" href="/sql/aggregate-functions/">Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-functions/"><a class="padding" href="/sql/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window_aggregations/"><a class="padding" href="/sql/window_aggregations/">Window Aggregate Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-ranking/"><a class="padding" href="/sql/window-ranking/">Window Ranking Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/window-value-functions/"><a class="padding" href="/sql/window-value-functions/">Window Value Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/subqueries/"><a class="padding" href="/sql/subqueries/">Subquery Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/cte/"><a class="padding" href="/sql/cte/">Common Table Expressions (CTEs)<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/views/"><a class="padding" href="/sql/views/">Views<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/temporary-tables/"><a class="padding" href="/sql/temporary-tables/">Temporary Tables<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/stored-procedures/"><a class="padding" href="/sql/stored-procedures/">Stored Procedures<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/triggers/"><a class="padding" href="/sql/triggers/">Triggers<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/indexes/"><a class="padding" href="/sql/indexes/">Indexes<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/partitions/"><a class="padding" href="/sql/partitions/">Partitioning<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/performance-optimization/"><a class="padding" href="/sql/performance-optimization/">Performance Tips<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/sql/ai-and-sql/"><a class="padding" href="/sql/ai-and-sql/">AI and SQL<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/azure_data_factory/"><a class="padding" href="/azure_data_factory/">ADF<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/"><input type="checkbox" id="R-section-be307a2f2d32c2a195add2e28563a24e" aria-controls="R-subsections-be307a2f2d32c2a195add2e28563a24e"><label for="R-section-be307a2f2d32c2a195add2e28563a24e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu ADB</span></label><a class="padding" href="/azure_data_bricks/">ADB<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-be307a2f2d32c2a195add2e28563a24e" class="collapsible-menu">
+            <li class="" data-nav-id="/azure_data_bricks/spark/"><a class="padding" href="/azure_data_bricks/spark/">Spark<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-creation/"><a class="padding" href="/azure_data_bricks/df-creation/">DF Basics<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/df-operations/"><a class="padding" href="/azure_data_bricks/df-operations/">DF Operations<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/functions/"><a class="padding" href="/azure_data_bricks/functions/">Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/date/"><a class="padding" href="/azure_data_bricks/date/">Date Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/nulls/"><a class="padding" href="/azure_data_bricks/nulls/">Handling Nulls<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/aggregations/"><a class="padding" href="/azure_data_bricks/aggregations/">Aggregate functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/joins/"><a class="padding" href="/azure_data_bricks/joins/">Joins<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/when/"><a class="padding" href="/azure_data_bricks/when/">When|Cast|Union<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/window-functions/"><a class="padding" href="/azure_data_bricks/window-functions/">Window Functions<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/explode/"><a class="padding" href="/azure_data_bricks/explode/">Explode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/pivot/"><a class="padding" href="/azure_data_bricks/pivot/">Pivot<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/azure_data_bricks/comparisons/"><a class="padding" href="/azure_data_bricks/comparisons/">Comparisons<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="" data-nav-id="/practice/"><input type="checkbox" id="R-section-21344c0a5719731e2ce7649deede330a" aria-controls="R-subsections-21344c0a5719731e2ce7649deede330a"><label for="R-section-21344c0a5719731e2ce7649deede330a"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Practice Sets</span></label><a class="padding" href="/practice/">Practice Sets<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-21344c0a5719731e2ce7649deede330a" class="collapsible-menu">
+            <li class="" data-nav-id="/practice/leetcode-sql/"><a class="padding" href="/practice/leetcode-sql/">SQL LeetCode<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/practice/pyspark1/"><a class="padding" href="/practice/pyspark1/">Pyspark 1<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+            <li class="parent " data-nav-id="/interviewprep/"><input type="checkbox" id="R-section-4c46d08ac015ee7f150578d25f17ee2b" aria-controls="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" checked><label for="R-section-4c46d08ac015ee7f150578d25f17ee2b"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Interview Prep</span></label><a class="padding" href="/interviewprep/">Interview Prep<i class="fa-fw fas fa-check read-icon"></i></a><ul id="R-subsections-4c46d08ac015ee7f150578d25f17ee2b" class="collapsible-menu">
+            <li class="" data-nav-id="/interviewprep/adf1/"><a class="padding" href="/interviewprep/adf1/">ADF 1<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="active " data-nav-id="/interviewprep/pipeline1/"><a class="padding" href="/interviewprep/pipeline1/">Data Pipeline<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/interviewprep/sql1/"><a class="padding" href="/interviewprep/sql1/">SQL Theory<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/interviewprep/sql2/"><a class="padding" href="/interviewprep/sql2/">100 SQL Queries<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/interviewprep/sql3/"><a class="padding" href="/interviewprep/sql3/">SQL cheat sheet<i class="fa-fw fas fa-check read-icon"></i></a></li>
+            <li class="" data-nav-id="/interviewprep/quick-ref/"><a class="padding" href="/interviewprep/quick-ref/">SQL &amp; PySpark Queries<i class="fa-fw fas fa-check read-icon"></i></a></li></ul></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+            <li class="R-variantswitcher">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-paint-brush"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="R-select-variant">Theme</label>
+                  <select id="R-select-variant">
+                    <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    <option id="R-select-variant-zen-dark" value="zen-dark">Zen Dark</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.relearn.markVariant();</script>
+            </li>
+            <li class="R-historyclearer">
+              <div class="padding menu-control">
+                <i class="fa-fw fas fa-history"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button>Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script src="/js/clipboard/clipboard.min.js?1761501432" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1761501432" defer></script>
+    <script src="/js/theme.js?1761501432" defer></script>
+  </body>
+</html>

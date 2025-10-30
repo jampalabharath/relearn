@@ -60,6 +60,21 @@ dateDF.select(
 ).show(truncate=False)
 ```
 
+### 2. Calculate Days Between Two Dates
+```python
+data = [("2024-10-01", "2024-10-09"), ("2024-01-01", "2024-01-31")]
+columns = ["start_date", "end_date"]
+
+df = spark.createDataFrame(data, columns)
+df = df.select(
+    to_date(col("start_date")).alias("start_date"),
+    to_date(col("end_date")).alias("end_date"),
+    datediff(col("end_date"), col("start_date")).alias("days_diff")
+)
+df.show(truncate=False)
+
+```
+
 ### 1. to_date
 
 - Converts a string to a date (default format: `yyyy-MM-dd`).    

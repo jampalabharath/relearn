@@ -22,6 +22,9 @@
     <loc>http://localhost:1313/azure_data_factory/</loc>
   </url>
   <url>
+    <loc>http://localhost:1313/interviewprep/pipeline1/</loc>
+  </url>
+  <url>
     <loc>http://localhost:1313/sql/ddl/</loc>
   </url>
   <url>
@@ -40,6 +43,12 @@
     <loc>http://localhost:1313/azure_data_bricks/functions/</loc>
   </url>
   <url>
+    <loc>http://localhost:1313/interviewprep/sql1/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/interviewprep/sql2/</loc>
+  </url>
+  <url>
     <loc>http://localhost:1313/azure_data_bricks/date/</loc>
   </url>
   <url>
@@ -47,6 +56,9 @@
   </url>
   <url>
     <loc>http://localhost:1313/practice/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/interviewprep/sql3/</loc>
   </url>
   <url>
     <loc>http://localhost:1313/azure_data_bricks/nulls/</loc>

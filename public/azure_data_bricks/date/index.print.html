@@ -31,31 +31,31 @@ We’ll explore:">
 We’ll explore:
 current_date current_timestamp date_add date_sub datediff months_between Sample Code from pyspark.sql import SparkSession from pyspark.sql.functions import current_date, current_timestamp, date_add, date_sub, col, datediff, months_between, to_date, lit # Generate a DataFrame with 10 rows, adding &#34;today&#34; and &#34;now&#34; columns dateDF = spark.range(10).withColumn(&#34;today&#34;, current_date()).withColumn(&#34;now&#34;, current_timestamp()) # Show the DataFrame with today and now columns dateDF.show(truncate=False) Key Functions current_date() → Returns current date. current_timestamp() → Returns current timestamp (date &#43; time). date_sub(col(&#34;today&#34;), 5) → Subtracts 5 days. date_add(col(&#34;today&#34;), 5) → Adds 5 days. datediff(date1, date2) → Returns difference in days. months_between(date1, date2) → Returns difference in months. Working with dates and timestamps often requires converting formats and extracting components.
 We’ll explore:">
-    <meta itemprop="wordCount" content="234">
+    <meta itemprop="wordCount" content="263">
     <title>Date Functions :: Data Engineering Notes</title>
     <link href="http://localhost:1313/azure_data_bricks/date/" rel="canonical" type="text/html" title="Date Functions :: Data Engineering Notes">
     <link href="/azure_data_bricks/date/index.md" rel="alternate" type="text/markdown" title="Date Functions :: Data Engineering Notes">
-    <link href="/images/favicon.ico?1759990395" rel="icon" type="image/x-icon" sizes="any">
-    <link href="/css/auto-complete/auto-complete.min.css?1759990395" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759990395" defer></script>
-    <script src="/js/search-lunr.js?1759990395" defer></script>
-    <script src="/js/search.js?1759990395" defer></script>
+    <link href="/images/favicon.ico?1761498837" rel="icon" type="image/x-icon" sizes="any">
+    <link href="/css/auto-complete/auto-complete.min.css?1761498837" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1761498837" defer></script>
+    <script src="/js/search-lunr.js?1761498837" defer></script>
+    <script src="/js/search.js?1761498837" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759990395";
+      window.relearn.index_js_url="/searchindex.en.js?1761498837";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759990395" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759990395" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759990395" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759990395" defer></script>
+    <script src="/js/lunr/lunr.min.js?1761498837" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1761498837" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1761498837" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1761498837" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759990395" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759990395" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759990395" rel="stylesheet">
-    <link href="/css/theme.css?1759990395" rel="stylesheet">
-    <link href="/css/format-print.css?1759990395" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761498837" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1761498837" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1761498837" rel="stylesheet">
+    <link href="/css/theme.css?1761498837" rel="stylesheet">
+    <link href="/css/format-print.css?1761498837" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -136,6 +136,7 @@ We’ll explore:">
         <li><a href="#sample-code">Sample Code</a></li>
         <li><a href="#key-functions">Key Functions</a></li>
         <li><a href="#1-add-and-subtract-days">1. Add and Subtract Days</a></li>
+        <li><a href="#2-calculate-days-between-two-dates">2. Calculate Days Between Two Dates</a></li>
         <li><a href="#1-to_date">1. to_date</a></li>
         <li><a href="#2-to_timestamp">2. to_timestamp</a></li>
         <li><a href="#3-extracting-components">3. Extracting Components</a></li>
@@ -226,6 +227,17 @@ We’ll explore:</p>
 </span></span><span class="line"><span class="cl">    <span class="n">date_add</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;today&#34;</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;5_days_after&#34;</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">    <span class="n">date_sub</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;today&#34;</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;5_days_before&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
+<h3 id="2-calculate-days-between-two-dates">2. Calculate Days Between Two Dates</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;2024-10-01&#34;</span><span class="p">,</span> <span class="s2">&#34;2024-10-09&#34;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;2024-01-01&#34;</span><span class="p">,</span> <span class="s2">&#34;2024-01-31&#34;</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;start_date&#34;</span><span class="p">,</span> <span class="s2">&#34;end_date&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">to_date</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;start_date&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;start_date&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">to_date</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;end_date&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;end_date&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">datediff</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&#34;end_date&#34;</span><span class="p">),</span> <span class="n">col</span><span class="p">(</span><span class="s2">&#34;start_date&#34;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&#34;days_diff&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></span></span></code></pre></div>
 <h3 id="1-to_date">1. to_date</h3>
 <ul>
 <li>Converts a string to a date (default format: <code>yyyy-MM-dd</code>).</li>
@@ -268,8 +280,8 @@ We’ll explore:</p>
         </div>
       </main>
     </div>
-    <script src="/js/clipboard/clipboard.min.js?1759990395" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759990395" defer></script>
-    <script src="/js/theme.js?1759990395" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1761498837" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1761498837" defer></script>
+    <script src="/js/theme.js?1761498837" defer></script>
   </body>
 </html>
